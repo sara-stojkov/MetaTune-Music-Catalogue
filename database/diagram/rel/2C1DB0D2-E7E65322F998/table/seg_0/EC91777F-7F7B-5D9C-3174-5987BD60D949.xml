@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EC91777F-7F7B-5D9C-3174-5987BD60D949" name="AUTHOR">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>50E02721-F535-579C-D51F-A1440949C29E</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="authorId" id="7EED82B2-1569-D629-A7EE-8601C4D5E0E3">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>5CAEC1EB-0174-620F-0483-F23AF348DC0E</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="authorName" id="AA21C9F8-BB77-C321-1D96-758E14D0DD62">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>E13C342C-E0AA-DB46-0A42-CBD39AE27E3F</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="biography" id="F345C7AE-CF54-246A-7C25-0816CB11D018">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>D9D39FD1-6B16-AD07-744A-008F6BFA94B6</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="personId" id="7C617F0C-AAC8-C180-AE4B-ED3C2A57C4CF">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>63E672AD-8510-A184-77D7-861013AC5036</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9DFD211C-E714-8491-E9A7-E748C8417FDC" referredColumn="6F02B63D-40BE-5A76-059C-E90408763A0F"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="17CBD8CA-9C39-FC0C-0359-9525530D785B" name="AUTHOR_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>5BFB96C3-A003-FA95-FD9B-6335F54CB448</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="41C6DD70-90AD-5D50-D693-B68E3612B12D" name="AUTHOR__IDX">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>3BF459D3-3F3D-A393-DDD1-965C15077F95</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="7C617F0C-AAC8-C180-AE4B-ED3C2A57C4CF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="6DD30B5F-EA34-B657-59C2-F1D0190F282D" name="AUTHOR_PERSON_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>3BF459D3-3F3D-A393-DDD1-965C15077F95</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7C617F0C-AAC8-C180-AE4B-ED3C2A57C4CF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

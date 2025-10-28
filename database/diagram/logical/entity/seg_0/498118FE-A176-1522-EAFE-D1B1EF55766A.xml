@@ -1,0 +1,114 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="498118FE-A176-1522-EAFE-D1B1EF55766A" name="USER">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:55:02 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<generateDiscrimColumn>true</generateDiscrimColumn>
+<discriminatorAttributeID>2FB283EB-E2CC-9623-FB0B-1BC4E34717E5</discriminatorAttributeID>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="userId" id="610C4C5F-DF54-D0A8-5F78-4E2EB3159F85">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:55:08 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="C5127455-0939-34C2-D05D-5565950C40D3">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:55:28 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="password" id="9565982C-1702-0C52-5E54-B2A775B9B0B9">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:55:50 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="role" id="2FB283EB-E2CC-9623-FB0B-1BC4E34717E5">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:57:44 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>D720C67D-0D70-C802-37EE-9DA8B4258992</domain>
+<defaultValue>NORMAL</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="personId" id="0B13342D-0638-19DB-7933-28B6952CEAB2">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 18:00:46 UTC</createdTime>
+<generatorID>21D054F6-ED4D-FBC9-0B01-30F76F5134BA</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<referedAttribute>12BA1B67-ECC4-4037-EE03-43E332725ECD</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="userStatus" id="0F906434-A9BB-310D-D698-D4D2DFE4F9FA">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 18:59:18 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>EC7FFC13-CB46-4679-3894-83186282810E</domain>
+<defaultValue>WAITING_VERIFICATION</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="EA0A39E8-369E-E42D-927D-BFD886B3EA8E" name="USER PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 17:55:27 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>610C4C5F-DF54-D0A8-5F78-4E2EB3159F85</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

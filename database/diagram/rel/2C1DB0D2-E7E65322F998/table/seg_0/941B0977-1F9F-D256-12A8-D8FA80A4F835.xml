@@ -1,0 +1,92 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="941B0977-1F9F-D256-12A8-D8FA80A4F835" name="CONTRIBUTOR">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>5D4461C7-FE6A-80D9-AB4D-B869AC073088</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="contributionType" id="A4DE798D-89D7-29F5-7706-FCF2F2258F40">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>54C96F3C-BFFF-8FF2-3D10-2A3DE20161C0</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>EB11681B-C4EC-62E7-713B-D19D3D1FE537</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="personId" id="48CF83C2-F2B9-23B0-572C-4D76BAE121D3">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>F7AE56F6-2C12-6FAD-69DF-AA8FEF9824A0</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5A7F2693-C523-FA0D-2B40-65AB576A0050" referredColumn="6F02B63D-40BE-5A76-059C-E90408763A0F"/>
+</associations>
+</Column>
+<Column name="workId" id="A785836D-90BE-FEB3-C2DE-A99DB5237A24">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>9B95C747-ECED-420D-DA24-CFA1A2A9E814</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B64BAEFE-7626-CAF2-6551-6D44DD33B515" referredColumn="3A8F803E-69C9-C8C4-6393-AB3C89027B19"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7FF370CC-4A4D-B32E-03C6-44FAEB14F1A1" name="CONTRIBUTOR_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>F501A3A2-2466-2383-8356-FD0DBCEFD975</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="48CF83C2-F2B9-23B0-572C-4D76BAE121D3"/>
+<colUsage columnID="A785836D-90BE-FEB3-C2DE-A99DB5237A24"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8A8A49DE-A15D-5DC6-94D3-4C209C28861A" name="CONTRIBUTOR_PERSON_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>34D0A365-6081-AB76-92A8-A4A27FE27A6C</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="48CF83C2-F2B9-23B0-572C-4D76BAE121D3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A4C14806-B984-BF43-F97F-F4ED42469D70" name="CONTRIBUTOR_WORK_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>018A3B7D-4542-5195-D0D1-E6DB3900A061</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A785836D-90BE-FEB3-C2DE-A99DB5237A24"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="ratingWork" directorySegmentName="seg_0" id="C4D3CFB2-EBB1-8876-5DC7-0874C0531B12">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:50:31 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<sourcePk>2BF6F2B8-97DE-E1C6-0F63-2A75A8EF7ACF</sourcePk>
+<arc>10C75192-2CDA-D6C3-1D50-BDE630B2CF4B</arc>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>199DA33F-E4B5-3A54-72F3-A425766DD3D9</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>CE0572F7-E876-BC45-86C9-08897C61F6D8</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
