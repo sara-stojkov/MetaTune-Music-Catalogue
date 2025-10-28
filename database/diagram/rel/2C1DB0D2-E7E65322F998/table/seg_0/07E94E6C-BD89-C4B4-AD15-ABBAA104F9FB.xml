@@ -1,0 +1,192 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="07E94E6C-BD89-C4B4-AD15-ABBAA104F9FB" name="USER">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>498118FE-A176-1522-EAFE-D1B1EF55766A</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="userId" id="8FE59D7C-A7D1-5F45-9496-7B46FA188711">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>610C4C5F-DF54-D0A8-5F78-4E2EB3159F85</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="99930910-6779-8C7B-8EDE-CC4601EB0471">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>C5127455-0939-34C2-D05D-5565950C40D3</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="password" id="3D848DBA-50AD-BAF0-B3EF-DC4EF5A512FD">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>9565982C-1702-0C52-5E54-B2A775B9B0B9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="role" id="FC542EFD-E4C8-708A-C6D6-2F997EF42DA9">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>2FB283EB-E2CC-9623-FB0B-1BC4E34717E5</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<constraintName>CH_INH_USER</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<dataTypeSize>11</dataTypeSize>
+<domain>D720C67D-0D70-C802-37EE-9DA8B4258992</domain>
+<listOfValues>
+<valueDef value="EDITOR" description="entity EDITOR"/>
+<valueDef value="NORMAL_USER" description="entity NORMAL USER"/>
+<valueDef value="USER" description="entity USER"/>
+</listOfValues>
+<defaultValue>NORMAL</defaultValue>
+<ownDataTypeParameters>11,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<isDiscriminatorColumn>true</isDiscriminatorColumn>
+<dependentColumns>
+<dependentColumn class="oracle.dbtools.crest.model.design.relational.Column$DependentColumnDescriptor">
+<columnID>84EFBCDE-63E1-84EF-DB0A-98097B53DF12</columnID>
+<dependAsMandatory>false</dependAsMandatory>
+<dependOnValue>true</dependOnValue>
+<discriminatorValue>NORMAL_USER</discriminatorValue>
+<id>A33D115F-41BE-ED27-B35A-E738FEED8830</id>
+</dependentColumn>
+<dependentColumn class="oracle.dbtools.crest.model.design.relational.Column$DependentColumnDescriptor">
+<columnID>3CF61B82-D7EC-7A69-F7D8-8134529DE078</columnID>
+<dependAsMandatory>false</dependAsMandatory>
+<dependOnValue>true</dependOnValue>
+<discriminatorValue>NORMAL_USER</discriminatorValue>
+<id>200810C0-05E4-6F1E-941E-73AB57FDA3EB</id>
+</dependentColumn>
+<dependentColumn class="oracle.dbtools.crest.model.design.relational.Column$DependentColumnDescriptor">
+<columnID>09300B84-A7EC-3AA5-E324-381051276FD7</columnID>
+<dependAsMandatory>false</dependAsMandatory>
+<dependOnValue>true</dependOnValue>
+<discriminatorValue>NORMAL_USER</discriminatorValue>
+<id>A360C637-CC5F-348C-499A-1C4E20EF5780</id>
+</dependentColumn>
+</dependentColumns>
+</Column>
+<Column name="personId" id="8D5BA72B-992C-24DF-E284-779FE6B1F9A9">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0B13342D-0638-19DB-7933-28B6952CEAB2</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D13B76E8-2F69-ADEF-411F-76633FD07B42" referredColumn="6F02B63D-40BE-5A76-059C-E90408763A0F"/>
+</associations>
+</Column>
+<Column name="userStatus" id="70F4E765-4203-FE95-A598-EF180F611CD9">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0F906434-A9BB-310D-D698-D4D2DFE4F9FA</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>EC7FFC13-CB46-4679-3894-83186282810E</domain>
+<defaultValue>WAITING_VERIFICATION</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="contactVisible" id="84EFBCDE-63E1-84EF-DB0A-98097B53DF12">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>DB1A75E9-9A29-5447-EA85-132863A649B8</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="reviewsVisible" id="3CF61B82-D7EC-7A69-F7D8-8134529DE078">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>F63F5EDE-D38C-C692-1988-B7E461BB2122</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="verificationCode" id="09300B84-A7EC-3AA5-E324-381051276FD7">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>DAC5C5DD-FD89-6459-CB8B-C97F428D7D65</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="98B6214F-92B1-D705-2432-CCB9625313A2" name="USER_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>EA0A39E8-369E-E42D-927D-BFD886B3EA8E</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8FE59D7C-A7D1-5F45-9496-7B46FA188711"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2D6A7511-1C33-FAE6-3A92-6344719EA917" name="USER__IDX">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>21D054F6-ED4D-FBC9-0B01-30F76F5134BA</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="8D5BA72B-992C-24DF-E284-779FE6B1F9A9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C5124033-20DA-DD93-70F4-2E15BF2D7E56" name="USER_PERSON_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>21D054F6-ED4D-FBC9-0B01-30F76F5134BA</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8D5BA72B-992C-24DF-E284-779FE6B1F9A9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

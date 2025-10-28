@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="5D4461C7-FE6A-80D9-AB4D-B869AC073088" name="CONTRIBUTOR">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:28:38 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="contributionType" id="54C96F3C-BFFF-8FF2-3D10-2A3DE20161C0">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:28:44 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>EB11681B-C4EC-62E7-713B-D19D3D1FE537</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="personId" id="F7AE56F6-2C12-6FAD-69DF-AA8FEF9824A0">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:31:51 UTC</createdTime>
+<generatorID>34D0A365-6081-AB76-92A8-A4A27FE27A6C</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<referedAttribute>12BA1B67-ECC4-4037-EE03-43E332725ECD</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="workId" id="9B95C747-ECED-420D-DA24-CFA1A2A9E814">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:32:25 UTC</createdTime>
+<generatorID>018A3B7D-4542-5195-D0D1-E6DB3900A061</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<referedAttribute>3D9AC09E-9067-1A50-5A7D-218EB48773F3</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="F501A3A2-2466-2383-8356-FD0DBCEFD975" name="CONTRIBUTOR PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:31:51 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>F7AE56F6-2C12-6FAD-69DF-AA8FEF9824A0</attributeRef>
+<attributeRef>9B95C747-ECED-420D-DA24-CFA1A2A9E814</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
