@@ -1,0 +1,104 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D069B9C3-D12D-EC72-DF9B-B22C1436BBB0" name="MEMBER">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>DE466839-2FDC-50F4-C542-1BF7C36595D4</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="joinDate" id="E80F41C3-7585-6A84-6870-C9FBCE49EEA2">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>FDF07B31-3996-E06A-6A81-9A7CB0330A0C</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="leaveDate" id="660BC824-F19D-9369-01BC-2BCB2AEFA435">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>DA199A16-FA02-E5D8-D93A-32411CDC04F5</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="groupId" id="E91EEC9D-FA69-AC21-01A2-1075D50D3BA0">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>9D011A4E-20AB-ED67-1D4D-868EA1D7B7C9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CC1CA62A-906E-7697-9480-8BC60E4DD460" referredColumn="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</associations>
+</Column>
+<Column name="memberId" id="8638853D-0F6E-82D0-2A06-9631F1B828E3">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>12561F77-9E76-45AE-3B52-961ED01CC5A8</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="088388B2-B14E-5C1D-09FB-164AF577264E" referredColumn="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2B4571C8-1310-C913-B8D7-48A3489A08CE" name="MEMBER_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0BF7B214-2A57-B089-B28F-E122933648D9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E91EEC9D-FA69-AC21-01A2-1075D50D3BA0"/>
+<colUsage columnID="8638853D-0F6E-82D0-2A06-9631F1B828E3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="43D5E9E1-59C4-6961-75AB-46771826D739" name="MEMBER_AUTHOR_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>F608E073-24F4-1B64-E67E-39D3D0AF5066</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E91EEC9D-FA69-AC21-01A2-1075D50D3BA0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4DCA8BE1-0ECB-131C-B9D3-F13611B3320D" name="MEMBER_AUTHOR_FKv2">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>4AAC238F-9702-07C0-293D-8ED86D548DE6</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="8638853D-0F6E-82D0-2A06-9631F1B828E3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
