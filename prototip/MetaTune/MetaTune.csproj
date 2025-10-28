@@ -20,4 +20,10 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="assets\ambient.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

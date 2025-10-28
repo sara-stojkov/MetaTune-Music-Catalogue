@@ -10,18 +10,18 @@
         Title="Meta Tune" Height="450" Width="800">
     <Grid Background="#FD4D4D4D">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="39*"/>
             <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="361*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Style>
             <Style/>
         </Grid.Style>
-        <Label Content="W E L C O M E" VerticalAlignment="Top" Height="132" FontFamily="Chiller" FontSize="110" Foreground="#FFC50000" BorderBrush="White" Margin="26,150,104,0" Grid.Column="2">
+        <Label Content="W E L C O M E" VerticalAlignment="Center" Height="132" FontFamily="Chiller" FontSize="110" Foreground="#FFC50000" BorderBrush="White" Margin="110,0,110,0" Grid.Column="1">
             <Label.Effect>
                 <DropShadowEffect/>
             </Label.Effect>
         </Label>
+        <Button Name="playPause" Content="Pause" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="110,368,0,0" VerticalAlignment="Top" Height="34" Width="70" Click="Button_Click"/>
 
     </Grid>
 </Window>
