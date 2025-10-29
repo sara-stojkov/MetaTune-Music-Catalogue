@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Core.Model;
 using Core.Storage;
 using MetaTune.View.Home;
+using MetaTune.ViewModel.Home;
 using Task = System.Threading.Tasks.Task;
 
 namespace MetaTune.View
@@ -124,7 +125,6 @@ namespace MetaTune.View
                     _newContentItems.Add(item);
                 }
 
-                NewContentItemsControl.ItemsSource = _newContentItems;
 
                 // Show info message if no songs found
                 if (songCount == 0 && albumCount > 0)
@@ -133,11 +133,13 @@ namespace MetaTune.View
                         "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
+                //MessageBox.Show("CONTENT");
                 // Add click event handlers to each item
-                NewContentItemsControl.Loaded += (s, e) =>
+                NewContentItemsControl.ItemContainerGenerator.StatusChanged += (s, e) =>
                 {
                     AddClickHandlersToItems();
                 };
+                NewContentItemsControl.ItemsSource = _newContentItems;
             }
             catch (Exception ex)
             {
@@ -170,7 +172,10 @@ namespace MetaTune.View
         {
             // Find all Border elements in the ItemsControl and add click handlers
             var itemsPresenter = FindVisualChild<ItemsPresenter>(NewContentItemsControl);
-            if (itemsPresenter == null) return;
+            if (itemsPresenter == null)
+            {
+                return;
+            }
 
             for (int i = 0; i < _newContentItems.Count; i++)
             {
@@ -181,7 +186,7 @@ namespace MetaTune.View
                     if (border != null)
                     {
                         border.MouseLeftButtonUp += ContentItem_Click;
-                    }
+                    } 
                 }
             }
         }
@@ -208,7 +213,8 @@ namespace MetaTune.View
                     }
                     else if (item.WorkType == WorkType.Song)
                     {
-                        var songPage = new SongPage();
+                        var songModel = new SongPageViewModel(item.Id, MainWindow.LoggedInUser);
+                        var songPage = new SongPage(songModel);
                         NavigationService?.Navigate(songPage);
                     }
                 }
@@ -363,6 +369,11 @@ namespace MetaTune.View
                     return result;
             }
             return null;
+        }
+
+        private void Border_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 

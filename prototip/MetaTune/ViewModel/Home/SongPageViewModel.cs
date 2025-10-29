@@ -1,5 +1,6 @@
 ﻿using Core.Model;
 using Core.Storage;
+using PostgreSQLStorage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,18 +32,19 @@ namespace MetaTune.ViewModel.Home
         private string _newReviewContent = string.Empty;
 
         public SongPageViewModel(
-            IWorkStorage workStorage,
-            IRatingStorage ratingStorage,
-            IReviewStorage reviewStorage,
-            User currentUser)
+            string songId,
+            User currentUser
+        )
         {
-            _workStorage = workStorage;
-            _ratingStorage = ratingStorage;
-            _reviewStorage = reviewStorage;
+            _workStorage = Injector.CreateInstance<IWorkStorage>();
+            _ratingStorage = Injector.CreateInstance<IRatingStorage>();
+            _reviewStorage = Injector.CreateInstance<IReviewStorage>();
             _currentUser = currentUser;
 
-            LeaveRatingCommand = new RelayCommand(async () => await LeaveRating());
+            LeaveRatingCommand = new RelayCommand(LeaveRating);
             LeaveReviewCommand = new RelayCommand(async () => await LeaveReview());
+
+            LoadSong(songId);
         }
 
         public async System.Threading.Tasks.Task LoadSong(string songId)
@@ -82,7 +84,7 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
-        private async System.Threading.Tasks.Task LeaveRating()
+        private async void LeaveRating()
         {
             if (_song == null || _newRatingValue < 1 || _newRatingValue > 5)
                 return;
