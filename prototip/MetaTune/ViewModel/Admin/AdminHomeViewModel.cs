@@ -1,20 +1,22 @@
 ﻿using Core.Model;
 using Core.Storage;
+using MetaTune.View.Admin;
+using PostgreSQLStorage;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using System.Linq;
-using Task = System.Threading.Tasks.Task;
-using MetaTune.View.Admin;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using Task = System.Threading.Tasks.Task;
 
 namespace MetaTune.ViewModel.Admin
 {
     public class AdminHomeViewModel : INotifyPropertyChanged
     {
         private readonly IUserStorage _userStorage;
+        private readonly IGenreStorage _genreStorage;
 
         public ObservableCollection<EditorItem> Editors { get; set; } = new();
 
@@ -42,6 +44,7 @@ namespace MetaTune.ViewModel.Admin
         public AdminHomeViewModel(IUserStorage userStorage)
         {
             _userStorage = userStorage;
+            _genreStorage = Injector.CreateInstance<IGenreStorage>();
 
             DeleteCommand = new RelayCommand(async _ => await DeleteEditor(), _ => SelectedEditor != null);
             EditCommand = new RelayCommand(async _ => await EditEditor(), _ => SelectedEditor != null);
@@ -59,6 +62,12 @@ namespace MetaTune.ViewModel.Admin
         {
             var editors = await _userStorage.GetAllByRole("EDITOR");
             Editors.Clear();
+            foreach (var e in editors)
+            {
+               var g =  await _genreStorage.GetEditorsGenres(e.Id);
+                MessageBox.Show(g.Count.ToString());
+                e.Genres = g;
+            }
             foreach (var e in editors)
                 Editors.Add(new EditorItem(e));
         }

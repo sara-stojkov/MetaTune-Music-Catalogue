@@ -43,6 +43,8 @@ namespace MetaTune.ViewModel.Admin
                 Email = _existingUser.Email;
                 Password = "";
                 
+
+
                 foreach (var g in _existingUser.Genres)
                     SelectedGenres.Add(g);
 
@@ -117,7 +119,10 @@ namespace MetaTune.ViewModel.Admin
         {
             try
             {
-                Password = _existingUser.Password;
+                if (_isEdit)
+                {
+                    Password = _existingUser.Password;
+                }
                 if (string.IsNullOrWhiteSpace(FirstName))
                 {
                     MessageBox.Show("Unesite ime urednika.", "Greška",
