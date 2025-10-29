@@ -114,8 +114,8 @@ namespace MetaTune.ViewModel.Admin
 
         private async Task RegisterOrUpdateEditorAsync()
         {
-            try
-            {
+            //try
+            //{
                 if (string.IsNullOrWhiteSpace(FirstName))
                 {
                     MessageBox.Show("Unesite ime urednika.", "Greška",
@@ -199,11 +199,11 @@ namespace MetaTune.ViewModel.Admin
                 Application.Current.Windows
                     .OfType<Window>()
                     .FirstOrDefault(w => w.DataContext == this)?.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            //}
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
