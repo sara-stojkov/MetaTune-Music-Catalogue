@@ -30,6 +30,13 @@ namespace Core.Controller
         {
             var user = await _userStorage.GetByEmail(email)
                 ?? throw new UserNotFoundException(email);
+            switch (user.Status)
+            {
+                case UserStatus.BANNED:
+                    throw new Exception("Vaš nalog je trajno uklonjen");
+                case UserStatus.DEACTIVATED:
+                    throw new Exception("Vaš nalog je deaktiviran");
+            }
             if (!PasswordManager.ArePasswordsEqual(password, user.Password))
                 throw new InvalidPasswordException();
             if (user.Role == UserRole.EDITOR)

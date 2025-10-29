@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Core.Model;
 using MetaTune.View.Auth;
 
 namespace MetaTune
@@ -17,7 +18,9 @@ namespace MetaTune
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private static MainWindow? _instance = null;
+        public static User? LoggedInUser { get; set; } = null; 
+        private MainWindow()
         {
             InitializeComponent();
             Navigate(new LoginPage());
@@ -27,6 +30,12 @@ namespace MetaTune
         {
             MainFrame.Navigate(page);
         }
-        
-    }
+
+        public static MainWindow Instance {
+            get {
+                _instance ??= new MainWindow();
+                return _instance!;
+            }
+        } 
+    } 
 }

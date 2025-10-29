@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Core.Storage;
 using Core.Model;
 using Core.Controller;
+using MetaTune.View;
 
 namespace MetaTune.ViewModel.Auth
 {
@@ -32,7 +33,8 @@ namespace MetaTune.ViewModel.Auth
             {
                 User user = await userController.Login(_email, _password)
                     ?? throw new Exception("Prijava neuspešna");
-                MessageBox.Show($"Dobrodošli {user.Name} {user.Surname}");
+                MainWindow.LoggedInUser = user;
+                MainWindow.Instance.Navigate(new TestHomePage());
             }
             catch (Exception ex)
             {
