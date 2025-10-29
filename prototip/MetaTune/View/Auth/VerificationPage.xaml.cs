@@ -14,7 +14,7 @@ namespace MetaTune.View.Auth
     {
         public readonly Core.Model.User user;
         private readonly UserController userController;
-        private TextBox[] inputs;
+        private readonly TextBox[] inputs;
         public VerificationPage(Core.Model.User user)
         {
             this.user = user;
