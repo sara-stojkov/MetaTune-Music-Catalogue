@@ -130,12 +130,8 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT g.genreId, g.genreName, g.genreDescription, g.parentGenreId 
-                  FROM qualifications q
-                  INNER JOIN genres g ON q.genreId = g.genreId
-                  WHERE q.userId = @id
-                  ORDER BY g.genreName", conn);
-
+                $"SELECT genreId, genreName, genreDescription, parentGenreId " + // Explicitly list columns for clarity/safety
+                $"FROM qualifications NATURAL JOIN genres WHERE userId = @id", conn);
             cmd.Parameters.AddWithValue("id", editorId);
 
             using var reader = await cmd.ExecuteReaderAsync();
@@ -143,12 +139,29 @@ namespace PostgreSQLStorage
 
             while (await reader.ReadAsync())
             {
-                var genreId = reader.GetString(0);
-                var genreName = reader.GetString(1);
-                var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
+                string id = reader["genreId"]?.ToString() ?? string.Empty;
+                string name = reader["genreName"]?.ToString() ?? string.Empty;
+                // Npgsql supports getting nullable columns with IsDBNull
+                string? description = await reader.IsDBNullAsync(reader.GetOrdinal("genreDescription"))
+                    ? string.Empty
+                    : reader["genreDescription"].ToString();
 
-                genres.Add(new Genre(genreId, genreName, genreDescription, parentGenreId));
+                string? parentId = await reader.IsDBNullAsync(reader.GetOrdinal("parentGenreId"))
+                    ? null
+                    : reader["parentGenreId"].ToString();
+
+                // Create the Genre object
+                var genre = new Genre(id, name, parentId, description!);
+                allGenres.Add(id, genre);
+
+                // Record the parent relationship if one exists
+                if (parentId != null)
+                {
+                    genreParents.Add(id, parentId);
+                }
+            }
+
+                genres.Add(new Genre(genreId, genreName, parentId, genreDescription));
             }
 
             return genres;

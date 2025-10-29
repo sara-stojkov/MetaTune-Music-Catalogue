@@ -1,6 +1,8 @@
 ﻿using Core.Storage;
 using DotNetEnv;
 using PostgreSQLStorage;
+using Core.Services.EmailService;
+using MetaTune.Services;
 
 
 namespace MetaTune
@@ -17,6 +19,8 @@ namespace MetaTune
 
             // Load environment variables
             Core.Utils.Env.Load();
+
+            _implementations[typeof(IEmailService)] = EmailService.FromEnv();
 
             AddPostgreSQL();
         }

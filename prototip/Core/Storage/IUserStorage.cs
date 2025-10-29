@@ -7,6 +7,7 @@ namespace Core.Storage
     {
         public Task<User?> GetByEmail(string email);
         public Task<User?> GetById(string id);
+        public Task<string?> GetVerificationCode(string userId);
         public Task<List<User>> GetAll();
         public Task<List<User>> GetAllByRole(string role);
         public Task CreateOne(User user);

@@ -19,8 +19,7 @@ namespace MetaTune
 
             try
             {
-                var mainWindow = new MainWindow();
-                mainWindow.Show();
+                MetaTune.MainWindow.Instance.Show();
             }
             catch (Exception ex)
             {
