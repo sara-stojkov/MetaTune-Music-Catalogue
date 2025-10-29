@@ -21,6 +21,8 @@ namespace MetaTune
             // Load environment variables
             Core.Utils.Env.Load();
 
+            _implementations[typeof(IEmailService)] = EmailService.FromEnv();
+
             AddPostgreSQL();
         }
 

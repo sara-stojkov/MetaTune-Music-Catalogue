@@ -21,11 +21,11 @@ namespace MetaTune.View.Auth
             DataContext = model;
             model.ClearPasswordRequested += OnClearPasswordRequested;
             WelcomeLabel.Text = "Dobrodošli";
+            MainWindow.Instance.Title = "Prijava | Meta Tune";
         }
 
         private void SignUpHyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this).Title = "Registracija | Meta Tune";
             NavigationService?.Navigate(new RegisterPage());
         }
 

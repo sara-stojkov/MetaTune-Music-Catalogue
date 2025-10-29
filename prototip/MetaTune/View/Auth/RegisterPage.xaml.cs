@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using MetaTune.ViewModel.Auth;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,14 +17,14 @@ namespace MetaTune.View.Auth
         public RegisterPage()
         {
             InitializeComponent();
-            //LoginPageModel model = new();
-            //DataContext = model;
-            //model.ClearPasswordRequested += OnClearPasswordRequested;
+            var model = new RegisterPageModel();
+            DataContext = model;
+            model.ClearPasswordRequested += OnClearPasswordRequested;
+            MainWindow.Instance.Title = "Registracija | Meta Tune";
         }
 
         private void SignUpHyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this).Title = "Prijava | Meta Tune";
             NavigationService?.Navigate(new LoginPage());
         }
 
@@ -34,10 +35,10 @@ namespace MetaTune.View.Auth
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            //if (DataContext is LoginPageModel vm && sender is PasswordBox pb)
-            //{
-            //    vm.Password = pb.Password;
-            //}
+            if (DataContext is RegisterPageModel vm && sender is PasswordBox pb)
+            {
+                vm.Password = pb.Password;
+            }
         }
         private void PasswordBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { /* no-op */ }
         private void PasswordBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { /* no-op */ }

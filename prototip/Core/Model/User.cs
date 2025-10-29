@@ -19,7 +19,7 @@ namespace Core.Model
 
         public User() : this(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "", "", "", "", UserRole.BASIC, UserStatus.WAITINGVERIFICATION) { }
         public User(string name, string surname, string email, string password)
-            : this(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), name, surname, email, password, UserRole.BASIC, UserStatus.WAITINGVERIFICATION)
+            : this(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), name, surname, email, password, UserRole.BASIC, UserStatus.WAITINGVERIFICATION, true, true)
         { }
         public string Id => id;
         public string PersonId => personId;
@@ -59,8 +59,8 @@ namespace Core.Model
             get => this.password;
             set
             {
-                if (!Validator.IsValidPassword(value))
-                    throw new ArgumentException("User's password cannot be empty or just whitespace");
+                //if (!Validator.IsValidPassword(value))
+                //    throw new ArgumentException("User's password cannot be empty or just whitespace");
                 this.password = value.Trim();
             }
         }
