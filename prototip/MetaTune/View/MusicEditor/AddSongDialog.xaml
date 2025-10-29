@@ -1,0 +1,290 @@
+﻿<Window x:Class="MetaTune.View.AddSongDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" 
+        Title="Dodavanje pesme"
+        Height="750" 
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#FF4A4A4A"
+        ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="787*"/>
+            <ColumnDefinition Width="113*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Header Section -->
+        <Grid Height="80" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <Border Background="#FF2E2E2E">
+                <TextBlock Text="Dodaj novu pesmu" 
+                          FontSize="28" 
+                          FontWeight="Bold"
+                          Foreground="White"
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <!-- Main Form Content -->
+        <ScrollViewer Margin="0,80,0,80" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <Border Background="#FF3E3E3E" Padding="40,30">
+                <StackPanel>
+
+                    <!-- Song Name -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Naziv pesme:*" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <TextBox x:Name="SongNameTextBox"
+                                Height="45"
+                                FontSize="16"
+                                Padding="15,0"
+                                Background="#FF5A5A5A"
+                                Foreground="White"
+                                BorderThickness="0"
+                                VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Album Selection -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Odaberi album:*" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <ComboBox x:Name="AlbumComboBox"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="#FF5A5A5A"
+                                 Foreground="White"
+                                 BorderThickness="0">
+                            <ComboBoxItem Content="-- Izaberi album --" IsSelected="True"/>
+                            <!-- Dinamički se popunjava albumima iz baze -->
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Artist Selection -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Izaberi izvođača:*" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <ComboBox x:Name="ArtistComboBox"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="#FF5A5A5A"
+                                 Foreground="White"
+                                 BorderThickness="0">
+                            <ComboBoxItem Content="-- Izaberi izvođača --" IsSelected="True"/>
+                            <!-- Dinamički se popunjava izvođačima iz baze -->
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Two columns: Work Type and Publish Date -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Work Type -->
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Tip dela:" 
+                                      FontSize="16" 
+                                      Foreground="White"
+                                      Margin="0,0,0,8"/>
+                            <ComboBox x:Name="WorkTypeComboBox"
+                                     Height="45"
+                                     FontSize="16"
+                                     Background="#FF5A5A5A"
+                                     Foreground="White"
+                                     BorderThickness="0">
+                                <ComboBoxItem Content="Single" IsSelected="True"/>
+                                <ComboBoxItem Content="Album Track"/>
+                                <ComboBoxItem Content="Live Recording"/>
+                                <ComboBoxItem Content="Demo"/>
+                                <ComboBoxItem Content="Cover"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- Publish Date -->
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Datum objavljivanja:" 
+                                      FontSize="16" 
+                                      Foreground="White"
+                                      Margin="0,0,0,8"/>
+                            <DatePicker x:Name="PublishDatePicker"
+                                       Height="45"
+                                       FontSize="16"
+                                       Background="#FF5A5A5A"
+                                       Foreground="White"
+                                       BorderThickness="0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Genre Selection -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Žanr:" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <ComboBox x:Name="GenreComboBox"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="#FF5A5A5A"
+                                 Foreground="White"
+                                 BorderThickness="0">
+                            <ComboBoxItem Content="Rock"/>
+                            <ComboBoxItem Content="Pop" IsSelected="True"/>
+                            <ComboBoxItem Content="Jazz"/>
+                            <ComboBoxItem Content="Classical"/>
+                            <ComboBoxItem Content="Hip Hop"/>
+                            <ComboBoxItem Content="Electronic"/>
+                            <ComboBoxItem Content="Folk"/>
+                            <ComboBoxItem Content="Metal"/>
+                            <ComboBoxItem Content="Blues"/>
+                            <ComboBoxItem Content="Country"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Rating (1-5) -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Dodaj svoju ocenu (1-5):" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <ComboBox x:Name="RatingComboBox"
+                                 Height="45"
+                                 FontSize="16"
+                                 Background="#FF5A5A5A"
+                                 Foreground="White"
+                                 BorderThickness="0">
+                            <ComboBoxItem Content="1 - Loše"/>
+                            <ComboBoxItem Content="2 - Ispod proseka"/>
+                            <ComboBoxItem Content="3 - Prosečno" IsSelected="True"/>
+                            <ComboBoxItem Content="4 - Dobro"/>
+                            <ComboBoxItem Content="5 - Odlično"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Song Description -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Opis pesme:" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <TextBox x:Name="DescriptionTextBox"
+                                Height="100"
+                                FontSize="16"
+                                Padding="15,10"
+                                Background="#FF5A5A5A"
+                                Foreground="White"
+                                BorderThickness="0"
+                                TextWrapping="Wrap"
+                                AcceptsReturn="True"
+                                VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+
+                    <!-- Review -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Dodaj svoju recenziju:" 
+                                  FontSize="16" 
+                                  Foreground="White"
+                                  Margin="0,0,0,8"/>
+                        <TextBox x:Name="ReviewTextBox"
+                                Height="120"
+                                FontSize="16"
+                                Padding="15,10"
+                                Background="#FF5A5A5A"
+                                Foreground="White"
+                                BorderThickness="0"
+                                TextWrapping="Wrap"
+                                AcceptsReturn="True"
+                                VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <!-- Bottom Action Buttons -->
+        <Grid Height="80" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+            <Border Background="#FF2E2E2E">
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+
+                    <!-- Cancel Button -->
+                    <Button Content="Otkaži"
+                           Width="150"
+                           Height="50"
+                           Background="#FF5A5A5A"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Medium"
+                           BorderThickness="0"
+                           Margin="0,0,20,0"
+                           Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="4">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF6A6A6A"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Save Button -->
+                    <Button Content="Sačuvaj"
+                           Width="150"
+                           Height="50"
+                           Background="#FF7B1FA2"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           BorderThickness="0"
+                           Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="4">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF6A1B9A"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                </StackPanel>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>
