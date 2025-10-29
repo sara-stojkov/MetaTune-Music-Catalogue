@@ -81,11 +81,12 @@ namespace PostgreSQLStorage
                     await using var insertQualCmd = new NpgsqlCommand(string.Empty, conn, transaction);
                     var sql = new System.Text.StringBuilder();
 
-                    foreach (var genre in user.Genres)
+                    for (int i = 0; i < user.Genres.Count; i++)
                     {
-                        sql.AppendLine($"INSERT INTO qualifications (userId, genreId) VALUES (@userId{genre.Id}, @genreId{genre.Id});");
-                        insertQualCmd.Parameters.AddWithValue($"userId{genre.Id}", user.Id);
-                        insertQualCmd.Parameters.AddWithValue($"genreId{genre.Id}", genre.Id);
+                        var genre = user.Genres[i];
+                        sql.AppendLine($"INSERT INTO qualifications (userId, genreId) VALUES (@userId{i}, @genreId{i});");
+                        insertQualCmd.Parameters.AddWithValue($"userId{i}", user.Id);
+                        insertQualCmd.Parameters.AddWithValue($"genreId{i}", genre.Id);
                     }
 
                     if (sql.Length > 0)
