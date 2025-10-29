@@ -12,11 +12,6 @@ public partial class AlbumPage : Page
 	public AlbumPage()
 	{
 		InitializeComponent();
-
-        Resources.Add("NullToVisibilityConverter", new NullToVisibilityConverter());
-        Resources.Add("StringToVisibilityConverter", new StringToVisibilityConverter());
-        Resources.Add("BoolToVisibilityConverter", new BoolToVisibilityConverter());
-
     }
 
     public AlbumPage(AlbumPageViewModel viewModel) : this()
