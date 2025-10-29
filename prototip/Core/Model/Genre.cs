@@ -6,7 +6,7 @@ namespace Core.Model
         private string id;
         private string name;
         private string description;
-        private List<Genre> subGenres;
+        private string parentGenreId;
 
 
         public Genre()
@@ -14,28 +14,21 @@ namespace Core.Model
             id = Guid.NewGuid().ToString();
             name = string.Empty;
             description = string.Empty;
-            subGenres = new List<Genre>();
+            parentGenreId = string.Empty;
         }
-        public Genre(string id, string name, string description = "", List<Genre> subGenres = null)
+        public Genre(string id, string name, string description = "", string parentGenreId)
         {
             this.id = id;
             this.name = name;
             this.description = description;
-            if (subGenres != null)
-            {
-                this.subGenres = subGenres;
-            }
-            else
-            {
-                this.subGenres = new List<Genre>(); 
-            }
+            this.parentGenreId = parentGenreId;
         }
         public Genre(string name)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
             this.description = string.Empty;
-            this.subGenres = new List<Genre>();
+            this.parentGenreId = string.Empty;
         }
         public string Id { get => id; }
         public string Name
@@ -53,10 +46,10 @@ namespace Core.Model
             get => description;
             set => description = value;
         }
-        public List<Genre> SubGenres
+        public string ParentGenreId
         {
-            get => subGenres;
-            set => subGenres = value;
-        }
+            get => parentGenreId;
+            set => parentGenreId = value;
+        }   
     }
 }
