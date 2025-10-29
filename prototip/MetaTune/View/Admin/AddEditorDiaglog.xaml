@@ -1,0 +1,276 @@
+﻿<Window x:Class="MetaTune.View.Admin.AddEditorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Admin - dodavanje urednika"
+        Height="750" Width="500"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Border Background="#FF3E3E3E" 
+            CornerRadius="8"
+            BorderBrush="#FF2A2A2A"
+            BorderThickness="1">
+        <Grid Margin="40,30,40,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Grid.Row="0"
+                       Text="Unesite podatke:"
+                       FontSize="32"
+                       FontWeight="SemiBold"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            <!-- Form Content -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+
+                <!-- First Name Input -->
+                <TextBlock Text="Unesi ime:"
+                          FontSize="16"
+                          Foreground="White"
+                          Margin="0,0,0,10"/>
+
+                <TextBox x:Name="FirstNameTextBox"
+                         Height="45"
+                         FontSize="16"
+                         Padding="10,0"
+                         Background="#FF5A5A5A"
+                         Foreground="White"
+                         BorderThickness="0"
+                         Margin="0,0,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <!-- Last Name Input -->
+                <TextBlock Text="Unesi prezime:"
+                          FontSize="16"
+                          Foreground="White"
+                          Margin="0,0,0,10"/>
+
+                <TextBox x:Name="LastNameTextBox"
+                         Height="45"
+                         FontSize="16"
+                         Padding="10,0"
+                         Background="#FF5A5A5A"
+                         Foreground="White"
+                         BorderThickness="0"
+                         Margin="0,0,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <!-- Email Input -->
+                <TextBlock Text="Unesi email:"
+                          FontSize="16"
+                          Foreground="White"
+                          Margin="0,0,0,10"/>
+
+                <TextBox x:Name="EmailTextBox"
+                         Height="45"
+                         FontSize="16"
+                         Padding="10,0"
+                         Background="#FF5A5A5A"
+                         Foreground="White"
+                         BorderThickness="0"
+                         Margin="0,0,0,20">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <!-- Password Input -->
+                <TextBlock Text="Unesi lozinku:"
+                          FontSize="16"
+                          Foreground="White"
+                          Margin="0,0,0,10"/>
+
+                <PasswordBox x:Name="PasswordBox"
+                             Height="45"
+                             FontSize="16"
+                             Padding="10,0"
+                             Background="#FF5A5A5A"
+                             Foreground="White"
+                             BorderThickness="0"
+                             Margin="0,0,0,20">
+                    <PasswordBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="4"/>
+                        </Style>
+                    </PasswordBox.Resources>
+                </PasswordBox>
+
+                <!-- Multi-Select Genre ListBox -->
+                <TextBlock Text="Odaberi sve žanrove urednika:"
+                          FontSize="16"
+                          Foreground="White"
+                          Margin="0,0,0,10"/>
+
+                <Border Background="#FF5A5A5A"
+                        CornerRadius="4"
+                        Height="48"
+                        Margin="0,0,0,25">
+                    <Grid>
+                        <!-- Toggle Button for Dropdown -->
+                        <ToggleButton x:Name="GenreDropdownToggle"
+                                     Height="45"
+                                     VerticalAlignment="Top"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Cursor="Hand">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="4">
+                                                    <Grid>
+                                                        <TextBlock x:Name="PlaceholderText"
+                                                                  Text="Izaberi žanrove..."
+                                                                  FontSize="16"
+                                                                  Foreground="#FFAAAAAA"
+                                                                  VerticalAlignment="Center"
+                                                                  Margin="10,0,0,0"/>
+
+                                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                                              Fill="White"
+                                                              VerticalAlignment="Center"
+                                                              HorizontalAlignment="Right"
+                                                              Margin="0,0,15,0"/>
+                                                    </Grid>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF4A4A4A"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+
+                        <!-- Popup with Multi-Select ListBox -->
+                        <Popup IsOpen="{Binding IsChecked, ElementName=GenreDropdownToggle}"
+                               StaysOpen="False"
+                               PlacementTarget="{Binding ElementName=GenreDropdownToggle}"
+                               Placement="Bottom"
+                               AllowsTransparency="True">
+                            <Border Background="#FF5A5A5A"
+                                    BorderThickness="1"
+                                    BorderBrush="#FF4A4A4A"
+                                    CornerRadius="4"
+                                    Margin="0,2,0,0"
+                                    MinWidth="420">
+                                <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+                                    <ListBox x:Name="GenreListBox"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             SelectionMode="Multiple"
+                                             Foreground="White">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Padding" Value="10,8"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                            <Border Background="{TemplateBinding Background}"
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <CheckBox Grid.Column="0"
+                                                                             IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                                             VerticalAlignment="Center"
+                                                                             Margin="0,0,10,0"/>
+
+                                                                    <ContentPresenter Grid.Column="1"
+                                                                                    VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#FF4A4A4A"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <!-- Add your genre items here -->
+                                        <ListBoxItem Content="Rok"/>
+                                        <ListBoxItem Content="Pop"/>
+                                        <ListBoxItem Content="Jazz"/>
+                                        <ListBoxItem Content="Klasična muzika"/>
+                                        <ListBoxItem Content="Metal"/>
+                                        <ListBoxItem Content="Hip Hop"/>
+                                        <ListBoxItem Content="Elektronska"/>
+                                    </ListBox>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </Border>
+
+                <!-- Register Button -->
+                <Button Content="Registruj urednika"
+                        Height="50"
+                        Width="300"
+                        FontSize="20"
+                        FontWeight="Medium"
+                        Background="#FF7B1FA2"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="RegisterButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="4">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF6A1B9A"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

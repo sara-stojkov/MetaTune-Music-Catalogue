@@ -113,8 +113,7 @@
                         FontSize="24"
                         FontWeight="SemiBold"
                         BorderThickness="0"
-                        Cursor="Hand"
-                        Click="BtnVerify_Click">
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#7B4FB8"/>
