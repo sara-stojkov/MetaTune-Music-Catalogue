@@ -15,7 +15,7 @@ namespace MetaTune.View.Auth
         public readonly Core.Model.User user;
         private readonly UserController userController;
         private readonly TextBox[] inputs;
-        public VerificationPage(Core.Model.User user)
+        public VerificationPage(Core.Model.User user, Window w)
         {
             this.user = user;
             IUserStorage userStorage = Injector.CreateInstance<IUserStorage>();
@@ -35,8 +35,10 @@ namespace MetaTune.View.Auth
                 inputs[i].TextChanged += (s, e) => input_Change(ind, e);
             }
             inputs[0].Focus();
-            MainWindow.Instance.Title = "Verifikacija | Meta Tune";
+            w.Title = "Verifikacija | Meta Tune";
+            win = w;
         }
+        private readonly Window win;
 
         private void BtnVerify_Click(object sender, RoutedEventArgs e)
         {
@@ -78,7 +80,7 @@ namespace MetaTune.View.Auth
         }
         private async void Verify()
         {
-            var loading = new LoadingDialog() { Owner = MainWindow.Instance };
+            var loading = new LoadingDialog() { Owner = win };
             loading.Show();
             try
             {
@@ -92,7 +94,8 @@ namespace MetaTune.View.Auth
                 var verified = await userController.Verify(user, builder.ToString());
                 if (!verified) throw new Exception("Pogrešan kod. Pokušajte ponovo");
                 MainWindow.LoggedInUser = user;
-                MainWindow.Instance.Navigate(new TestHomePage());
+                MainWindow.Instance.Navigate(new HomePage());
+                win.Close();
             }
             catch (Exception ex)
             {

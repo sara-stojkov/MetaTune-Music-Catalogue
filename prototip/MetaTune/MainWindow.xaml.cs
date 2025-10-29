@@ -1,6 +1,6 @@
 ﻿using Core.Model;
 using Core.Storage;
-using MetaTune.View.Auth;
+using MetaTune.View;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;

@@ -1,4 +1,11 @@
-﻿using MetaTune.ViewModel;
+﻿using Core.Controller;
+using Core.Model;
+using Core.Services.EmailService;
+using Core.Storage;
+using MetaTune.View;
+using MetaTune.View.Auth;
+using MetaTune.View.Home;
+using MetaTune.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,12 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Core.Storage;
-using Core.Model;
-using Core.Controller;
-using MetaTune.View;
-using MetaTune.View.Auth;
-using Core.Services.EmailService;
+using System.Windows.Navigation;
 
 namespace MetaTune.ViewModel.Auth
 {
@@ -20,7 +22,7 @@ namespace MetaTune.ViewModel.Auth
     {
         public ICommand RegisterCommand { get; }
         public event Action? ClearPasswordRequested;
-        public RegisterPageModel()
+        public RegisterPageModel(NavigationService navigationService, Window w)
         {
             RegisterCommand = new RelayCommand(Register);
 
@@ -28,8 +30,13 @@ namespace MetaTune.ViewModel.Auth
             IGenreStorage genreStorage = Injector.CreateInstance<IGenreStorage>();
             IEmailService emailService = Injector.CreateInstance<IEmailService>();
             userController = new(userStorage, genreStorage, emailService);
-        }
 
+            NavigationService = navigationService;
+            win = w;
+        }
+        private readonly Window win;
+
+        public NavigationService NavigationService { get; set; }
         private async void Register(object parameter)
         {
             var loading = new LoadingDialog()
@@ -42,7 +49,15 @@ namespace MetaTune.ViewModel.Auth
                 User user = new(Name, Surname, Email, Password);
                 user.HashPassword();
                 await userController.Register(user);
-                MainWindow.Instance.Navigate(new VerificationPage(user));
+                if (win is AuthFrame af)
+                {
+                    af.NavigateTo(new VerificationPage(user, win));
+                    return;
+                }
+                else
+                {
+                    NavigationService?.Navigate(new VerificationPage(user, win));
+                }
             }
                 catch (Exception ex)
                 {

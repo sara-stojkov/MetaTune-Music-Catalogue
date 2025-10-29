@@ -14,19 +14,21 @@ namespace MetaTune.View.Auth
 {
     public partial class LoginPage : Page
     {
-        public LoginPage()
+        public LoginPage(Window win)
         {
             InitializeComponent();
-            LoginPageModel model = new();
+            LoginPageModel model = new(NavigationService, win);
             DataContext = model;
             model.ClearPasswordRequested += OnClearPasswordRequested;
             WelcomeLabel.Text = "Dobrodošli";
-            MainWindow.Instance.Title = "Prijava | Meta Tune";
+            win.Title = "Prijava | Meta Tune";
+            this.win = win;
         }
+        private readonly Window win;
 
         private void SignUpHyperlink_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new RegisterPage());
+            NavigationService?.Navigate(new RegisterPage(win));
         }
 
         private void OnClearPasswordRequested()

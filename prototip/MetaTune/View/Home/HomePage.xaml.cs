@@ -266,7 +266,7 @@ namespace MetaTune.View
             try
             {
                 var authWindow = new AuthFrame();
-                authWindow.NavigateTo(new Auth.LoginPage());
+                authWindow.NavigateTo(new Auth.LoginPage(authWindow));
                 authWindow.Owner = Application.Current.MainWindow;
                 authWindow.ShowDialog();
             }
