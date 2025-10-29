@@ -253,6 +253,12 @@ namespace PostgreSQLStorage
 
             try
             {
+                // Delte qualifications
+                var delteQualificationsSql = @"DELETE FROM qualifications WHERE userId = @userId";
+                using var qCmd = new NpgsqlCommand(delteQualificationsSql, conn, transaction);
+                qCmd.Parameters.AddWithValue("userId", id);
+                await qCmd.ExecuteNonQueryAsync();
+
                 // Get personId first
                 string getPersonSql = @"SELECT personId FROM users WHERE userId = @userId";
                 using var getCmd = new NpgsqlCommand(getPersonSql, conn, transaction);
