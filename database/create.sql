@@ -230,8 +230,8 @@ CREATE TABLE reviews
   content    TEXT          NOT NULL, 
   reviewDate DATE          NOT NULL, 
   isEditable BOOLEAN       NOT NULL,
-  userId     VARCHAR(50), 
-  userId2    VARCHAR(50)   NOT NULL, 
+  userId    VARCHAR(50)   NOT NULL, 
+  editorId   VARCHAR(50), 
   workId     VARCHAR(50), 
   authorId   VARCHAR(50) 
 );
