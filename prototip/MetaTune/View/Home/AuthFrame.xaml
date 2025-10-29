@@ -8,12 +8,11 @@
         Title="Authentication"
         SizeToContent="WidthAndHeight"  
         WindowStartupLocation="CenterOwner"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        AllowsTransparency="True"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize"
         Background="#AA000000"
         ShowInTaskbar="False"
-        Topmost="True">
+        >
 
 	<Border CornerRadius="12"
             Background="White"
@@ -24,37 +23,9 @@
             VerticalAlignment="Center"
             >
 
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="30"/>
-				<!-- Title bar -->
-				<RowDefinition Height="*"/>
-				<!-- Main content -->
-			</Grid.RowDefinitions>
+        <Grid>
 
-			<!-- Custom Title Bar -->
-			<DockPanel Grid.Row="0" Background="#FF4A4A4A" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-				<TextBlock Text="Autentifikacija :)"
-                           VerticalAlignment="Center"
-                           Margin="10,0,0,0"
-                           FontWeight="Bold"
-                           Foreground="white"/>
-
-				<Button Content="✕"
-                        Width="30"
-                        Height="30"
-                        Margin="0,5,5,5"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Foreground="black"
-                        FontSize="16"
-                        Cursor="Hand"
-                        Click="CloseButton_Click"/>
-			</DockPanel>
-
-			<!-- Auth Frame Content -->
+            <!-- Auth Frame Content -->
 			<Frame x:Name="AuthFrameContent"
                    Grid.Row="1"
                    NavigationUIVisibility="Hidden"

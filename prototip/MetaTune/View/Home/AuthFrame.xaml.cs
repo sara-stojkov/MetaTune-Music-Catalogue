@@ -10,6 +10,7 @@ namespace MetaTune.View.Home
         public AuthFrame()
         {
             InitializeComponent();
+            Closed += (_, _) => MainWindow.Instance.Focus();
         }
 
         // Helper to load a given Page (LoginPage, RegisterPage, etc.)

@@ -58,5 +58,21 @@ namespace Core.Model
             get => subGenres;
             set => subGenres = value;
         }
+
+        public List<Genre> Flat
+        {
+            get
+            {
+                var flatList = new List<Genre> { this }; // include the current genre
+                if (subGenres != null && subGenres.Count > 0) 
+                {
+                    foreach (var sub in subGenres)
+                    {
+                        flatList.AddRange(sub.Flat); // recursively add sub-genres
+                    }
+                }
+                return flatList;
+            }
+        }
     }
 }

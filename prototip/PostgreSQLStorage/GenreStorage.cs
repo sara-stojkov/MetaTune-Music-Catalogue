@@ -130,7 +130,7 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                $"SELECT genreId, name, description, parentGenreId " + // Explicitly list columns for clarity/safety
+                $"SELECT genreId, genreName, genreDescription, parentGenreId " + // Explicitly list columns for clarity/safety
                 $"FROM qualifications NATURAL JOIN genres WHERE userId = @id", conn);
             cmd.Parameters.AddWithValue("id", editorId);
 
@@ -145,11 +145,11 @@ namespace PostgreSQLStorage
             while (await reader.ReadAsync())
             {
                 string id = reader["genreId"]?.ToString() ?? string.Empty;
-                string name = reader["name"]?.ToString() ?? string.Empty;
+                string name = reader["genreName"]?.ToString() ?? string.Empty;
                 // Npgsql supports getting nullable columns with IsDBNull
-                string? description = await reader.IsDBNullAsync(reader.GetOrdinal("description"))
+                string? description = await reader.IsDBNullAsync(reader.GetOrdinal("genreDescription"))
                     ? string.Empty
-                    : reader["description"].ToString();
+                    : reader["genreDescription"].ToString();
 
                 string? parentId = await reader.IsDBNullAsync(reader.GetOrdinal("parentGenreId"))
                     ? null
