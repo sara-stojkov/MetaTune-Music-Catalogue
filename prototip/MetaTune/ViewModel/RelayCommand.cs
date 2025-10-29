@@ -63,7 +63,9 @@ namespace MetaTune.ViewModel
             }
             catch (Exception ex)
             {
+                // Логируем ошибку
                 System.Diagnostics.Debug.WriteLine($"Command execution error: {ex.Message}");
+                // Можно добавить обработку ошибок через событие или свойство
             }
             finally
             {
