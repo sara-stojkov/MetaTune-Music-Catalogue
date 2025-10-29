@@ -1,4 +1,4 @@
-﻿<Page x:Class="MetaTune.View.AddArtistPage"
+﻿<Window x:Class="MetaTune.View.MusicEditor.AddArtistDialog"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -288,4 +288,4 @@
 
         </Grid>
     </Grid>
-</Page>
+</Window>
