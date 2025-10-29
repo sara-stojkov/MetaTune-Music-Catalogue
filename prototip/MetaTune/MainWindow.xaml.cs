@@ -27,22 +27,7 @@ namespace MetaTune
         private MainWindow()
         {
             InitializeComponent();
-            Loaded += (_, _) => ChangeTitleBarColor();
-            Loaded += (_, _) => Navigate(new LoginPage());
-            A();
-        }
-        private async void A()
-        {
-
-            var gStorage = Injector.CreateInstance<IGenreStorage>();
-            var g = await gStorage.GetEditorsGenres("4104f132-4f07-4407-9be7-4034ab238644");
-            foreach (var x in g)
-            {
-                foreach (var y in x.Flat)
-                {
-                    Debug.WriteLine($"{y.Id} {y.Name}");
-                }
-            }
+            Navigate(new HomePage());
         }
         public void Navigate(Page page)
         {

@@ -1,4 +1,4 @@
-﻿<Page x:Class="MetaTune.View.SearchPage"
+﻿<Page x:Class="MetaTune.View.SearchHomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,85 +15,33 @@
             <!-- Header Section -->
             <Grid Height="100" VerticalAlignment="Top">
                 <!-- App Title -->
-                <TextBlock Text="MetaTune - Vaša muzička enciklopedija" 
+                <TextBlock Text="🎵 MetaTune - Vaša muzička enciklopedija" 
                            FontSize="32" 
                            FontWeight="Bold"
                            Foreground="White"
                            VerticalAlignment="Center"
-                           Margin="40,0,0,0"/>
+                           Margin="40,0,0,0">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF7B1FA2" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
+                    </TextBlock.Effect>
+                </TextBlock>
 
-                <!-- Login Button -->
-                <Button Content="Uloguj se" 
-                        Width="150" 
-                        Height="55"
-                        Background="#FF7B1FA2"
-                        Foreground="White"
-                        FontSize="28"
-                        FontWeight="Medium"
-                        BorderThickness="0"
-                        HorizontalAlignment="Right"
-                        Margin="0,25,40,0"
-                        Cursor="Hand">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="4">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF6A1B9A"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Grid>
+                <!-- Buttons Container -->
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Right" 
+                           Margin="0,25,40,0">
 
-            <!-- Search Bar Section -->
-            <Grid Height="70" VerticalAlignment="Top" Margin="0,100,0,0">
-                <Grid MaxWidth="800" HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Search TextBox -->
-                    <TextBox Grid.Column="0"
-                             x:Name="SearchTextBox"
-                             Height="50"
-                             Width="300"
-                             Margin="0,0,30,0"
-                             FontSize="18"
-                             Padding="15,0"
-                             Background="#FF5A5A5A"
-                             Foreground="White"
-                             BorderThickness="0"
-                             VerticalContentAlignment="Center">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4,0,0,4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-
-                    <!-- Search Button -->
-                    <Button Grid.Column="1"
-                            Content="🔍 Pretraži"
-                            Width="140"
-                            Height="50"
-                            Background="#FF7B1FA2"
+                    <!-- Back Button -->
+                    <Button Content="← Idi nazad" 
+                            Width="160" 
+                            Height="55"
+                            Background="IndianRed"
                             Foreground="White"
-                            FontSize="18"
+                            FontSize="24"
                             FontWeight="Medium"
                             BorderThickness="0"
+                            Margin="0,0,20,0"
+                            Click="BackButton_Click"
                             Cursor="Hand">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -101,7 +49,10 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
-                                                    CornerRadius="0,4,4,0">
+                                                    CornerRadius="8">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                                </Border.Effect>
                                                 <ContentPresenter HorizontalAlignment="Center" 
                                                                 VerticalAlignment="Center"/>
                                             </Border>
@@ -110,13 +61,128 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFE53935"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#FFC62828"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Login Button -->
+                    <Button Content="👤 Uloguj se" 
+                            Width="200" 
+                            Height="55"
+                            Background="#FF7B1FA2"
+                            Foreground="White"
+                            FontSize="28"
+                            FontWeight="Medium"
+                            BorderThickness="0"
+                            Click="LoginButton_Click"
+                            Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="8">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                                </Border.Effect>
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF9C27B0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
                                         <Setter Property="Background" Value="#FF6A1B9A"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
-                </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!-- Search Bar Section -->
+            <Grid Height="70" VerticalAlignment="Top" Margin="40,100,40,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search TextBox -->
+                <Border Grid.Column="0"
+						Height="55"
+                        Background="#FF5A5A5A"
+                        CornerRadius="8"
+                        Margin="0,0,20,0">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Border.Effect>
+                    <TextBox x:Name="SearchTextBox"
+                             Height="50"
+                             FontSize="20"
+                             Padding="20,0"
+                             Background="Transparent"
+                             Foreground="White"
+                             BorderThickness="0"
+                             VerticalContentAlignment="Center">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                </Border>
+
+                <!-- Search Button -->
+                <Button Grid.Column="1"
+                        Content="🔍 Pretraži"
+                        Width="170"
+                        Height="55"
+                        Background="#FF7B1FA2"
+                        Foreground="White"
+                        FontSize="28"
+                        FontWeight="Medium"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="SearchButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF9C27B0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF6A1B9A"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
 
             <!-- Filters Section -->
@@ -124,6 +190,9 @@
                 <Border Background="#FF3E3E3E"
                         CornerRadius="8"
                         Margin="40,0">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Border.Effect>
                     <StackPanel Orientation="Horizontal" 
                                 Margin="30,0" 
                                 VerticalAlignment="Center">
@@ -136,12 +205,100 @@
                                       VerticalAlignment="Center"
                                       Margin="0,0,10,0"/>
                             <ComboBox x:Name="GenreComboBox"
-                                     Width="170"
+                                     Width="150"
                                      Height="35"
                                      FontSize="16"
-                                     Background="#FF5A5A5A"
+                                     Background="#FF5A5A5A" 
                                      Foreground="White"
                                      BorderThickness="0">
+                                <ComboBox.Resources>
+                                    <!-- Style for the dropdown popup -->
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ComboBox">
+                                                    <Grid>
+                                                        <ToggleButton 
+                                                            x:Name="ToggleButton"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderThickness="0"
+                                                            Focusable="False"
+                                                            IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                            ClickMode="Press">
+                                                            <ToggleButton.Template>
+                                                                <ControlTemplate TargetType="ToggleButton">
+                                                                    <Border Background="#FF5A5A5A" CornerRadius="4">
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition/>
+                                                                                <ColumnDefinition Width="20"/>
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <ContentPresenter Grid.Column="0" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                                                            <Path Grid.Column="1" Data="M 0 0 L 4 4 L 8 0 Z" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </ToggleButton.Template>
+                                                        </ToggleButton>
+                                                        <ContentPresenter 
+                                                            x:Name="ContentSite"
+                                                            IsHitTestVisible="False"
+                                                            Content="{TemplateBinding SelectionBoxItem}"
+                                                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                            Margin="10,0,30,0"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"/>
+                                                        <Popup 
+                                                            x:Name="Popup"
+                                                            Placement="Bottom"
+                                                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                            AllowsTransparency="True"
+                                                            Focusable="False"
+                                                            PopupAnimation="Slide">
+                                                            <Grid MinWidth="{TemplateBinding ActualWidth}" MaxHeight="200">
+                                                                <Border Background="#FF3E3E3E" BorderThickness="0" CornerRadius="4">
+                                                                    <Border.Effect>
+                                                                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
+                                                                    </Border.Effect>
+                                                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                                    </ScrollViewer>
+                                                                </Border>
+                                                            </Grid>
+                                                        </Popup>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ComboBox.Resources>
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Background" Value="#FF3E3E3E"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Padding" Value="10,8"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ComboBoxItem">
+                                                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FF7B1FA2"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="#FF6A1B9A"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
                                 <ComboBoxItem Content="Svi žanrovi" IsSelected="True"/>
                                 <ComboBoxItem Content="Rock"/>
                                 <ComboBoxItem Content="Pop"/>
@@ -168,7 +325,7 @@
                                      Margin="0,0,15,0"
                                      IsChecked="True"/>
                             <CheckBox x:Name="SongCheckBox"
-                                     Content="Pesme"
+                                     Content="Dela"
                                      Foreground="White"
                                      FontSize="16"
                                      VerticalAlignment="Center"
@@ -214,14 +371,16 @@
                         </StackPanel>
 
                         <!-- Apply Filters Button -->
-                        <Button Content="☰ Primeni filtere"
-                               Width="180"
+                        <Button Content="☰ Primeni"
+                               Width="100"
                                Height="35"
                                Background="#FF7B1FA2"
                                Foreground="White"
                                FontSize="16"
                                FontWeight="Medium"
                                BorderThickness="0"
+                               Margin="0,0,15,0"
+                               Click="ApplyFiltersButton_Click"
                                Cursor="Hand">
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -244,22 +403,66 @@
                                 </Style>
                             </Button.Style>
                         </Button>
+
+                        <!-- Clear Filters Button -->
+                        <Button Content="❌ Resetuj"
+                               Width="100"
+                               Height="35"
+                               Background="#A5282A"
+                               Foreground="White"
+                               FontSize="16"
+                               FontWeight="Medium"
+                               BorderThickness="0"
+                               Click="ClearFiltersButton_Click"
+                               Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="4">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFE57373"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#FFEF5350"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Border>
             </Grid>
 
             <!-- Main Content - Search Results -->
-            <Grid Margin="40,320,40,40">
+            <Grid Margin="40,280,40,40">
                 <Border Background="#FF3E3E3E"
-                        CornerRadius="8">
+                        CornerRadius="12">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="3" Opacity="0.4"/>
+                    </Border.Effect>
                     <Grid>
                         <!-- Section Title -->
                         <Border Height="60" 
-                                Background="#FF2E2E2E" 
-                                CornerRadius="8,8,0,0"
+                                CornerRadius="12,12,0,0"
                                 VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#FF2E2E2E" Offset="0"/>
+                                    <GradientStop Color="#FF3E3E3E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                             <TextBlock x:Name="ResultsTitle"
-                                      Text="Rezultati pretrage" 
+                                      Text="🔍 Rezultati pretrage" 
                                       FontSize="28" 
                                       FontWeight="SemiBold"
                                       Foreground="White"
@@ -274,15 +477,44 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Background="#FF4A4A4A"
-                                                CornerRadius="6"
-                                                Margin="0,0,0,15"
+                                                CornerRadius="8"
+                                                Margin="0,0,0,12"
                                                 Padding="20,15"
                                                 Cursor="Hand">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.2"/>
+                                            </Border.Effect>
                                             <Border.Style>
                                                 <Style TargetType="Border">
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#FF5A5A5A"/>
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                       To="1.02" Duration="0:0:0.15"/>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                       To="1.02" Duration="0:0:0.15"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                       To="1" Duration="0:0:0.15"/>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                       To="1" Duration="0:0:0.15"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.ExitActions>
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -298,13 +530,16 @@
 
                                                 <!-- Type Icon -->
                                                 <Border Grid.Column="0"
-                                                        Width="50"
-                                                        Height="50"
+                                                        Width="55"
+                                                        Height="55"
                                                         Background="{Binding TypeColor}"
-                                                        CornerRadius="25"
+                                                        CornerRadius="27.5"
                                                         Margin="0,0,20,0">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="{Binding TypeColor}" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                                    </Border.Effect>
                                                     <TextBlock Text="{Binding TypeIcon}"
-                                                              FontSize="24"
+                                                              FontSize="26"
                                                               Foreground="White"
                                                               HorizontalAlignment="Center"
                                                               VerticalAlignment="Center"/>
@@ -319,19 +554,22 @@
                                                               Margin="0,0,0,5"/>
                                                     <TextBlock Text="{Binding Subtitle}"
                                                               FontSize="16"
-                                                              Foreground="#FFAAAAAA"/>
+                                                              Foreground="#FFCCCCCC"/>
                                                 </StackPanel>
 
                                                 <!-- Type Badge -->
                                                 <Border Grid.Column="2"
                                                         Background="{Binding TypeColor}"
-                                                        CornerRadius="4"
-                                                        Padding="12,6"
-                                                        Margin="0,0,15,0"
+                                                        CornerRadius="6"
+                                                        Padding="14,8"
+                                                        Margin="0,0,20,0"
                                                         VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.3"/>
+                                                    </Border.Effect>
                                                     <TextBlock Text="{Binding TypeLabel}"
-                                                              FontSize="14"
-                                                              FontWeight="SemiBold"
+                                                              FontSize="13"
+                                                              FontWeight="Bold"
                                                               Foreground="White"/>
                                                 </Border>
 
@@ -340,7 +578,8 @@
                                                           Text="{Binding AdditionalInfo}"
                                                           FontSize="16"
                                                           Foreground="#FFAAAAAA"
-                                                          VerticalAlignment="Center"/>
+                                                          VerticalAlignment="Center"
+                                                          FontWeight="Medium"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
