@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Dodavanje žanra"
+        Title="Dodavanje zanra"
         Height="450" Width="600"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -24,7 +24,7 @@
 
             <!-- Title -->
             <TextBlock Grid.Row="0"
-                       Text="Dodavanje žanra"
+                       Text="Dodavanje zanra"
                        FontSize="36"
                        FontWeight="SemiBold"
                        Foreground="White"
@@ -35,7 +35,7 @@
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
 
                 <!-- Genre Name Input -->
-                <TextBlock Text="Unesi naziv žanra"
+                <TextBlock Text="Unesi naziv zanra"
                           FontSize="20"
                           Foreground="White"
                           Margin="0,0,0,10"/>
@@ -55,7 +55,7 @@
                 </TextBox>
 
                 <!-- Genre Selection ComboBox -->
-                <TextBlock Text="Odaberi kom žanru pripada (opciono)"
+                <TextBlock Text="Odaberi kom zanru pripada (opciono)"
                           FontSize="20"
                           Foreground="White"
                           Margin="0,0,0,10"/>

@@ -42,9 +42,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1"/>
                     <TextBox x:Name="txtCode2" 
                              Width="45" Height="50" 
                              Margin="5"
@@ -55,9 +53,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1" />
                     <TextBox x:Name="txtCode3" 
                              Width="45" Height="50" 
                              Margin="5"
@@ -68,9 +64,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1" />
                     <TextBox x:Name="txtCode4" 
                              Width="45" Height="50" 
                              Margin="5"
@@ -81,9 +75,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1"/>
                     <TextBox x:Name="txtCode5" 
                              Width="45" Height="50" 
                              Margin="5"
@@ -94,9 +86,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1"/>
                     <TextBox x:Name="txtCode6" 
                              Width="45" Height="50" 
                              Margin="5"
@@ -107,9 +97,7 @@
                              FontSize="24"
                              FontWeight="Bold"
                              TextAlignment="Center"
-                             MaxLength="1"
-                             PreviewTextInput="CodeBox_PreviewTextInput"
-                             TextChanged="CodeBox_TextChanged"/>
+                             MaxLength="1"/>
                 </UniformGrid>
 
                 <!-- Verify Button -->
@@ -121,8 +109,7 @@
                         FontSize="24"
                         FontWeight="SemiBold"
                         BorderThickness="0"
-                        Cursor="Hand"
-                        Click="BtnVerify_Click">
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Background" Value="#7B4FB8"/>

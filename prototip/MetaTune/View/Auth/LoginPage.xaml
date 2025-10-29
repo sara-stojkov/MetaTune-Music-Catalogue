@@ -15,7 +15,7 @@
                 VerticalAlignment="Center">
             <StackPanel Margin="40" VerticalAlignment="Center">
                 <!-- Title -->
-                <TextBlock Text="Dobrodošli" 
+                <TextBlock Text="Dobrodosli" 
                            FontSize="32" 
                            FontWeight="Bold" 
                            Foreground="White" 
@@ -65,8 +65,7 @@
                         FontSize="24"
                         FontWeight="SemiBold"
                         BorderThickness="0"
-                        Cursor="Hand"
-                        Click="BtnLogin_Click">
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#7B4FB8"/>

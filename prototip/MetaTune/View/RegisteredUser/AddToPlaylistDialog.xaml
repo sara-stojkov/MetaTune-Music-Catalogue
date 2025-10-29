@@ -149,8 +149,7 @@
                         Background="#FF7B1FA2"
                         Foreground="White"
                         BorderThickness="0"
-                        Cursor="Hand"
-                        Click="ConfirmButton_Click">
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">

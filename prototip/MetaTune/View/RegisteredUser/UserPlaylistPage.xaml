@@ -186,7 +186,7 @@
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
                                                     CornerRadius="4">
-                                                <TextBlock Text="Obriši plejlistu"
+                                                <TextBlock Text="Obrisi plejlistu"
                                                           FontSize="20"
                                                           FontWeight="Medium"
                                                           Foreground="White"
@@ -218,7 +218,7 @@
                                 Background="#FF3A3A3A" 
                                 CornerRadius="4,4,0,0"
                                 VerticalAlignment="Top">
-                            <TextBlock Text="Vaše plejliste" 
+                            <TextBlock Text="Vase plejliste" 
                                       FontSize="22" 
                                       FontWeight="SemiBold"
                                       Foreground="White"

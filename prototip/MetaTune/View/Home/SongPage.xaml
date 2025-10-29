@@ -1,0 +1,254 @@
+﻿<Page x:Class="MetaTune.View.Home.SongPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
+      Background="#FF4A4A4A">
+
+    <Grid>
+        <!-- Back Button - Top Left Corner -->
+        <Button x:Name="BackButton"
+                Content="← Nazad"
+                Width="120"
+                Height="45"
+                Background="#FF5A5A5A"
+                Foreground="White"
+                FontSize="16"
+                FontWeight="Medium"
+                BorderThickness="0"
+                Cursor="Hand"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="30,30,0,0">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="4">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF6A6A6A"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!-- Main Content Area -->
+        <ScrollViewer Margin="0,100,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="50,0,50,50">
+
+                <!-- Entity Name Section -->
+                <Border Background="#FF7B1FA2" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,30">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="EntityNameTextBlock"
+                                  Grid.Column="0"
+                                  Text="Ime pesme - izvodjaca"
+                                  FontSize="36" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  VerticalAlignment="Center"/>
+
+                        <!-- Average Rating Display -->
+                        <StackPanel Grid.Column="1" 
+                                   Orientation="Horizontal"
+                                   VerticalAlignment="Center">
+                            <TextBlock Text="★" 
+                                      FontSize="32"
+                                      Foreground="#FFFFD700"
+                                      Margin="0,0,10,0"/>
+                            <TextBlock x:Name="AverageRatingTextBlock"
+                                      Text="4.5"
+                                      FontSize="32"
+                                      FontWeight="Bold"
+                                      Foreground="White"/>
+                            <TextBlock Text="/5"
+                                      FontSize="24"
+                                      Foreground="#FFB0B0B0"
+                                      VerticalAlignment="Bottom"
+                                      Margin="5,0,0,3"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Biography Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,30">
+                    <StackPanel>
+                        <TextBlock Text="Opis pesme + tekst" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <ScrollViewer MaxHeight="300" 
+                                     VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="BiographyTextBlock"
+                                      Text="ovde ide zapravo ceoooo tekst to sve ide ovde blablbala ovo unosi urednik ili admin"
+                                      FontSize="16"
+                                      Foreground="#FFE0E0E0"
+                                      TextWrapping="Wrap"
+                                      LineHeight="24"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+
+                <!-- Reviews Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                      Text="Recenzije" 
+                                      FontSize="24" 
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="1"
+                                   x:Name="AddReviewButton"
+                                   Content="+ Dodaj recenziju"
+                                   Height="40"
+                                   Padding="20,0"
+                                   Background="#FF7B1FA2"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   FontWeight="Medium"
+                                   BorderThickness="0"
+                                   Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            CornerRadius="4">
+                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FF6A1B9A"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+
+                        <!-- Reviews List -->
+                        <ItemsControl x:Name="ReviewsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FF5A5A5A" 
+                                            CornerRadius="6"
+                                            Padding="25,20"
+                                            Margin="0,0,0,15">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Review Header: User and Rating -->
+                                            <Grid Grid.Row="0" Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0"
+                                                          Text="Korisničko ime"
+                                                          FontSize="16"
+                                                          FontWeight="SemiBold"
+                                                          Foreground="White"/>
+
+                                                <StackPanel Grid.Column="1" 
+                                                           Orientation="Horizontal">
+                                                    <TextBlock Text="★" 
+                                                              FontSize="18"
+                                                              Foreground="#FFFFD700"
+                                                              Margin="0,0,5,0"/>
+                                                    <TextBlock Text="5/5"
+                                                              FontSize="16"
+                                                              FontWeight="Bold"
+                                                              Foreground="White"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <!-- Review Date -->
+                                            <TextBlock Grid.Row="1"
+                                                      Text="29.10.2025"
+                                                      FontSize="13"
+                                                      Foreground="#FFB0B0B0"
+                                                      Margin="0,0,0,10"/>
+
+                                            <!-- Review Content -->
+                                            <TextBlock Grid.Row="2"
+                                                      Text="Ovo je sadržaj recenzije. Ovde korisnik može da ostavi svoje mišljenje i utiske o izvođaču, albumu ili pesmi."
+                                                      FontSize="15"
+                                                      Foreground="#FFE0E0E0"
+                                                      TextWrapping="Wrap"
+                                                      LineHeight="22"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Empty State for Reviews -->
+                        <Border x:Name="NoReviewsBorder"
+                                Background="#FF5A5A5A" 
+                                CornerRadius="6"
+                                Padding="40"
+                                Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="Još uvek nema recenzija" 
+                                          FontSize="18"
+                                          Foreground="#FFB0B0B0"
+                                          HorizontalAlignment="Center"
+                                          Margin="0,0,0,10"/>
+                                <TextBlock Text="Budite prvi koji će ostaviti recenziju!" 
+                                          FontSize="14"
+                                          Foreground="#FF909090"
+                                          HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
