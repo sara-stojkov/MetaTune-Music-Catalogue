@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MetaTune.ViewModel.Home
@@ -17,6 +18,7 @@ namespace MetaTune.ViewModel.Home
         private readonly IWorkStorage _workStorage;
         private readonly IRatingStorage _ratingStorage;
         private readonly IReviewStorage _reviewStorage;
+        private readonly IAuthorStorage _authorStorage;
         private readonly User _currentUser;
 
         private Work? _album;
@@ -24,24 +26,33 @@ namespace MetaTune.ViewModel.Home
         private DateTime _publishDate;
         private string _albumDescription = string.Empty;
         private ObservableCollection<Work> _songs = new();
+        private ObservableCollection<AlbumArtist> _artists = new();
         private decimal? _averageRating;
+
+        // Editor review with rating (highlighted)
+        private ReviewWithRating? _editorReviewWithRating;
+
+        // User ratings and reviews
+        private ObservableCollection<Rating> _userRatings = new();
         private ObservableCollection<Review> _userReviews = new();
+
         private decimal _newRatingValue = 0;
         private string _newReviewContent = string.Empty;
 
         public AlbumPageViewModel(
-            IWorkStorage workStorage,
-            IRatingStorage ratingStorage,
-            IReviewStorage reviewStorage,
+            string albumId,
             User currentUser)
         {
-            _workStorage = workStorage;
-            _ratingStorage = ratingStorage;
-            _reviewStorage = reviewStorage;
+            _workStorage = Injector.CreateInstance<IWorkStorage>();
+            _ratingStorage = Injector.CreateInstance<IRatingStorage>();
+            _reviewStorage = Injector.CreateInstance<IReviewStorage>();
+            _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             _currentUser = currentUser;
 
-            LeaveRatingCommand = new RelayCommand(async () => await LeaveRating());
-            LeaveReviewCommand = new RelayCommand(async () => await LeaveReview());
+            LeaveRatingCommand = new AsyncRelayCommand(LeaveRating);
+            LeaveReviewCommand = new AsyncRelayCommand(LeaveReview);
+            NavigateToSongCommand = new RelayCommand(async (param) => await NavigateToSong(param));
+            NavigateToArtistCommand = new RelayCommand(async (param) => await NavigateToArtist(param));
         }
 
         public async System.Threading.Tasks.Task LoadAlbum(string albumId)
@@ -57,6 +68,21 @@ namespace MetaTune.ViewModel.Home
                 PublishDate = _album.PublishDate;
                 AlbumDescription = _album.WorkDescription ?? string.Empty;
 
+                // Load artists/authors
+                if (_album.Authors != null && _album.Authors.Any())
+                {
+                    var artistList = new List<AlbumArtist>();
+                    foreach (var author in _album.Authors)
+                    {
+                        artistList.Add(new AlbumArtist
+                        {
+                            ArtistId = author.AuthorId,
+                            ArtistName = author.AuthorName ?? "Nepoznat izvođač"
+                        });
+                    }
+                    Artists = new ObservableCollection<AlbumArtist>(artistList);
+                }
+
                 // Load songs
                 var songs = await _workStorage.GetAllByAlbumId(albumId);
                 Songs = new ObservableCollection<Work>(songs);
@@ -68,14 +94,69 @@ namespace MetaTune.ViewModel.Home
                     AverageRating = ratings.Average(r => r.Value);
                 }
 
-                // Load reviews
-                var reviews = await _reviewStorage.GetAllByWorkId(albumId);
-                UserReviews = new ObservableCollection<Review>(reviews.Where(r => !r.IsEditable));
+                // Load all reviews
+                var allReviews = await _reviewStorage.GetAllByWorkId(albumId);
+
+                // Get THE editor review (should be only one primary editor review)
+                var editorReview = allReviews.FirstOrDefault(r => r.IsEditable);
+                if (editorReview != null)
+                {
+                    var editorRating = ratings.FirstOrDefault(r => r.UserId == editorReview.UserId);
+                    EditorReviewWithRating = new ReviewWithRating
+                    {
+                        Review = editorReview,
+                        Rating = editorRating?.Value
+                    };
+                }
+
+                // Get user reviews (not editor)
+                var userReviewsList = allReviews.Where(r => !r.IsEditable).ToList();
+                UserReviews = new ObservableCollection<Review>(userReviewsList);
+
+                // Get user ratings (not editor, excluding the editor's rating)
+                var editorUserId = editorReview?.UserId;
+                var userRatingsList = ratings.Where(r => r.UserId != editorUserId).ToList();
+                UserRatings = new ObservableCollection<Rating>(userRatingsList);
             }
             catch (Exception ex)
             {
-                // Handle error appropriately
                 System.Diagnostics.Debug.WriteLine($"Error loading album: {ex.Message}");
+            }
+        }
+
+        private async System.Threading.Tasks.Task NavigateToSong(object parameter)
+        {
+            if (parameter is Work song)
+            {
+                try
+                {
+                    var songViewModel = new SongPageViewModel(song.WorkId, _currentUser);
+                    await songViewModel.LoadSong(song.WorkId);
+
+                    SongNavigationRequested?.Invoke(this, songViewModel);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error navigating to song: {ex.Message}");
+                }
+            }
+        }
+
+        private async System.Threading.Tasks.Task NavigateToArtist(object parameter)
+        {
+            if (parameter is AlbumArtist artist)
+            {
+                try
+                {
+                    var artistViewModel = new ArtistPageViewModel(artist.ArtistId, _currentUser);
+                    await artistViewModel.LoadArtist(artist.ArtistId);
+
+                    ArtistNavigationRequested?.Invoke(this, artistViewModel);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error navigating to artist: {ex.Message}");
+                }
             }
         }
 
@@ -86,6 +167,12 @@ namespace MetaTune.ViewModel.Home
 
             try
             {
+                if (_currentUser == null)
+                {
+                    MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 var rating = new Rating(
                     ratingId: Guid.NewGuid().ToString(),
                     value: _newRatingValue,
@@ -96,12 +183,17 @@ namespace MetaTune.ViewModel.Home
 
                 await _ratingStorage.CreateOne(rating);
 
-                // Reload ratings to update average
+                // Reload ratings to update average and list
                 var ratings = await _ratingStorage.GetAllByWorkId(_album.WorkId);
                 if (ratings.Any())
                 {
                     AverageRating = ratings.Average(r => r.Value);
                 }
+
+                // Update user ratings list (excluding editor's rating)
+                var editorUserId = EditorReviewWithRating?.Review?.UserId;
+                var userRatingsList = ratings.Where(r => r.UserId != editorUserId).ToList();
+                UserRatings = new ObservableCollection<Rating>(userRatingsList);
 
                 NewRatingValue = 0;
             }
@@ -113,6 +205,12 @@ namespace MetaTune.ViewModel.Home
 
         private async System.Threading.Tasks.Task LeaveReview()
         {
+            if (_currentUser == null)
+            {
+                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (_album == null || string.IsNullOrWhiteSpace(_newReviewContent))
                 return;
 
@@ -141,6 +239,7 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
+        // Properties
         public string AlbumName
         {
             get => _albumName;
@@ -160,6 +259,8 @@ namespace MetaTune.ViewModel.Home
                 OnPropertyChanged();
             }
         }
+
+        public string PublishYear => PublishDate.Year.ToString();
 
         public string AlbumDescription
         {
@@ -181,12 +282,59 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
+        public ObservableCollection<AlbumArtist> Artists
+        {
+            get => _artists;
+            set
+            {
+                _artists = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ArtistsText
+        {
+            get
+            {
+                if (Artists == null || Artists.Count == 0)
+                    return "Nepoznat izvođač";
+
+                if (Artists.Count == 1)
+                    return Artists[0].ArtistName;
+
+                if (Artists.Count == 2)
+                    return $"{Artists[0].ArtistName} i {Artists[1].ArtistName}";
+
+                return $"{Artists[0].ArtistName} i drugi ({Artists.Count})";
+            }
+        }
+
         public decimal? AverageRating
         {
             get => _averageRating;
             set
             {
                 _averageRating = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ReviewWithRating? EditorReviewWithRating
+        {
+            get => _editorReviewWithRating;
+            set
+            {
+                _editorReviewWithRating = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Rating> UserRatings
+        {
+            get => _userRatings;
+            set
+            {
+                _userRatings = value;
                 OnPropertyChanged();
             }
         }
@@ -221,8 +369,15 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
+        // Commands
         public ICommand LeaveRatingCommand { get; }
         public ICommand LeaveReviewCommand { get; }
+        public ICommand NavigateToSongCommand { get; }
+        public ICommand NavigateToArtistCommand { get; }
+
+        // Events for navigation (to be handled in View)
+        public event EventHandler<SongPageViewModel>? SongNavigationRequested;
+        public event EventHandler<ArtistPageViewModel>? ArtistNavigationRequested;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -230,6 +385,39 @@ namespace MetaTune.ViewModel.Home
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
 
+    // Helper class for album artists
+    public class AlbumArtist : INotifyPropertyChanged
+    {
+        private string _artistId;
+        private string _artistName;
+
+        public string ArtistId
+        {
+            get => _artistId;
+            set
+            {
+                _artistId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ArtistName
+        {
+            get => _artistName;
+            set
+            {
+                _artistName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

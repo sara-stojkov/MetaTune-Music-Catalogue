@@ -27,7 +27,7 @@
                 Cursor="Hand"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Margin="30,30,0,0">
+                Margin="30,30,0,0" Click="BackButton_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -54,24 +54,33 @@
         <ScrollViewer Margin="0,100,0,0" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="50,0,50,50">
 
-                <!-- Entity Name Section -->
+                <!-- Song Name and Rating Section -->
                 <Border Background="#FF7B1FA2" 
                         CornerRadius="8"
                         Padding="40,30"
-                        Margin="0,0,0,30">
+                        Margin="0,0,0,20">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="EntityNameTextBlock"
-                                  Grid.Column="0"
-                                  Text="{Binding SongNameWithArtists}"
-                                  FontSize="36" 
-                                  FontWeight="Bold"
-                                  Foreground="White"
-                                  VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding SongName}"
+                                      FontSize="36" 
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      Margin="0,0,0,10"/>
+
+                            <TextBlock Text="{Binding ArtistNames}"
+                                      FontSize="20"
+                                      Foreground="#FFE0E0E0"
+                                      Margin="0,0,0,5"/>
+
+                            <TextBlock Text="{Binding PublishDate, StringFormat=Godina: {0:yyyy}}"
+                                      FontSize="16"
+                                      Foreground="#FFCCCCCC"/>
+                        </StackPanel>
 
                         <!-- Average Rating Display -->
                         <StackPanel Grid.Column="1" 
@@ -82,8 +91,7 @@
                                       FontSize="32"
                                       Foreground="#FFFFD700"
                                       Margin="0,0,10,0"/>
-                            <TextBlock x:Name="AverageRatingTextBlock"
-                                      Text="{Binding AverageRating, StringFormat={}{0:F1}}"
+                            <TextBlock Text="{Binding AverageRating, StringFormat={}{0:F1}}"
                                       FontSize="32"
                                       FontWeight="Bold"
                                       Foreground="White"/>
@@ -96,53 +104,304 @@
                     </Grid>
                 </Border>
 
-                <!-- Description and Lyrics Section -->
+                <!-- Album Section (if song is part of an album) -->
+                <Border Background="#FF5A5A5A" 
+                        CornerRadius="8"
+                        Padding="30,20"
+                        Margin="0,0,0,20"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="AlbumBorder_Click"
+                        Visibility="{Binding HasAlbum, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF6A6A6A"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="💿" 
+                                  FontSize="28"
+                                  VerticalAlignment="Center"
+                                  Margin="0,0,15,0"/>
+                        <StackPanel>
+                            <TextBlock Text="Sa albuma:"
+                                      FontSize="14"
+                                      Foreground="#FFB0B0B0"
+                                      Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding AlbumName}"
+                                      FontSize="20"
+                                      FontWeight="SemiBold"
+                                      Foreground="White"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Mock Player Section -->
                 <Border Background="#FF3E3E3E" 
                         CornerRadius="8"
                         Padding="40,30"
-                        Margin="0,0,0,30"
-                        Visibility="{Binding DescriptionAndLyrics, Converter={StaticResource StringToVisibilityConverter}}">
+                        Margin="0,0,0,20">
                     <StackPanel>
-                        <TextBlock Text="Opis pesme + tekst" 
-                                  FontSize="24" 
+                        <TextBlock Text="Plejer (mock)" 
+                                  FontSize="20" 
                                   FontWeight="Bold"
                                   Foreground="White"
                                   Margin="0,0,0,20"/>
 
-                        <ScrollViewer MaxHeight="300" 
-                                     VerticalScrollBarVisibility="Auto">
-                            <TextBlock x:Name="BiographyTextBlock"
-                                      Text="{Binding DescriptionAndLyrics}"
-                                      FontSize="16"
-                                      Foreground="#FFE0E0E0"
-                                      TextWrapping="Wrap"
-                                      LineHeight="24"/>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Border>
-
-                <!-- Reviews Section -->
-                <Border Background="#FF3E3E3E" 
-                        CornerRadius="8"
-                        Padding="40,30">
-                    <StackPanel>
-                        <Grid Margin="0,0,0,20">
+                        <!-- Progress Bar -->
+                        <Grid Margin="0,0,0,15">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0"
-                                      Text="Recenzije" 
-                                      FontSize="24" 
-                                      FontWeight="Bold"
-                                      Foreground="White"
-                                      VerticalAlignment="Center"/>
+                                      Text="{Binding CurrentPositionFormatted}"
+                                      FontSize="14"
+                                      Foreground="#FFB0B0B0"
+                                      Margin="0,0,10,0"/>
 
-                            <Button Grid.Column="1"
-                                   x:Name="AddReviewButton"
-                                   Content="+ Dodaj recenziju"
-                                   Command="{Binding LeaveReviewCommand}"
+                            <Slider Grid.Column="1"
+                                   Value="{Binding CurrentPosition}"
+                                   Maximum="{Binding TotalDuration}"
+                                   VerticalAlignment="Center"
+                                   Foreground="#FF7B1FA2"/>
+
+                            <TextBlock Grid.Column="2"
+                                      Text="{Binding TotalDurationFormatted}"
+                                      FontSize="14"
+                                      Foreground="#FFB0B0B0"
+                                      Margin="10,0,0,0"/>
+                        </Grid>
+
+                        <!-- Player Controls -->
+                        <StackPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center">
+                            <Button Command="{Binding PlayPauseCommand}"
+                                   Content="{Binding PlayPauseButtonText}"
+                                   Width="120"
+                                   Height="45"
+                                   Background="#FF7B1FA2"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Medium"
+                                   BorderThickness="0"
+                                   Cursor="Hand"
+                                   Margin="0,0,10,0">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            CornerRadius="4">
+                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FF6A1B9A"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <Button Command="{Binding StopCommand}"
+                                   Content="⏹ Stop"
+                                   Width="100"
+                                   Height="45"
+                                   Background="#FF5A5A5A"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Medium"
+                                   BorderThickness="0"
+                                   Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            CornerRadius="4">
+                                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                                        VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FF6A6A6A"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Artists Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,20"
+                        Visibility="{Binding HasArtists, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Izvođači" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <ItemsControl ItemsSource="{Binding Artists}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FF5A5A5A" 
+                                            CornerRadius="6"
+                                            Padding="20,15"
+                                            Margin="0,0,0,10"
+                                            Cursor="Hand"
+                                            MouseLeftButtonUp="Artist_Click"
+                                            Tag="{Binding AuthorId}">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FF6A6A6A"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="👤" 
+                                                      FontSize="24"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0,0,15,0"/>
+                                            <TextBlock Text="{Binding AuthorName}"
+                                                      FontSize="18"
+                                                      FontWeight="Medium"
+                                                      Foreground="White"
+                                                      VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Production Team Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,20"
+                        Visibility="{Binding HasContributors, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Produkcija" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <ItemsControl ItemsSource="{Binding Contributors}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FF5A5A5A" 
+                                            CornerRadius="6"
+                                            Padding="20,15"
+                                            Margin="0,0,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0"
+                                                      Text="{Binding PersonName}"
+                                                      FontSize="16"
+                                                      FontWeight="Medium"
+                                                      Foreground="White"
+                                                      VerticalAlignment="Center"/>
+
+                                            <Border Grid.Column="1"
+                                                   Background="#FF7B1FA2"
+                                                   CornerRadius="4"
+                                                   Padding="12,6">
+                                                <TextBlock Text="{Binding ContributionType}"
+                                                          FontSize="13"
+                                                          FontWeight="SemiBold"
+                                                          Foreground="White"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Description Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,20"
+                        Visibility="{Binding HasDescription, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Opis" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <TextBlock Text="{Binding SongDescription}"
+                                  FontSize="16"
+                                  Foreground="#FFE0E0E0"
+                                  TextWrapping="Wrap"
+                                  LineHeight="24"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- User Rating Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="Vaša ocena" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Slider x:Name="RatingSlider"
+                                   Value="{Binding NewRatingValue}"
+                                   Minimum="1"
+                                   Maximum="5"
+                                   TickFrequency="0.5"
+                                   IsSnapToTickEnabled="True"
+                                   Width="300"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,20,0"/>
+
+                            <TextBlock Text="{Binding NewRatingValue, StringFormat={}{0:F1}}"
+                                      FontSize="24"
+                                      FontWeight="Bold"
+                                      Foreground="#FFFFD700"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,20,0"/>
+
+                            <Button Command="{Binding LeaveRatingCommand}"
+                                   Content="Sačuvaj ocenu"
                                    Height="40"
                                    Padding="20,0"
                                    Background="#FF7B1FA2"
@@ -172,7 +431,163 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
+                        </StackPanel>
+
+                        <!-- Show current rating if exists -->
+                        <TextBlock Visibility="{Binding UserRating, Converter={StaticResource NullToVisibilityConverter}}"
+                                  Margin="0,15,0,0">
+                            <Run Text="Vaša trenutna ocena: " Foreground="#FFB0B0B0" FontSize="14"/>
+                            <Run Text="{Binding UserRating, StringFormat={}{0:F1}}" Foreground="#FFFFD700" FontSize="16" FontWeight="Bold"/>
+                            <Run Text="★" Foreground="#FFFFD700" FontSize="16"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Editor Review Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30"
+                        Margin="0,0,0,20"
+                        Visibility="{Binding HasEditorReview, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Uredničка recenzija" 
+                                  FontSize="24" 
+                                  FontWeight="Bold"
+                                  Foreground="White"
+                                  Margin="0,0,0,20"/>
+
+                        <Border Background="#FF5A5A5A" 
+                                CornerRadius="6"
+                                Padding="25,20">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Review Header -->
+                                <Grid Grid.Row="0" Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                              Text="{Binding EditorReview.UserId}"
+                                              FontSize="16"
+                                              FontWeight="SemiBold"
+                                              Foreground="White"/>
+
+                                    <Border Grid.Column="1"
+                                           Background="#FFFFD700"
+                                           CornerRadius="4"
+                                           Padding="10,5">
+                                        <TextBlock Text="★ UREDNIK"
+                                                  FontSize="13"
+                                                  FontWeight="Bold"
+                                                  Foreground="#FF000000"/>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Review Date -->
+                                <TextBlock Grid.Row="1"
+                                          Text="{Binding EditorReview.ReviewDate, StringFormat=dd.MM.yyyy}"
+                                          FontSize="13"
+                                          Foreground="#FFB0B0B0"
+                                          Margin="0,0,0,10"/>
+
+                                <!-- Review Content -->
+                                <TextBlock Grid.Row="2"
+                                          Text="{Binding EditorReview.Content}"
+                                          FontSize="15"
+                                          Foreground="#FFE0E0E0"
+                                          TextWrapping="Wrap"
+                                          LineHeight="22"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- User Reviews Section -->
+                <Border Background="#FF3E3E3E" 
+                        CornerRadius="8"
+                        Padding="40,30">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                      Text="Korisničke recenzije" 
+                                      FontSize="24" 
+                                      FontWeight="Bold"
+                                      Foreground="White"
+                                      VerticalAlignment="Center"/>
                         </Grid>
+
+                        <!-- Add Review Section -->
+                        <Border Background="#FF5A5A5A" 
+                                CornerRadius="6"
+                                Padding="25,20"
+                                Margin="0,0,0,20">
+                            <StackPanel>
+                                <TextBlock Text="Napišite recenziju" 
+                                          FontSize="16"
+                                          FontWeight="SemiBold"
+                                          Foreground="White"
+                                          Margin="0,0,0,10"/>
+
+                                <TextBox Text="{Binding NewReviewContent, UpdateSourceTrigger=PropertyChanged}"
+                                        MinHeight="100"
+                                        MaxHeight="200"
+                                        TextWrapping="Wrap"
+                                        AcceptsReturn="True"
+                                        VerticalScrollBarVisibility="Auto"
+                                        Background="#FF4A4A4A"
+                                        Foreground="White"
+                                        BorderBrush="#FF7B1FA2"
+                                        BorderThickness="2"
+                                        Padding="10"
+                                        FontSize="14"
+                                        Margin="0,0,0,15"/>
+
+                                <Button Command="{Binding LeaveReviewCommand}"
+                                       Content="Objavi recenziju"
+                                       Height="40"
+                                       Padding="30,0"
+                                       Background="#FF7B1FA2"
+                                       Foreground="White"
+                                       FontSize="14"
+                                       FontWeight="Medium"
+                                       BorderThickness="0"
+                                       Cursor="Hand"
+                                       HorizontalAlignment="Right">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                CornerRadius="4">
+                                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                                            VerticalAlignment="Center"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#FF6A1B9A"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                        </Border>
 
                         <!-- Reviews List -->
                         <ItemsControl x:Name="ReviewsItemsControl"
@@ -190,32 +605,13 @@
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <!-- Review Header: User and Rating -->
-                                            <Grid Grid.Row="0" Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBlock Grid.Column="0"
-                                                          Text="{Binding UserId}"
-                                                          FontSize="16"
-                                                          FontWeight="SemiBold"
-                                                          Foreground="White"/>
-
-                                                <StackPanel Grid.Column="1" 
-                                                           Orientation="Horizontal"
-                                                           Visibility="{Binding IsEditable, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <TextBlock Text="★" 
-                                                              FontSize="18"
-                                                              Foreground="#FFFFD700"
-                                                              Margin="0,0,5,0"/>
-                                                    <TextBlock Text="Редакторская"
-                                                              FontSize="16"
-                                                              FontWeight="Bold"
-                                                              Foreground="White"/>
-                                                </StackPanel>
-                                            </Grid>
+                                            <!-- Review Header: User -->
+                                            <TextBlock Grid.Row="0"
+                                                      Text="{Binding UserId}"
+                                                      FontSize="16"
+                                                      FontWeight="SemiBold"
+                                                      Foreground="White"
+                                                      Margin="0,0,0,10"/>
 
                                             <!-- Review Date -->
                                             <TextBlock Grid.Row="1"
