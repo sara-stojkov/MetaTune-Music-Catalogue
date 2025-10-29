@@ -38,8 +38,8 @@ namespace MetaTune.ViewModel.Home
             _reviewStorage = reviewStorage;
             _currentUser = currentUser;
 
-            LeaveRatingCommand = new AsyncRelayCommand(LeaveRating);
-            LeaveReviewCommand = new AsyncRelayCommand(LeaveReview);
+            LeaveRatingCommand = new RelayCommand(async () => await LeaveRating());
+            LeaveReviewCommand = new RelayCommand(async () => await LeaveReview());
         }
 
         public async System.Threading.Tasks.Task LoadArtist(string authorId)

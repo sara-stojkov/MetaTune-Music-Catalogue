@@ -19,14 +19,14 @@ namespace MetaTune.ViewModel.Auth
         public event Action? ClearPasswordRequested;
         public LoginPageModel()
         {
-            LoginCommand = new AsyncRelayCommand(Login);
+            LoginCommand = new RelayCommand(Login);
 
             IUserStorage userStorage = Injector.CreateInstance<IUserStorage>();
             IGenreStorage genreStorage = Injector.CreateInstance<IGenreStorage>();
             userController = new(userStorage, genreStorage);
         }
 
-        private async System.Threading.Tasks.Task Login()
+        private async void Login(object parameter)
         {
             try
             {
