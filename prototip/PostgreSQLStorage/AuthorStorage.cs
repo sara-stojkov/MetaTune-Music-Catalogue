@@ -39,14 +39,34 @@ namespace PostgreSQLStorage
             return null;
         }
 
-        public async Task<List<Author>> GetAll()
+        public async Task<List<Author>> GetAll(AuthorFilter filter)
         {
             using var conn = _db.GetConnection();
-            using var cmd = new NpgsqlCommand(
-                @"SELECT authorId, authorName, biography, personId 
-                  FROM authors 
-                  ORDER BY authorId", conn);
+            string sql = filter switch
+            {
+                AuthorFilter.Group => @"SELECT DISTINCT a.authorId, a.authorName, a.biography, a.personId 
+                                        FROM authors a
+                                        WHERE a.personId IS NULL
+                                        ORDER BY a.authorId",
 
+                AuthorFilter.Solo => @"
+                                        SELECT a.authorId, a.authorName, a.biography, a.personId 
+                                        FROM authors a
+                                        WHERE a.personId IS NOT NULL
+                                          AND a.authorId NOT IN (
+                                                SELECT groupId FROM members
+                                                UNION
+                                                SELECT memberId FROM members
+                                            )
+                                        ORDER BY a.authorId",
+
+
+                _ => @"SELECT authorId, authorName, biography, personId 
+                       FROM authors 
+                       ORDER BY authorId"
+            };
+
+            using var cmd = new NpgsqlCommand(sql, conn);
             using var reader = await cmd.ExecuteReaderAsync();
 
             var authors = new List<Author>();
@@ -127,6 +147,35 @@ namespace PostgreSQLStorage
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("id", id);
             await cmd.ExecuteNonQueryAsync();
+        }
+
+        public async Task<List<Author>> GetAllAuthorsByGenreId(string genreId)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT a.authorId, a.authorName, a.biography, a.personId 
+                  FROM authors a
+                  INNER JOIN belongs b ON a.authorId = b.authorId
+                  WHERE b.genreId = @genreId
+                  ORDER BY a.authorName", conn);
+
+            cmd.Parameters.AddWithValue("genreId", genreId);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var authors = new List<Author>();
+
+            while (await reader.ReadAsync())
+            {
+                var authorId = reader.GetString(0);
+                var authorName = await reader.IsDBNullAsync(1) ? null : reader.GetString(1);
+                var biography = await reader.IsDBNullAsync(2) ? null : reader.GetString(2);
+                var personId = await reader.IsDBNullAsync(3) ? null : reader.GetString(3);
+
+                authors.Add(new Author(authorId, authorName, biography, personId));
+            }
+
+            return authors;
         }
     }
 }

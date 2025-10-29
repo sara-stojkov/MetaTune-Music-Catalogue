@@ -37,6 +37,10 @@ namespace MetaTune
             _implementations[typeof(IContributorStorage)] = new ContributorStorage(db);
             _implementations[typeof(IRatingStorage)] = new RatingStorage(db);
             _implementations[typeof(IReviewStorage)] = new ReviewStorage(db);
+            _implementations[typeof(IWorkStorage)] = new WorkStorage(db);
+            _implementations[typeof(IMemberStorage)] = new MemberStorage(db);
+            _implementations[typeof(IPersonStorage)] = new PersonStorage(db);
+            _implementations[typeof(ITaskStorage)] = new TaskStorage(db);
         }
 
         private static Injector GetInstance()
