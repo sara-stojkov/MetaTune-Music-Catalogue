@@ -19,14 +19,48 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Title -->
-            <TextBlock Grid.Row="0"
-                       Text="Dodavanje žanra"
-                       FontSize="36"
-                       FontWeight="SemiBold"
-                       Foreground="White"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,30"/>
+            <!-- Title with Close Button -->
+            <Grid Grid.Row="0" Margin="0,0,0,30">
+                <TextBlock Text="Dodavanje žanra"
+                           FontSize="36"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+
+                <!-- Close Button -->
+                <Button Content="✕"
+                        Width="30"
+                        Height="30"
+                        FontSize="20"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Cursor="Hand"
+                        Click="CloseButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="15">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FFE53935"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
 
             <!-- Form Content -->
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
@@ -37,7 +71,8 @@
                           Foreground="White"
                           Margin="0,0,0,10"/>
 
-                <TextBox Height="45"
+                <TextBox Name="GenreNameTextBox"
+                         Height="45"
                          FontSize="16"
                          Padding="10,0"
                          Background="#FF5A5A5A"
@@ -57,51 +92,90 @@
                           Foreground="White"
                           Margin="0,0,0,10"/>
 
-                <ComboBox Height="45"
+                <ComboBox Name="GenreComboBox"
+                          Height="45"
                           FontSize="16"
-                          Padding="10,0"
                           Background="#FF5A5A5A"
                           Foreground="White"
                           BorderThickness="0"
                           Margin="0,0,0,35">
-                    <ComboBox.Resources>
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Background" Value="#FF5A5A5A"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Padding" Value="10,8"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                    <ComboBox.Style>
                         <Style TargetType="ComboBox">
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ComboBox">
                                         <Grid>
-                                            <Border Background="{TemplateBinding Background}"
-                                                    CornerRadius="4"
-                                                    BorderThickness="0">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
+                                            <ToggleButton Name="ToggleButton"
+                                                        Grid.Column="2"
+                                                        Focusable="false"
+                                                        IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                        ClickMode="Press"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderThickness="0">
+                                                <ToggleButton.Template>
+                                                    <ControlTemplate TargetType="ToggleButton">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                CornerRadius="4">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                </Grid.ColumnDefinitions>
 
-                                                    <ContentPresenter Grid.Column="0"
-                                                                    Content="{TemplateBinding SelectionBoxItem}"
-                                                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                                    VerticalAlignment="Center"
-                                                                    Margin="10,0,0,0"/>
+                                                                <ContentPresenter Grid.Column="0"
+                                                                                Content="{TemplateBinding Content}"
+                                                                                VerticalAlignment="Center"
+                                                                                Margin="10,0,0,0"/>
 
-                                                    <Path Grid.Column="1"
-                                                          Data="M 0 0 L 4 4 L 8 0 Z"
-                                                          Fill="White"
-                                                          VerticalAlignment="Center"
-                                                          Margin="0,0,15,0"/>
-                                                </Grid>
-                                            </Border>
+                                                                <Path Grid.Column="1"
+                                                                      Data="M 0 0 L 4 4 L 8 0 Z"
+                                                                      Fill="White"
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="0,0,15,0"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </ToggleButton.Template>
+                                            </ToggleButton>
 
-                                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}"
+                                            <ContentPresenter Name="ContentSite"
+                                                            IsHitTestVisible="False"
+                                                            Content="{TemplateBinding SelectionBoxItem}"
+                                                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                            Margin="10,0,30,0"
+                                                            VerticalAlignment="Center"
+                                                            HorizontalAlignment="Left"/>
+
+                                            <Popup Name="Popup"
                                                    Placement="Bottom"
-                                                   AllowsTransparency="True">
-                                                <Border Background="#FF5A5A5A"
+                                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                   AllowsTransparency="True"
+                                                   Focusable="False"
+                                                   PopupAnimation="Slide">
+                                                <Border Name="DropDownBorder"
+                                                        Background="#FF5A5A5A"
                                                         BorderThickness="0"
                                                         CornerRadius="4"
-                                                        Margin="0,2,0,0">
-                                                    <ScrollViewer MaxHeight="200">
-                                                        <ItemsPresenter/>
+                                                        MinWidth="{TemplateBinding ActualWidth}"
+                                                        MaxHeight="200">
+                                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
                                                     </ScrollViewer>
                                                 </Border>
                                             </Popup>
@@ -110,11 +184,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Style>
-                    </ComboBox.Resources>
-                    <!-- Add your genre items here -->
-                    <ComboBoxItem Content="Rok"/>
-                    <ComboBoxItem Content="Pop"/>
-                    <ComboBoxItem Content="Jazz"/>
+                    </ComboBox.Style>
                 </ComboBox>
 
                 <!-- Confirm Button -->

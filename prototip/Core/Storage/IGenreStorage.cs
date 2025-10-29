@@ -11,5 +11,6 @@ namespace Core.Storage
         Task UpdateOne(Genre genre);
         Task DeleteById(string id);
         Task<List<Genre>> GetEditorsGenres(string editorId);
+        Task<List<Genre>> GetAllSubGenres(string genreId);
     }
 }

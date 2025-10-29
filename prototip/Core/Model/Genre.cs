@@ -6,6 +6,7 @@ namespace Core.Model
         private string id;
         private string name;
         private string description;
+        private string? parentGenreId;
         private List<Genre> subGenres;
 
 
@@ -14,27 +15,24 @@ namespace Core.Model
             id = Guid.NewGuid().ToString();
             name = string.Empty;
             description = string.Empty;
+            parentGenreId = null;
             subGenres = new List<Genre>();
         }
-        public Genre(string id, string name, string description = "", List<Genre> subGenres = null)
+        public Genre(string id, string name, string description = "", string? parentGenreId = null, List<Genre> subs = null)
         {
             this.id = id;
             this.name = name;
             this.description = description;
-            if (subGenres != null)
-            {
-                this.subGenres = subGenres;
-            }
-            else
-            {
-                this.subGenres = new List<Genre>(); 
-            }
+            this.parentGenreId = parentGenreId;
+            if (subs == null) this.subGenres = new List<Genre>();
+            else this.subGenres = subs;
         }
         public Genre(string name)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
             this.description = string.Empty;
+            this.parentGenreId = null;
             this.subGenres = new List<Genre>();
         }
         public string Id { get => id; }
@@ -53,10 +51,31 @@ namespace Core.Model
             get => description;
             set => description = value;
         }
-        public List<Genre> SubGenres
+        public string? ParentGenreId
+        {
+            get => parentGenreId;
+            set => parentGenreId = value;
+        } 
+        public List<Genre> SubGenres 
         {
             get => subGenres;
             set => subGenres = value;
+        }
+
+        public List<Genre> Flat
+        {
+            get
+            {
+                var flatList = new List<Genre> { this }; // include the current genre
+                if (subGenres != null && subGenres.Count > 0) 
+                {
+                    foreach (var sub in subGenres)
+                    {
+                        flatList.AddRange(sub.Flat); // recursively add sub-genres
+                    }
+                }
+                return flatList;
+            }
         }
     }
 }

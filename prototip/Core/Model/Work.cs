@@ -7,7 +7,7 @@ namespace Core.Model
         string workId,
         string workName,
         DateTime publishDate,
-        string workType,
+        WorkType workType,
         string genreId,
         List<Author> authors,
         string? workDescription = null,
@@ -17,7 +17,7 @@ namespace Core.Model
         private readonly string workId = workId;
         private string workName = workName;
         private DateTime publishDate = publishDate;
-        private string workType = workType;
+        private WorkType workType = workType;
         private string? workDescription = workDescription;
         private string? src = src;
         private string? albumId = albumId;
@@ -43,10 +43,10 @@ namespace Core.Model
             set => publishDate = value;
         }
 
-        public string WorkType
+        public WorkType WorkType
         {
             get => workType;
-            set => workType = value.Trim();
+            set => workType = value;
         }
 
         public string? WorkDescription
@@ -72,5 +72,18 @@ namespace Core.Model
             get => genreId;
             set => genreId = value;
         }
+
+        public List<Author> Authors
+            {
+            get => authors;
+            set => authors = value;
+        }
+    }
+
+    public enum WorkType
+    {
+        Song,
+        Album
+        
     }
 }
