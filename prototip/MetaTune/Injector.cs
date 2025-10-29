@@ -1,10 +1,7 @@
-﻿using Core.Services.EmailService;
-using Core.Storage;
+﻿using Core.Storage;
 using DotNetEnv;
-using MetaTune.Services;
 using PostgreSQLStorage;
-using System;
-using System.Collections.Generic;
+
 
 namespace MetaTune
 {
@@ -36,6 +33,14 @@ namespace MetaTune
             //// Add storage implementations
             _implementations[typeof(IUserStorage)] = new UserStorage(db);
             _implementations[typeof(IGenreStorage)] = new GenreStorage(db);
+            _implementations[typeof(IAuthorStorage)] = new AuthorStorage(db);
+            _implementations[typeof(IContributorStorage)] = new ContributorStorage(db);
+            _implementations[typeof(IRatingStorage)] = new RatingStorage(db);
+            _implementations[typeof(IReviewStorage)] = new ReviewStorage(db);
+            _implementations[typeof(IWorkStorage)] = new WorkStorage(db);
+            _implementations[typeof(IMemberStorage)] = new MemberStorage(db);
+            _implementations[typeof(IPersonStorage)] = new PersonStorage(db);
+            _implementations[typeof(ITaskStorage)] = new TaskStorage(db);
         }
 
         private static Injector GetInstance()
