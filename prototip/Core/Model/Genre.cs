@@ -23,7 +23,7 @@ namespace Core.Model
             this.id = id;
             this.name = name;
             this.description = description;
-            this.parentGenreId = parentGenreId;s
+            this.parentGenreId = parentGenreId;
             if (subs == null) this.subGenres = new List<Genre>();
             else this.subGenres = subs;
         }
