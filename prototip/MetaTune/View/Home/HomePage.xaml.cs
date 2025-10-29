@@ -85,7 +85,7 @@ namespace MetaTune.View
                 // Sort by date added (most recent first) and take top 10
                 var sortedContent = contentList
                     .OrderByDescending(c => c.DateAdded)
-                    .Take(10)
+                    .Take(20)
                     .ToList();
 
                 // Debug: Show what's being displayed

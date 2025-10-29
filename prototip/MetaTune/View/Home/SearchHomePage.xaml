@@ -15,7 +15,7 @@
             <!-- Header Section -->
             <Grid Height="100" VerticalAlignment="Top">
                 <!-- App Title -->
-                <TextBlock Text="MetaTune - Vaša muzička enciklopedija" 
+                <TextBlock Text="🎵 MetaTune - Vaša muzička enciklopedija" 
                            FontSize="32" 
                            FontWeight="Bold"
                            Foreground="White"
@@ -72,8 +72,8 @@
                     </Button>
 
                     <!-- Login Button -->
-                    <Button Content="Uloguj se" 
-                            Width="150" 
+                    <Button Content="👤 Uloguj se" 
+                            Width="200" 
                             Height="55"
                             Background="#FF7B1FA2"
                             Foreground="White"
@@ -325,7 +325,7 @@
                                      Margin="0,0,15,0"
                                      IsChecked="True"/>
                             <CheckBox x:Name="SongCheckBox"
-                                     Content="Pesme"
+                                     Content="Dela"
                                      Foreground="White"
                                      FontSize="16"
                                      VerticalAlignment="Center"

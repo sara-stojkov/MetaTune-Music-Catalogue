@@ -27,8 +27,8 @@
                 </TextBlock>
 
                 <!-- Login Button -->
-                <Button Content="Uloguj se" 
-                        Width="150" 
+                <Button Content="👤 Uloguj se" 
+                        Width="200" 
                         Height="55"
                         Background="#FF7B1FA2"
                         Foreground="White"
@@ -156,7 +156,7 @@
                                     <GradientStop Color="#FF3E3E3E" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
-                            <TextBlock Text="✨ Pogledajte najnoviji sadržaj: " 
+                            <TextBlock Text="🌟 Pogledajte najnoviji sadržaj: " 
                                       FontSize="28" 
                                       FontWeight="SemiBold"
                                       Foreground="White"

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,16 +14,19 @@ namespace MetaTune.View
     {
         private readonly IWorkStorage _workStorage;
         private readonly IAuthorStorage _authorStorage;
+        private readonly IGenreStorage _genreStorage;
         private ObservableCollection<SearchResultViewModel> _searchResults;
         private string _currentSearchQuery;
         private List<Work> _allWorks;
         private List<Author> _allAuthors;
+        private List<Genre> _allGenres;
 
         public SearchHomePage(string searchQuery = "")
         {
             InitializeComponent();
             _workStorage = Injector.CreateInstance<IWorkStorage>();
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
+            _genreStorage = Injector.CreateInstance<IGenreStorage>();
             _currentSearchQuery = searchQuery;
             SearchTextBox.Text = searchQuery;
 
@@ -41,6 +42,10 @@ namespace MetaTune.View
                 AuthorFilter authorFilter = AuthorFilter.All;
                 _allWorks = await _workStorage.GetAll();
                 _allAuthors = await _authorStorage.GetAll(authorFilter);
+                _allGenres = await _genreStorage.GetAll();
+
+                // Populate genre ComboBox
+                PopulateGenreComboBox();
 
                 // Perform initial search if there's a query
                 if (!string.IsNullOrEmpty(_currentSearchQuery))
@@ -53,6 +58,33 @@ namespace MetaTune.View
                 MessageBox.Show($"Greška pri učitavanju podataka: {ex.Message}",
                     "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void PopulateGenreComboBox()
+        {
+            GenreComboBox.Items.Clear();
+
+            // Add "All genres" option
+            var allGenresItem = new ComboBoxItem
+            {
+                Content = "Svi žanrovi",
+                Tag = null
+            };
+            GenreComboBox.Items.Add(allGenresItem);
+
+            // Add all genres from database
+            foreach (var genre in _allGenres.OrderBy(g => g.Name))
+            {
+                var item = new ComboBoxItem
+                {
+                    Content = genre.Name,
+                    Tag = genre.Id
+                };
+                GenreComboBox.Items.Add(item);
+            }
+
+            // Select "All genres" by default
+            GenreComboBox.SelectedIndex = 0;
         }
 
         private void SetupEventHandlers()
@@ -115,8 +147,10 @@ namespace MetaTune.View
                 // Get filter values
                 bool includeArtists = ArtistCheckBox.IsChecked == true;
                 bool includeSongs = SongCheckBox.IsChecked == true;
-                string selectedGenre = (GenreComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-                bool filterByGenre = selectedGenre != null && selectedGenre != "Svi žanrovi";
+
+                // Get selected genre ID from ComboBox Tag
+                string selectedGenreId = (GenreComboBox.SelectedItem as ComboBoxItem)?.Tag as string;
+                bool filterByGenre = selectedGenreId != null;
 
                 int yearFrom = ParseYear(YearFromTextBox.Text, 1900);
                 int yearTo = ParseYear(YearToTextBox.Text, DateTime.Now.Year);
@@ -133,7 +167,7 @@ namespace MetaTune.View
                 // Search in works
                 if (includeSongs)
                 {
-                    var workResults = SearchWorks(_currentSearchQuery, filterByGenre ? selectedGenre : null, yearFrom, yearTo);
+                    var workResults = SearchWorks(_currentSearchQuery, filterByGenre ? selectedGenreId : null, yearFrom, yearTo);
                     results.AddRange(workResults);
                 }
 
@@ -199,7 +233,7 @@ namespace MetaTune.View
             return results;
         }
 
-        private List<SearchResultViewModel> SearchWorks(string query, string genre, int yearFrom, int yearTo)
+        private List<SearchResultViewModel> SearchWorks(string query, string genreId, int yearFrom, int yearTo)
         {
             var results = new List<SearchResultViewModel>();
             query = query.ToLower();
@@ -219,10 +253,9 @@ namespace MetaTune.View
 
                 if (titleMatches || authorMatches)
                 {
-                    // Apply genre filter (if you have genre filtering)
-                    // Note: Your Work model has GenreId, you might need to resolve genre name
-                    // if (genre != null && work.GenreId != genre)
-                    //     continue;
+                    // Apply genre filter
+                    if (genreId != null && work.GenreId != genreId)
+                        continue;
 
                     // Apply year filter
                     int workYear = work.PublishDate.Year;
