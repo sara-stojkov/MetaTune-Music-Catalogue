@@ -1,12 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using Core.Model;
 using Core.Storage;
 using MetaTune.View.Home;
 using MetaTune.ViewModel.Home;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 using Task = System.Threading.Tasks.Task;
 
 namespace MetaTune.View
@@ -24,6 +24,25 @@ namespace MetaTune.View
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             SetupEventHandlers();
             _ = LoadRecentContentAsync();
+            if (MainWindow.LoggedInUser != null)
+            {
+                USER_BTN.Content = "👤 Odjavi se";
+                Something.Visibility = Visibility.Visible;
+                var text = string.Empty;
+                switch (MainWindow.LoggedInUser.Role)
+                {
+                    case UserRole.EDITOR:
+                        text = "Edit";
+                        break;
+                    case UserRole.ADMIN:
+                        text = "Admin";
+                        break;
+                    case UserRole.BASIC:
+                        text = "Profile";
+                        break;
+                }
+                Something.Content = text;
+            }
         }
 
         private void SetupEventHandlers()
@@ -276,11 +295,18 @@ namespace MetaTune.View
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
-                var authWindow = new AuthFrame();
-                authWindow.NavigateTo(new Auth.LoginPage(authWindow));
-                authWindow.Owner = Application.Current.MainWindow;
-                authWindow.ShowDialog();
+            {   if (MainWindow.LoggedInUser == null)
+                {
+                    var authWindow = new AuthFrame();
+                    authWindow.NavigateTo(new Auth.LoginPage(authWindow));
+                    authWindow.Owner = MainWindow.Instance;
+                    authWindow.ShowDialog();
+                } 
+                else
+                {
+                    MainWindow.LoggedInUser = null;
+                    USER_BTN.Content = "👤 Uloguj se";
+                }
             }
             catch (Exception ex)
             {
@@ -377,9 +403,20 @@ namespace MetaTune.View
             return null;
         }
 
-        private void Border_Loaded(object sender, RoutedEventArgs e)
+        private void Something_Click(object sender, RoutedEventArgs e)
         {
-            
+            switch (MainWindow.LoggedInUser.Role)
+            {
+                case UserRole.EDITOR:
+                    MainWindow.Instance.Navigate(new MusicEditor.EditorHomePage());
+                    break;
+                case UserRole.ADMIN:
+                    MainWindow.Instance.Navigate(new Admin.AdminHomePage());
+                    break;
+                case UserRole.BASIC:
+                    MainWindow.Instance.Navigate(new RegisteredUser.UserAccountPage());
+                    break;
+            }
         }
     }
 

@@ -16,18 +16,19 @@
             <Grid Height="100" VerticalAlignment="Top">
                 <!-- App Title with gradient effect -->
                 <TextBlock Text="🎵 MetaTune - Vaša muzička enciklopedija" 
-                           FontSize="32" 
-                           FontWeight="Bold"
-                           Foreground="White"
-                           VerticalAlignment="Center"
-                           Margin="40,0,0,0">
+               FontSize="32" 
+               FontWeight="Bold"
+               Foreground="White"
+               VerticalAlignment="Center"
+               Margin="40,0,0,0">
                     <TextBlock.Effect>
                         <DropShadowEffect Color="#FF7B1FA2" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
                     </TextBlock.Effect>
                 </TextBlock>
 
-                <!-- Login Button -->
-                <Button Content="👤 Uloguj se" 
+                <Button Content="" 
+                        Name="Something"
+                        Visibility="Hidden"
                         Width="200" 
                         Height="55"
                         Background="#FF7B1FA2"
@@ -36,8 +37,8 @@
                         FontWeight="Medium"
                         BorderThickness="0"
                         HorizontalAlignment="Right"
-                        Margin="0,25,40,0"
-                        Click="LoginButton_Click"
+                        Margin="0,25,250,0"
+                        Click="Something_Click"
                         Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
@@ -45,12 +46,50 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="8">
+                        CornerRadius="8">
                                             <Border.Effect>
                                                 <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
                                             </Border.Effect>
                                             <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF9C27B0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!-- Login Button -->
+                <Button Content="👤 Uloguj se" 
+                        Name="USER_BTN"
+            Width="200" 
+            Height="55"
+            Background="#FF7B1FA2"
+            Foreground="White"
+            FontSize="28"
+            FontWeight="Medium"
+            BorderThickness="0"
+            HorizontalAlignment="Right"
+            Margin="0,25,40,0"
+            Click="LoginButton_Click"
+            Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="8">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -137,7 +176,7 @@
                     </Button.Style>
                 </Button>
             </Grid>
-
+                            
             <!-- Main Content - New Content Grid with animations -->
             <Grid Margin="40,190,40,40">
                 <Border Background="#FF3E3E3E"
