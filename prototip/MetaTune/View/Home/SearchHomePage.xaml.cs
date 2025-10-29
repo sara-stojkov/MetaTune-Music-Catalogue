@@ -341,8 +341,10 @@ namespace MetaTune.View
         {
             try
             {
-                var loginDialog = new Auth.LoginPage();
-                NavigationService?.Navigate(loginDialog);
+                var authWindow = new AuthFrame();
+                authWindow.NavigateTo(new Auth.LoginPage());
+                authWindow.Owner = Application.Current.MainWindow;
+                authWindow.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -434,11 +436,6 @@ namespace MetaTune.View
             return null;
         }
 
-        private void GenreComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -453,6 +450,16 @@ namespace MetaTune.View
                 MessageBox.Show($"Greška pri vraćanju nazad: {ex.Message}",
                     "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void ClearFiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Reset filters to default values
+            GenreComboBox.SelectedIndex = 0;
+            ArtistCheckBox.IsChecked = true;
+            SongCheckBox.IsChecked = true;
+            YearFromTextBox.Text = "1900";
+            YearToTextBox.Text = "2025";
         }
     }
 

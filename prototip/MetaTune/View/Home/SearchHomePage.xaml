@@ -40,7 +40,7 @@
                             FontSize="24"
                             FontWeight="Medium"
                             BorderThickness="0"
-                            Margin="0,0,15,0"
+                            Margin="0,0,20,0"
                             Click="BackButton_Click"
                             Cursor="Hand">
                         <Button.Style>
@@ -121,15 +121,16 @@
 
                 <!-- Search TextBox -->
                 <Border Grid.Column="0"
+						Height="55"
                         Background="#FF5A5A5A"
                         CornerRadius="8"
-                        Margin="0,0,15,0">
+                        Margin="0,0,20,0">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
                     </Border.Effect>
                     <TextBox x:Name="SearchTextBox"
                              Height="50"
-                             FontSize="18"
+                             FontSize="20"
                              Padding="20,0"
                              Background="Transparent"
                              Foreground="White"
@@ -146,11 +147,11 @@
                 <!-- Search Button -->
                 <Button Grid.Column="1"
                         Content="🔍 Pretraži"
-                        Width="150"
-                        Height="50"
+                        Width="170"
+                        Height="55"
                         Background="#FF7B1FA2"
                         Foreground="White"
-                        FontSize="18"
+                        FontSize="28"
                         FontWeight="Medium"
                         BorderThickness="0"
                         Cursor="Hand"
@@ -370,14 +371,15 @@
                         </StackPanel>
 
                         <!-- Apply Filters Button -->
-                        <Button Content="☰ Primeni filtere"
-                               Width="180"
+                        <Button Content="☰ Primeni"
+                               Width="100"
                                Height="35"
                                Background="#FF7B1FA2"
                                Foreground="White"
                                FontSize="16"
                                FontWeight="Medium"
                                BorderThickness="0"
+                               Margin="0,0,15,0"
                                Click="ApplyFiltersButton_Click"
                                Cursor="Hand">
                             <Button.Style>
@@ -396,6 +398,42 @@
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Background" Value="#FF6A1B9A"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!-- Clear Filters Button -->
+                        <Button Content="❌ Resetuj"
+                               Width="100"
+                               Height="35"
+                               Background="#A5282A"
+                               Foreground="White"
+                               FontSize="16"
+                               FontWeight="Medium"
+                               BorderThickness="0"
+                               Click="ClearFiltersButton_Click"
+                               Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="4">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                                    VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FFE57373"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#FFEF5350"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>

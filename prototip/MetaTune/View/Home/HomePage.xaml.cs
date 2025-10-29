@@ -220,8 +220,10 @@ namespace MetaTune.View
         {
             try
             {
-                var loginDialog = new Auth.LoginPage();
-                var result = NavigationService?.Navigate(loginDialog);
+                var authWindow = new AuthFrame();
+                authWindow.NavigateTo(new Auth.LoginPage());
+                authWindow.Owner = Application.Current.MainWindow;
+                authWindow.ShowDialog();
             }
             catch (Exception ex)
             {
