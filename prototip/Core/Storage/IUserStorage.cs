@@ -6,6 +6,5 @@ namespace Core.Storage
     {
         public Task<User?> GetByEmail(string email);
         public Task<User?> GetById(string id);
-        public Task<List<Genre>> GetEditorsGenres(string editorId);
     }
 }

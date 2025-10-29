@@ -19,10 +19,12 @@ namespace Core.Controller
     }
 
     public class UserController(
-        IUserStorage userStorage
+        IUserStorage userStorage,
+        IGenreStorage genreStorage
         )
     {
         private readonly IUserStorage _userStorage = userStorage;
+        private readonly IGenreStorage _genreStorage = genreStorage;
 
         public async Task<User> Login(string email, string password)
         {
@@ -32,7 +34,7 @@ namespace Core.Controller
                 throw new InvalidPasswordException();
             if (user.Role == UserRole.EDITOR)
             {
-                user.Genres = await _userStorage.GetEditorsGenres(user.Id);
+                user.Genres = await _genreStorage.GetEditorsGenres(user.Id);
             }
             return user;
         }

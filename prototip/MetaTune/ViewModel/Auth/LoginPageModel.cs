@@ -22,7 +22,8 @@ namespace MetaTune.ViewModel.Auth
             LoginCommand = new RelayCommand(Login);
 
             IUserStorage userStorage = Injector.CreateInstance<IUserStorage>();
-            userController = new(userStorage);
+            IGenreStorage genreStorage = Injector.CreateInstance<IGenreStorage>();
+            userController = new(userStorage, genreStorage);
         }
 
         private async void Login(object parameter)
