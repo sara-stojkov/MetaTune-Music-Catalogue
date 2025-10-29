@@ -7,16 +7,18 @@ using System.Windows.Controls;
 using MetaTune.ViewModel.Home;
 using MetaTune.ViewModel.Converters;
 
-public partial class AlbumPage : Page
+namespace MetaTune.View.Home
 {
-	public AlbumPage()
-	{
-		InitializeComponent();
+    public partial class AlbumPage : Page
+    {
+        public AlbumPage()
+        {
+            InitializeComponent();
+        }
+
+        public AlbumPage(AlbumPageViewModel viewModel) : this()
+        {
+            DataContext = viewModel;
+        }
     }
-
-    public AlbumPage(AlbumPageViewModel viewModel) : this()
-	{
-		DataContext = viewModel;
-	}
-
 }
