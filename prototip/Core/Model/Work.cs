@@ -73,12 +73,17 @@ namespace Core.Model
             set => genreId = value;
         }
 
-        public List<Author> Authors { get => authors; }
+        public List<Author> Authors
+            {
+            get => authors;
+            set => authors = value;
+        }
     }
 
     public enum WorkType
     {
         Song,
         Album
+        
     }
 }

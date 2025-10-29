@@ -3,8 +3,15 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:converters="clr-namespace:MetaTune.ViewModel.Converters"
       mc:Ignorable="d" 
       Background="#FF4A4A4A">
+
+    <Page.Resources>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid>
         <!-- Back Button - Top Left Corner -->
@@ -60,7 +67,7 @@
 
                         <TextBlock x:Name="EntityNameTextBlock"
                                   Grid.Column="0"
-                                  Text="Ime albuma"
+                                  Text="{Binding AlbumName}"
                                   FontSize="36" 
                                   FontWeight="Bold"
                                   Foreground="White"
@@ -69,13 +76,14 @@
                         <!-- Average Rating Display -->
                         <StackPanel Grid.Column="1" 
                                    Orientation="Horizontal"
-                                   VerticalAlignment="Center">
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding AverageRating, Converter={StaticResource NullToVisibilityConverter}}">
                             <TextBlock Text="★" 
                                       FontSize="32"
                                       Foreground="#FFFFD700"
                                       Margin="0,0,10,0"/>
                             <TextBlock x:Name="AverageRatingTextBlock"
-                                      Text="4.5"
+                                      Text="{Binding AverageRating, StringFormat={}{0:F1}}"
                                       FontSize="32"
                                       FontWeight="Bold"
                                       Foreground="White"/>
@@ -92,7 +100,8 @@
                 <Border Background="#FF3E3E3E" 
                         CornerRadius="8"
                         Padding="40,30"
-                        Margin="0,0,0,30">
+                        Margin="0,0,0,30"
+                        Visibility="{Binding AlbumDescription, Converter={StaticResource StringToVisibilityConverter}}">
                     <StackPanel>
                         <TextBlock Text="Opis" 
                                   FontSize="24" 
@@ -103,7 +112,7 @@
                         <ScrollViewer MaxHeight="300" 
                                      VerticalScrollBarVisibility="Auto">
                             <TextBlock x:Name="BiographyTextBlock"
-                                      Text="Biografija izvođača se prikazuje ovde. Ovaj tekst može biti dug i detaljan, opisujući istoriju, uticaje, i značajne momente u karijeri izvođača."
+                                      Text="{Binding AlbumDescription}"
                                       FontSize="16"
                                       Foreground="#FFE0E0E0"
                                       TextWrapping="Wrap"
@@ -133,6 +142,7 @@
                             <Button Grid.Column="1"
                                    x:Name="AddReviewButton"
                                    Content="+ Dodaj recenziju"
+                                   Command="{Binding LeaveReviewCommand}"
                                    Height="40"
                                    Padding="20,0"
                                    Background="#FF7B1FA2"
@@ -165,7 +175,8 @@
                         </Grid>
 
                         <!-- Reviews List -->
-                        <ItemsControl x:Name="ReviewsItemsControl">
+                        <ItemsControl x:Name="ReviewsItemsControl"
+                                     ItemsSource="{Binding UserReviews}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="#FF5A5A5A" 
@@ -187,18 +198,19 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <TextBlock Grid.Column="0"
-                                                          Text="Korisničko ime"
+                                                          Text="{Binding UserId}"
                                                           FontSize="16"
                                                           FontWeight="SemiBold"
                                                           Foreground="White"/>
 
                                                 <StackPanel Grid.Column="1" 
-                                                           Orientation="Horizontal">
+                                                           Orientation="Horizontal"
+                                                           Visibility="{Binding IsEditable, Converter={StaticResource BoolToVisibilityConverter}}">
                                                     <TextBlock Text="★" 
                                                               FontSize="18"
                                                               Foreground="#FFFFD700"
                                                               Margin="0,0,5,0"/>
-                                                    <TextBlock Text="5/5"
+                                                    <TextBlock Text="Редакторская"
                                                               FontSize="16"
                                                               FontWeight="Bold"
                                                               Foreground="White"/>
@@ -207,14 +219,14 @@
 
                                             <!-- Review Date -->
                                             <TextBlock Grid.Row="1"
-                                                      Text="29.10.2025"
+                                                      Text="{Binding ReviewDate, StringFormat=dd.MM.yyyy}"
                                                       FontSize="13"
                                                       Foreground="#FFB0B0B0"
                                                       Margin="0,0,0,10"/>
 
                                             <!-- Review Content -->
                                             <TextBlock Grid.Row="2"
-                                                      Text="Ovo je sadržaj recenzije. Ovde korisnik može da ostavi svoje mišljenje i utiske o izvođaču, albumu ili pesmi."
+                                                      Text="{Binding Content}"
                                                       FontSize="15"
                                                       Foreground="#FFE0E0E0"
                                                       TextWrapping="Wrap"
@@ -229,8 +241,17 @@
                         <Border x:Name="NoReviewsBorder"
                                 Background="#FF5A5A5A" 
                                 CornerRadius="6"
-                                Padding="40"
-                                Visibility="Collapsed">
+                                Padding="40">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UserReviews.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                             <StackPanel HorizontalAlignment="Center">
                                 <TextBlock Text="Još uvek nema recenzija" 
                                           FontSize="18"
