@@ -217,10 +217,10 @@
 							</DataGrid.ColumnHeaderStyle>
 
 							<DataGrid.Columns>
-								<DataGridTextColumn Header="Email Korisnika" 
-                                                   Binding="{Binding UserEmail}" 
+								<DataGridTextColumn Header="Tekst komentara" 
+                                                   Binding="{Binding TextComment}" 
                                                    Width="1.2*"/>
-								<DataGridTextColumn Header="Delo" 
+								<DataGridTextColumn Header="Odnosi se na" 
                                                    Binding="{Binding WorkTitle}" 
                                                    Width="1.2*"/>
 								<DataGridTextColumn Header="Vreme unosa" 
