@@ -4,6 +4,7 @@ using PostgreSQLStorage;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -19,9 +20,11 @@ namespace MetaTune.ViewModel.Admin
         private string? _artistSurname;
         private string? _biography;
         private Genre? _selectedGenre;
+        private Author? _selectedGroup;
         private bool _isIndividualArtist = true;
         private bool _isMusicGroup;
         private ObservableCollection<Genre> _genres = new();
+        private ObservableCollection<Author> _groups = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -34,6 +37,7 @@ namespace MetaTune.ViewModel.Admin
 
             // Automatsko učitavanje žanrova
             _ = LoadGenresAsync();
+            _ = LoadGroupsAsync();
         }
 
         public string? ArtistName
@@ -108,7 +112,45 @@ namespace MetaTune.ViewModel.Admin
             }
         }
 
+        public ObservableCollection<Author> Groups
+        {
+            get => _groups;
+            set
+            {
+                _groups = value;
+                OnPropertyChanged(nameof(Groups));
+            }
+        }
+
+        public Author? SelectedGroup
+        {
+            get => _selectedGroup;
+            set
+            {
+                _selectedGroup = value;
+                OnPropertyChanged(nameof(SelectedGroup));
+            }
+        }
+
         public ICommand SaveCommand { get; }
+
+        private async System.Threading.Tasks.Task LoadGroupsAsync()
+        {
+            try
+            {
+                var allGroups = await _authorStorage.GetAll(AuthorFilter.Group);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Groups.Clear();
+                    foreach (var group in allGroups)
+                        Groups.Add(group);
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri učitavanju grupa: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         // Učitavanje žanrova iz baze
         private async System.Threading.Tasks.Task LoadGenresAsync()

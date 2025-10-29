@@ -33,7 +33,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox x:Name="IndividualArtistCheckBox"
+                            <RadioButton x:Name="IndividualArtistCheckBox"
                                      Grid.Column="0"
                                      Content="Pojedinačni izvođač"
                                      Foreground="White"
@@ -42,7 +42,7 @@
                                      VerticalAlignment="Center"
                                      IsChecked="True"/>
 
-                            <CheckBox x:Name="MusicGroupCheckBox"
+                            <RadioButton x:Name="MusicGroupCheckBox"
                                      Grid.Column="1"
                                      Content="Muzička grupa"
                                      Foreground="White"
@@ -107,14 +107,16 @@
                                       FontSize="16" 
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
-                            <ComboBox x:Name="GroupMembershipComboBox"
+                        <ComboBox x:Name="GroupMembershipComboBox"
                                      Height="45"
                                      FontSize="16"
                                      Background="#FF5A5A5A"
                                      Foreground="White"
-                                     BorderThickness="0">
-                                <ComboBoxItem Content="-- Nije član grupe --" IsSelected="True"/>
-                                <!-- Dinamički se popunjava sa muzičkim grupama iz baze -->
+                                     ItemsSource="{Binding Groups}"
+                                     SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                                     BorderThickness="0"
+                                     DisplayMemberPath="AuthorName">
+                            <!-- Dinamički se popunjava sa muzičkim grupama iz baze -->
                             </ComboBox>
                         </StackPanel>
 

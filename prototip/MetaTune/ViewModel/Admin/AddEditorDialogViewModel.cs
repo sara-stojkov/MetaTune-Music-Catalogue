@@ -16,7 +16,6 @@ namespace MetaTune.ViewModel.Admin
     {
         private readonly IUserStorage _userStorage;
         private readonly IGenreStorage _genreStorage;
-        private readonly UserController _userController;
 
         private readonly bool _isEdit;
         private readonly User _existingUser;
@@ -25,7 +24,6 @@ namespace MetaTune.ViewModel.Admin
         {
             _userStorage = Injector.CreateInstance<IUserStorage>();
             _genreStorage = Injector.CreateInstance<IGenreStorage>();
-            _userController = new(_userStorage, _genreStorage);
 
             _isEdit = isEdit;
             _existingUser = user;

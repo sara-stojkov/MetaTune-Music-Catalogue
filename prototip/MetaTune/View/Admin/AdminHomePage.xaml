@@ -79,7 +79,7 @@
                             Background="#3D957C"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Margin="0,0,0,20" Click="Button_Click">
+                            Margin="0,0,0,20" Command="{Binding AddEditorCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Template">
@@ -179,7 +179,7 @@
                             Background="#FF43A047"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Margin="0,0,0,20" Click="Button_Click_1">
+                            Margin="0,0,0,20" Command="{Binding AddArtistCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Template">
@@ -211,7 +211,7 @@
                             Background="#FF00796B"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Margin="0,0,0,20" Click="Button_Click_2">
+                            Margin="0,0,0,20" Command="{Binding AddSongCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Template">
@@ -243,7 +243,7 @@
                         Background="#FF00896B"
                         BorderThickness="0"
                         Cursor="Hand"
-                        Click="Button_Click_4">
+                        Command="{Binding AddAlbumCommand}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Template">
@@ -272,7 +272,7 @@
                     <Button Height="65" 
                             Background="#546AA8"
                             BorderThickness="0"
-                            Cursor="Hand" Click="Button_Click_3" Margin="0,20,0,0">
+                            Cursor="Hand"  Command="{Binding AddGenreCommand}" Margin="0,20,0,0">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Template">

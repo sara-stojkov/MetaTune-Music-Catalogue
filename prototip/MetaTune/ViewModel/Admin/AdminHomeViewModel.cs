@@ -32,6 +32,12 @@ namespace MetaTune.ViewModel.Admin
 
         public ICommand DeleteCommand { get; }
         public ICommand EditCommand { get; }
+        public ICommand AddEditorCommand { get; }
+        public ICommand AddArtistCommand { get; }
+        public ICommand AddSongCommand { get; }
+        public ICommand AddGenreCommand { get; }
+        public ICommand AddAlbumCommand { get; }
+
 
         public AdminHomeViewModel(IUserStorage userStorage)
         {
@@ -39,6 +45,12 @@ namespace MetaTune.ViewModel.Admin
 
             DeleteCommand = new RelayCommand(async _ => await DeleteEditor(), _ => SelectedEditor != null);
             EditCommand = new RelayCommand(async _ => await EditEditor(), _ => SelectedEditor != null);
+            AddEditorCommand = new RelayCommand(async _ => await AddEditor());
+            AddArtistCommand = new RelayCommand(async _ => await AddArtist());
+            AddSongCommand = new RelayCommand(async _ => await AddSong());
+            AddGenreCommand = new RelayCommand(async _ => await AddGenre());
+            AddAlbumCommand = new RelayCommand(async _ => await AddAlbum());
+
 
             _ = LoadEditors();
         }
@@ -70,6 +82,43 @@ namespace MetaTune.ViewModel.Admin
             await _userStorage.DeleteById(SelectedEditor.User.Id);
             Editors.Remove(SelectedEditor);
         }
+
+        private async Task AddEditor()
+        {
+            var addEditor = new AddEditorDialog();
+            addEditor.Owner = Application.Current.MainWindow;
+            if (addEditor.ShowDialog() == true)
+                await LoadEditors();
+        }
+
+        private async Task AddArtist()
+        {
+            var addArtist = new AddArtistDialog();
+            addArtist.Owner = Application.Current.MainWindow;
+            addArtist.ShowDialog();
+        }
+
+        private async Task AddSong()
+        {
+            var addSong = new AddSongDialog();
+            addSong.Owner = Application.Current.MainWindow;
+            addSong.ShowDialog();
+        }
+
+        private async Task AddGenre()
+        {
+            var addGenre = new AddGenreDialog();
+            addGenre.Owner = Application.Current.MainWindow;
+            addGenre.ShowDialog();
+        }
+
+        private async Task AddAlbum()
+        {
+            var addAlbum = new AddAlbumDialog();
+            addAlbum.Owner = Application.Current.MainWindow;
+            addAlbum.ShowDialog();
+        }
+
 
         private async Task EditEditor()
         {
