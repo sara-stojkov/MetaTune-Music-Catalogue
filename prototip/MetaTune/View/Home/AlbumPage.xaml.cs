@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using MetaTune.ViewModel.Home;
-using MetaTune.ViewModel.Converters;
-
 namespace MetaTune.View.Home
 {
     public partial class AlbumPage : Page
