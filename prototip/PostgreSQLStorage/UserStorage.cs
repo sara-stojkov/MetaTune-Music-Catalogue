@@ -38,7 +38,8 @@ namespace PostgreSQLStorage
             }
             return null;
         }
-        public async System.Threading.Tasks.Task Create(User user)
+
+        public async System.Threading.Tasks.Task CreateOne(User user)
         {
             using var conn = _db.GetConnection();
             await using var transaction = await conn.BeginTransactionAsync();
@@ -81,12 +82,11 @@ namespace PostgreSQLStorage
                     await using var insertQualCmd = new NpgsqlCommand(string.Empty, conn, transaction);
                     var sql = new System.Text.StringBuilder();
 
-                    for (int i = 0; i < user.Genres.Count; i++)
+                    foreach (var genre in user.Genres)
                     {
-                        var genre = user.Genres[i];
-                        sql.AppendLine($"INSERT INTO qualifications (userId, genreId) VALUES (@userId{i}, @genreId{i});");
-                        insertQualCmd.Parameters.AddWithValue($"userId{i}", user.Id);
-                        insertQualCmd.Parameters.AddWithValue($"genreId{i}", genre.Id);
+                        sql.AppendLine($"INSERT INTO qualifications (userId, genreId) VALUES (@userId{genre.Id}, @genreId{genre.Id});");
+                        insertQualCmd.Parameters.AddWithValue($"userId{genre.Id}", user.Id);
+                        insertQualCmd.Parameters.AddWithValue($"genreId{genre.Id}", genre.Id);
                     }
 
                     if (sql.Length > 0)
@@ -100,6 +100,11 @@ namespace PostgreSQLStorage
                 await transaction.CommitAsync();
             }
             catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
         public async Task<List<User>> GetAll()
         {
             using var conn = _db.GetConnection();
@@ -151,52 +156,7 @@ namespace PostgreSQLStorage
             return users;
         }
 
-        public async Task CreateOne(User user)
-        {
-            using var conn = _db.GetConnection();
-            await using var transaction = await conn.BeginTransactionAsync();
-
-            try
-            {
-                // First, create the person
-                string personSql = @"INSERT INTO people(personId, personName, personSurname) 
-                                     VALUES(@personId, @personName, @personSurname)";
-
-                using var personCmd = new NpgsqlCommand(personSql, conn, transaction);
-                personCmd.Parameters.AddWithValue("personId", user.PersonId);
-                personCmd.Parameters.AddWithValue("personName", user.Name);
-                personCmd.Parameters.AddWithValue("personSurname", user.Surname);
-                await personCmd.ExecuteNonQueryAsync();
-
-                // Then, create the user
-                string userSql = @"INSERT INTO users(userId, email, password, role, personId, userStatus, 
-                                                     contactVisible, reviewsVisible, verificationCode) 
-                                   VALUES(@userId, @email, @password, @role, @personId, @userStatus, 
-                                          @contactVisible, @reviewsVisible, @verificationCode)";
-
-                using var userCmd = new NpgsqlCommand(userSql, conn, transaction);
-                userCmd.Parameters.AddWithValue("userId", user.Id);
-                userCmd.Parameters.AddWithValue("email", user.Email);
-                userCmd.Parameters.AddWithValue("password", user.Password);
-                userCmd.Parameters.AddWithValue("role", user.Role);
-                userCmd.Parameters.AddWithValue("personId", user.PersonId);
-                userCmd.Parameters.AddWithValue("userStatus", user.Status);
-                userCmd.Parameters.AddWithValue("contactVisible", (object?)user.IsContactVisible ?? DBNull.Value);
-                userCmd.Parameters.AddWithValue("reviewsVisible", (object?)user.AreReviewsVisible ?? DBNull.Value);
-                userCmd.Parameters.AddWithValue("verificationCode", (object?)user.VerificationCode ?? DBNull.Value);
-
-                await userCmd.ExecuteNonQueryAsync();
-                await transaction.CommitAsync();
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
-
-
-        public async System.Threading.Tasks.Task Update(User user)
+        public async System.Threading.Tasks.Task UpdateOne(User user)
         {
             using var conn = _db.GetConnection();
             await using var transaction = await conn.BeginTransactionAsync();
@@ -282,54 +242,9 @@ namespace PostgreSQLStorage
                 // 6. Rollback if any command failed
                 await transaction.RollbackAsync();
                 throw; // Re-throw the exception to be handled by the caller
-        public async Task UpdateOne(User user)
-        {
-            using var conn = _db.GetConnection();
-            await using var transaction = await conn.BeginTransactionAsync();
-
-            try
-            {
-                // Update person
-                string personSql = @"UPDATE people 
-                                     SET personName = @personName, 
-                                         personSurname = @personSurname 
-                                     WHERE personId = @personId";
-
-                using var personCmd = new NpgsqlCommand(personSql, conn, transaction);
-                personCmd.Parameters.AddWithValue("personId", user.PersonId);
-                personCmd.Parameters.AddWithValue("personName", user.Name);
-                personCmd.Parameters.AddWithValue("personSurname", user.Surname);
-                await personCmd.ExecuteNonQueryAsync();
-
-                // Update user
-                string userSql = @"UPDATE users 
-                                   SET email = @email, 
-                                       password = @password, 
-                                       userStatus = @userStatus, 
-                                       contactVisible = @contactVisible, 
-                                       reviewsVisible = @reviewsVisible, 
-                                       verificationCode = @verificationCode 
-                                   WHERE userId = @userId";
-
-                using var userCmd = new NpgsqlCommand(userSql, conn, transaction);
-                userCmd.Parameters.AddWithValue("userId", user.Id);
-                userCmd.Parameters.AddWithValue("email", user.Email);
-                userCmd.Parameters.AddWithValue("password", user.Password);
-                userCmd.Parameters.AddWithValue("userStatus", user.Status);
-                userCmd.Parameters.AddWithValue("contactVisible", (object?)user.IsContactVisible ?? DBNull.Value);
-                userCmd.Parameters.AddWithValue("reviewsVisible", (object?)user.AreReviewsVisible ?? DBNull.Value);
-                userCmd.Parameters.AddWithValue("verificationCode", (object?)user.VerificationCode ?? DBNull.Value);
-
-                await userCmd.ExecuteNonQueryAsync();
-                await transaction.CommitAsync();
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
             }
         }
-
+        
         public async Task DeleteById(string id)
         {
             using var conn = _db.GetConnection();

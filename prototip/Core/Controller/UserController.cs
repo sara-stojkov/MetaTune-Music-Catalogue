@@ -62,7 +62,7 @@ namespace Core.Controller
                 builder.Append(digit);
             }
             user.VerificationCode = builder.ToString();
-            await _userStorage.Update(user);
+            await _userStorage.UpdateOne(user);
             var email = new Email($"{user.Name} {user.Surname}", user.Email, "Verification Code",
                 $"Poštovani {user.Name} {user.Surname},\n" +
                 $"Vaš verifikacioni kod je: {user.VerificationCode}"
@@ -72,7 +72,7 @@ namespace Core.Controller
 
         public async System.Threading.Tasks.Task Register(User user)
         {
-            await _userStorage.Create(user);
+            await _userStorage.CreateOne(user);
             await SendVerificationCode(user);
         }
         public async Task<bool> Verify(User user, string code)
@@ -82,7 +82,7 @@ namespace Core.Controller
             if (dbCode != code) return false;
             user.VerificationCode = null;
             user.Status = UserStatus.ACTIVE;
-            await _userStorage.Update(user);
+            await _userStorage.UpdateOne(user);
             return true;
         }
     }

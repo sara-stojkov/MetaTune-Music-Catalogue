@@ -1,6 +1,8 @@
 ﻿using Core.Storage;
 using DotNetEnv;
 using PostgreSQLStorage;
+using Core.Services.EmailService;
+using MetaTune.Services;
 
 
 namespace MetaTune
