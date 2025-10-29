@@ -1,10 +1,10 @@
-<Window x:Class="MetaTune.View.Admin.AddGenreDialog"
+<Window x:Class="MetaTune.View.MusicEditor.AddGenreDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Dodavanje 탑anra"
+        Title="Dodavanje 얷nra"
         Height="450" Width="600"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -24,7 +24,7 @@
 
             <!-- Title -->
             <TextBlock Grid.Row="0"
-                       Text="Dodavanje 탑anra"
+                       Text="Dodavanje 얷nra"
                        FontSize="36"
                        FontWeight="SemiBold"
                        Foreground="White"
@@ -35,7 +35,7 @@
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
 
                 <!-- Genre Name Input -->
-                <TextBlock Text="Unesi naziv 탑anra"
+                <TextBlock Text="Unesi naziv 얷nra"
                           FontSize="20"
                           Foreground="White"
                           Margin="0,0,0,10"/>
@@ -55,7 +55,7 @@
                 </TextBox>
 
                 <!-- Genre Selection ComboBox -->
-                <TextBlock Text="Odaberi kom 탑anru pripada (opciono)"
+                <TextBlock Text="Odaberi kom 얷nru pripada (opciono)"
                           FontSize="20"
                           Foreground="White"
                           Margin="0,0,0,10"/>
