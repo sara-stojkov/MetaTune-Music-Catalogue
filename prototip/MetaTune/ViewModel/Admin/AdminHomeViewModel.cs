@@ -152,7 +152,15 @@ namespace MetaTune.ViewModel.Admin
         public string Surname => User.Surname;
         public string Email => User.Email;
 
-        public string DisplayGenres => User.Genres != null ? string.Join(", ", User.Genres.Select(g => g.Name)) : "Nema";
+        public string DisplayGenres
+        {
+            get { 
+                if (User.Genres == null || !User.Genres.Any())
+                    return "Nema";
+                return string.Join(", ", User.Genres.SelectMany(g => g.Flat).Select(g => g.Name));
+
+            }
+        }
 
         private int _contentCount;
         public int ContentCount

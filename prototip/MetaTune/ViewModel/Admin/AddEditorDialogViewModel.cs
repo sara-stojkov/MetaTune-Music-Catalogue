@@ -42,8 +42,9 @@ namespace MetaTune.ViewModel.Admin
                 LastName = _existingUser.Surname;
                 Email = _existingUser.Email;
                 Password = "";
-                //foreach (var g in _existingUser.Genres)
-                //    SelectedGenres.Add(g);
+                
+                foreach (var g in _existingUser.Genres)
+                    SelectedGenres.Add(g);
 
                 ButtonText = "Sačuvaj izmene";
             }
@@ -114,8 +115,9 @@ namespace MetaTune.ViewModel.Admin
 
         private async Task RegisterOrUpdateEditorAsync()
         {
-            //try
-            //{
+            try
+            {
+                Password = _existingUser.Password;
                 if (string.IsNullOrWhiteSpace(FirstName))
                 {
                     MessageBox.Show("Unesite ime urednika.", "Greška",
@@ -137,12 +139,12 @@ namespace MetaTune.ViewModel.Admin
                     return;
                 }
 
-                //if (!Core.Utils.Validator.IsValidPassword(Password))
-                //{
-                //    MessageBox.Show("Lozinka nije validna.", "Greška",
-                //        MessageBoxButton.OK, MessageBoxImage.Warning);
-                //    return;
-                //}
+                if (!Core.Utils.Validator.IsValidPassword(Password))
+                {
+                    MessageBox.Show("Lozinka nije validna.", "Greška",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
                 if (SelectedGenres == null || SelectedGenres.Count == 0)
                 {
@@ -199,11 +201,11 @@ namespace MetaTune.ViewModel.Admin
                 Application.Current.Windows
                     .OfType<Window>()
                     .FirstOrDefault(w => w.DataContext == this)?.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"Greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
