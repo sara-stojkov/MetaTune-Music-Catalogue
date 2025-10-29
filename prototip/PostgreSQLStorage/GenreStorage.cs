@@ -28,7 +28,7 @@ namespace PostgreSQLStorage
                 var genreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
                 return new Genre(genreId, genreName, genreDescription, parentGenreId);
             }
@@ -53,7 +53,7 @@ namespace PostgreSQLStorage
                 var genreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
                 genres.Add(new Genre(genreId, genreName, genreDescription, parentGenreId));
             }
@@ -75,7 +75,7 @@ namespace PostgreSQLStorage
                 cmd.Parameters.AddWithValue("genreId", genre.Id);
                 cmd.Parameters.AddWithValue("genreName", genre.Name);
                 cmd.Parameters.AddWithValue("genreDescription", string.IsNullOrEmpty(genre.Description) ? DBNull.Value : genre.Description);
-                cmd.Parameters.AddWithValue("parentGenreId", genre.ParentGenreId);
+                cmd.Parameters.AddWithValue("parentGenreId", string.IsNullOrEmpty(genre.ParentGenreId) ? DBNull.Value : genre.ParentGenreId);
 
                 await cmd.ExecuteNonQueryAsync();
                 await transaction.CommitAsync();
@@ -104,7 +104,7 @@ namespace PostgreSQLStorage
                 cmd.Parameters.AddWithValue("genreId", genre.Id);
                 cmd.Parameters.AddWithValue("genreName", genre.Name);
                 cmd.Parameters.AddWithValue("genreDescription", string.IsNullOrEmpty(genre.Description) ? DBNull.Value : genre.Description);
-                cmd.Parameters.AddWithValue("parentGenreId", genre.ParentGenreId);
+                cmd.Parameters.AddWithValue("parentGenreId", string.IsNullOrEmpty(genre.ParentGenreId) ? DBNull.Value : genre.ParentGenreId);
 
                 await cmd.ExecuteNonQueryAsync();
                 await transaction.CommitAsync();
@@ -146,7 +146,7 @@ namespace PostgreSQLStorage
                 var genreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
                 genres.Add(new Genre(genreId, genreName, genreDescription, parentGenreId));
             }
@@ -173,7 +173,7 @@ namespace PostgreSQLStorage
                 var subGenreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
                 subGenres.Add(new Genre(subGenreId, genreName, genreDescription, parentGenreId));
             }

@@ -16,7 +16,7 @@ namespace Core.Model
             description = string.Empty;
             parentGenreId = string.Empty;
         }
-        public Genre(string id, string name, string description = "", string parentGenreId)
+        public Genre(string id, string name, string parentGenreId, string description = "")
         {
             this.id = id;
             this.name = name;
