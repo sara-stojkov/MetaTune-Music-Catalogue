@@ -1,16 +1,451 @@
-﻿
-
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Core.Model;
+using Core.Storage;
+using MetaTune.View.Home;
+using Task = System.Threading.Tasks.Task;
 
-namespace MetaTune.View.Home
+namespace MetaTune.View
 {
     public partial class SearchHomePage : Page
     {
-        string searchQuery;
-        public SearchHomePage(string searchQuery)
+        private readonly IWorkStorage _workStorage;
+        private readonly IAuthorStorage _authorStorage;
+        private ObservableCollection<SearchResultViewModel> _searchResults;
+        private string _currentSearchQuery;
+        private List<Work> _allWorks;
+        private List<Author> _allAuthors;
+
+        public SearchHomePage(string searchQuery = "")
         {
-            MessageBox.Show(searchQuery);
+            InitializeComponent();
+            _workStorage = Injector.CreateInstance<IWorkStorage>();
+            _authorStorage = Injector.CreateInstance<IAuthorStorage>();
+            _currentSearchQuery = searchQuery;
+            SearchTextBox.Text = searchQuery;
+
+            _ = LoadDataAsync();
+            SetupEventHandlers();
         }
+
+        private async Task LoadDataAsync()
+        {
+            try
+            {
+                _searchResults = new ObservableCollection<SearchResultViewModel>();
+                AuthorFilter authorFilter = AuthorFilter.All;
+                _allWorks = await _workStorage.GetAll();
+                _allAuthors = await _authorStorage.GetAll(authorFilter);
+
+                // Perform initial search if there's a query
+                if (!string.IsNullOrEmpty(_currentSearchQuery))
+                {
+                    PerformSearch();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri učitavanju podataka: {ex.Message}",
+                    "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void SetupEventHandlers()
+        {
+            // Handle Enter key in search box
+            SearchTextBox.KeyDown += SearchTextBox_KeyDown;
+
+            // Handle filter change events
+            GenreComboBox.SelectionChanged += Filter_Changed;
+            ArtistCheckBox.Checked += Filter_Changed;
+            ArtistCheckBox.Unchecked += Filter_Changed;
+            SongCheckBox.Checked += Filter_Changed;
+            SongCheckBox.Unchecked += Filter_Changed;
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                _currentSearchQuery = SearchTextBox.Text?.Trim();
+                PerformSearch();
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            _currentSearchQuery = SearchTextBox.Text?.Trim();
+            PerformSearch();
+        }
+
+        private void Filter_Changed(object sender, RoutedEventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void ApplyFiltersButton_Click(object sender, RoutedEventArgs e)
+        {
+            PerformSearch();
+        }
+
+        private void PerformSearch()
+        {
+            try
+            {
+                if (_allWorks == null || _allAuthors == null)
+                {
+                    // Data not loaded yet
+                    return;
+                }
+
+                _searchResults.Clear();
+
+                if (string.IsNullOrEmpty(_currentSearchQuery))
+                {
+                    ResultsTitle.Text = "Unesite pojam za pretragu";
+                    SearchResultsItemsControl.ItemsSource = _searchResults;
+                    return;
+                }
+
+                // Get filter values
+                bool includeArtists = ArtistCheckBox.IsChecked == true;
+                bool includeSongs = SongCheckBox.IsChecked == true;
+                string selectedGenre = (GenreComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                bool filterByGenre = selectedGenre != null && selectedGenre != "Svi žanrovi";
+
+                int yearFrom = ParseYear(YearFromTextBox.Text, 1900);
+                int yearTo = ParseYear(YearToTextBox.Text, DateTime.Now.Year);
+
+                var results = new List<SearchResultViewModel>();
+
+                // Search in authors
+                if (includeArtists)
+                {
+                    var authorResults = SearchAuthors(_currentSearchQuery);
+                    results.AddRange(authorResults);
+                }
+
+                // Search in works
+                if (includeSongs)
+                {
+                    var workResults = SearchWorks(_currentSearchQuery, filterByGenre ? selectedGenre : null, yearFrom, yearTo);
+                    results.AddRange(workResults);
+                }
+
+                // Sort by relevance (exact matches first, then contains)
+                var sortedResults = results
+                    .OrderByDescending(r => CalculateRelevanceScore(r, _currentSearchQuery))
+                    .ThenBy(r => r.Title)
+                    .ToList();
+
+                foreach (var result in sortedResults)
+                {
+                    _searchResults.Add(result);
+                }
+
+                // Update results title
+                int totalCount = _searchResults.Count;
+                ResultsTitle.Text = totalCount switch
+                {
+                    0 => $"Nema rezultata za \"{_currentSearchQuery}\"",
+                    1 => $"Pronađen 1 rezultat za \"{_currentSearchQuery}\"",
+                    _ when totalCount < 5 => $"Pronađena {totalCount} rezultata za \"{_currentSearchQuery}\"",
+                    _ => $"Pronađeno {totalCount} rezultata za \"{_currentSearchQuery}\""
+                };
+
+                SearchResultsItemsControl.ItemsSource = _searchResults;
+
+                // Add click handlers
+                SearchResultsItemsControl.Loaded += (s, e) =>
+                {
+                    AddClickHandlersToItems();
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri pretrazi: {ex.Message}",
+                    "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private List<SearchResultViewModel> SearchAuthors(string query)
+        {
+            var results = new List<SearchResultViewModel>();
+            query = query.ToLower();
+
+            foreach (var author in _allAuthors)
+            {
+                if (author.AuthorName != null && author.AuthorName.ToLower().Contains(query))
+                {
+                    results.Add(new SearchResultViewModel
+                    {
+                        Id = author.AuthorId,
+                        Title = author.AuthorName ?? "Nepoznat autor",
+                        Subtitle = GetAuthorSubtitle(author),
+                        TypeLabel = "AUTOR",
+                        TypeIcon = "👤",
+                        TypeColor = "#FF2196F3",
+                        AdditionalInfo = "",
+                        ContentType = ContentType.Author
+                    });
+                }
+            }
+
+            return results;
+        }
+
+        private List<SearchResultViewModel> SearchWorks(string query, string genre, int yearFrom, int yearTo)
+        {
+            var results = new List<SearchResultViewModel>();
+            query = query.ToLower();
+
+            foreach (var work in _allWorks)
+            {
+                // Check if title matches
+                bool titleMatches = work.WorkName.ToLower().Contains(query);
+
+                // Check if any author name matches
+                bool authorMatches = false;
+                if (work.Authors != null && work.Authors.Count > 0)
+                {
+                    authorMatches = work.Authors.Any(a =>
+                        a.AuthorName != null && a.AuthorName.ToLower().Contains(query));
+                }
+
+                if (titleMatches || authorMatches)
+                {
+                    // Apply genre filter (if you have genre filtering)
+                    // Note: Your Work model has GenreId, you might need to resolve genre name
+                    // if (genre != null && work.GenreId != genre)
+                    //     continue;
+
+                    // Apply year filter
+                    int workYear = work.PublishDate.Year;
+                    if (workYear < yearFrom || workYear > yearTo)
+                        continue;
+
+                    results.Add(new SearchResultViewModel
+                    {
+                        Id = work.WorkId,
+                        Title = work.WorkName,
+                        Subtitle = GetWorkSubtitle(work),
+                        TypeLabel = GetWorkTypeLabel(work.WorkType),
+                        TypeIcon = GetWorkTypeIcon(work.WorkType),
+                        TypeColor = GetWorkTypeColor(work.WorkType),
+                        AdditionalInfo = work.PublishDate.Year.ToString(),
+                        ContentType = ContentType.Work,
+                        WorkType = work.WorkType
+                    });
+                }
+            }
+
+            return results;
+        }
+
+        private int CalculateRelevanceScore(SearchResultViewModel result, string query)
+        {
+            int score = 0;
+            string lowerQuery = query.ToLower();
+            string lowerTitle = result.Title.ToLower();
+
+            // Exact match
+            if (lowerTitle == lowerQuery)
+                score += 1000;
+            // Starts with query
+            else if (lowerTitle.StartsWith(lowerQuery))
+                score += 500;
+            // Contains query
+            else if (lowerTitle.Contains(lowerQuery))
+                score += 100;
+
+            // Prefer shorter titles (more likely to be relevant)
+            score += Math.Max(0, 100 - result.Title.Length);
+
+            return score;
+        }
+
+        private int ParseYear(string yearText, int defaultValue)
+        {
+            if (int.TryParse(yearText, out int year))
+            {
+                if (year >= 1000 && year <= 9999)
+                    return year;
+            }
+            return defaultValue;
+        }
+
+        private void AddClickHandlersToItems()
+        {
+            var itemsPresenter = FindVisualChild<ItemsPresenter>(SearchResultsItemsControl);
+            if (itemsPresenter == null) return;
+
+            for (int i = 0; i < _searchResults.Count; i++)
+            {
+                var container = SearchResultsItemsControl.ItemContainerGenerator.ContainerFromIndex(i) as ContentPresenter;
+                if (container != null)
+                {
+                    var border = FindVisualChild<Border>(container);
+                    if (border != null)
+                    {
+                        border.MouseLeftButtonUp += SearchResultItem_Click;
+                    }
+                }
+            }
+        }
+
+        private void SearchResultItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border?.DataContext is SearchResultViewModel item)
+            {
+                NavigateToContent(item);
+            }
+        }
+
+        private void NavigateToContent(SearchResultViewModel item)
+        {
+            try
+            {
+                if (item.ContentType == ContentType.Work)
+                {
+                    if (item.WorkType == WorkType.Album)
+                    {
+                        var albumPage = new AlbumPage();
+                        NavigationService?.Navigate(albumPage);
+                    }
+                    else if (item.WorkType == WorkType.Song)
+                    {
+                        var songPage = new SongPage();
+                        NavigationService?.Navigate(songPage);
+                    }
+                }
+                else if (item.ContentType == ContentType.Author)
+                {
+                    var authorDetailsPage = new ArtistPage();
+                    NavigationService?.Navigate(authorDetailsPage);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri navigaciji: {ex.Message}",
+                    "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var loginDialog = new Auth.LoginPage();
+                NavigationService?.Navigate(loginDialog);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri otvaranju prozora za prijavu: {ex.Message}",
+                    "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Helper methods
+        private string GetWorkSubtitle(Work work)
+        {
+            // Handle multiple authors
+            if (work.Authors == null || work.Authors.Count == 0)
+            {
+                return "Nepoznat autor";
+            }
+
+            string authorsText;
+            if (work.Authors.Count == 1)
+            {
+                authorsText = work.Authors[0].AuthorName ?? "Nepoznat autor";
+            }
+            else if (work.Authors.Count == 2)
+            {
+                authorsText = $"{work.Authors[0].AuthorName ?? "Nepoznat"} i {work.Authors[1].AuthorName ?? "Nepoznat"}";
+            }
+            else
+            {
+                authorsText = $"{work.Authors[0].AuthorName ?? "Nepoznat"} i drugi ({work.Authors.Count})";
+            }
+
+            return authorsText;
+        }
+
+        private string GetAuthorSubtitle(Author author)
+        {
+            int workCount = _allWorks.Count(w => w.Authors != null && w.Authors.Any(a => a.AuthorId == author.AuthorId));
+
+            if (workCount == 1)
+                return "1 delo";
+            else if (workCount > 1 && workCount < 5)
+                return $"{workCount} dela";
+            else
+                return $"{workCount} dela";
+        }
+
+        private string GetWorkTypeLabel(WorkType type)
+        {
+            return type switch
+            {
+                WorkType.Song => "PESMA",
+                WorkType.Album => "ALBUM",
+                _ => "DELO"
+            };
+        }
+
+        private string GetWorkTypeIcon(WorkType type)
+        {
+            return type switch
+            {
+                WorkType.Song => "🎵",
+                WorkType.Album => "💿",
+                _ => "📄"
+            };
+        }
+
+        private string GetWorkTypeColor(WorkType type)
+        {
+            return type switch
+            {
+                WorkType.Song => "#FFFF4081",
+                WorkType.Album => "#FF7B1FA2",
+                _ => "#FF9E9E9E"
+            };
+        }
+
+        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+                if (child is T typedChild)
+                    return typedChild;
+
+                var result = FindVisualChild<T>(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+    }
+
+    // ViewModel for search results
+    public class SearchResultViewModel
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Subtitle { get; set; }
+        public string TypeLabel { get; set; }
+        public string TypeIcon { get; set; }
+        public string TypeColor { get; set; }
+        public string AdditionalInfo { get; set; }
+        public ContentType ContentType { get; set; }
+        public WorkType WorkType { get; set; }
     }
 }
