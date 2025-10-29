@@ -1,4 +1,5 @@
 ﻿using Core.Model;
+using Task = System.Threading.Tasks.Task;
 
 namespace Core.Storage
 {
@@ -9,5 +10,10 @@ namespace Core.Storage
         public Task<string?> GetVerificationCode(string userId);
         public System.Threading.Tasks.Task Create(User user);
         public System.Threading.Tasks.Task Update(User user);
+        public Task<List<User>> GetAll();
+        public Task<List<User>> GetAllByRole(string role);
+        public Task CreateOne(User user);
+        public Task UpdateOne(User user);
+        public Task DeleteById(string id);
     }
 }

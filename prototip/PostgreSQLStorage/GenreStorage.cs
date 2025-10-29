@@ -3,12 +3,129 @@ using Core.Storage;
 using DotNetEnv;
 using Npgsql;
 using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
+using Task = System.Threading.Tasks.Task;
 
 namespace PostgreSQLStorage
 {
     public class GenreStorage(Database database) : IGenreStorage
     {
         private readonly Database _db = database;
+
+        public async Task<Genre?> GetById(string id)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT genreId, genreName, genreDescription, parentGenreId 
+                  FROM genres 
+                  WHERE genreId = @id", conn);
+
+            cmd.Parameters.AddWithValue("id", id);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                var genreId = reader.GetString(0);
+                var genreName = reader.GetString(1);
+                var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? null : reader.GetString(3);
+
+                return new Genre(genreId, genreName, genreDescription);
+            }
+
+            return null;
+        }
+
+        public async Task<List<Genre>> GetAll()
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT genreId, genreName, genreDescription, parentGenreId 
+                  FROM genres 
+                  ORDER BY genreName", conn);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var genres = new List<Genre>();
+
+            while (await reader.ReadAsync())
+            {
+                var genreId = reader.GetString(0);
+                var genreName = reader.GetString(1);
+                var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? null : reader.GetString(3);
+
+                genres.Add(new Genre(genreId, genreName, genreDescription));
+            }
+
+            return genres;
+        }
+
+        public async Task CreateOne(Genre genre)
+        {
+            using var conn = _db.GetConnection();
+            await using var transaction = await conn.BeginTransactionAsync();
+
+            try
+            {
+                string sql = @"INSERT INTO genres(genreId, genreName, genreDescription, parentGenreId) 
+                               VALUES(@genreId, @genreName, @genreDescription, @parentGenreId)";
+
+                using var cmd = new NpgsqlCommand(sql, conn, transaction);
+                cmd.Parameters.AddWithValue("genreId", genre.Id);
+                cmd.Parameters.AddWithValue("genreName", genre.Name);
+                cmd.Parameters.AddWithValue("genreDescription", (object?)genre.Description ?? DBNull.Value);
+                // Note: parentGenreId mora biti prosleđen kao parametar ili mora postojati logika za određivanje parent-a
+                // Za sada stavljam NULL kao default - možeš prilagoditi logici
+                cmd.Parameters.AddWithValue("parentGenreId", DBNull.Value);
+
+                await cmd.ExecuteNonQueryAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task UpdateOne(Genre genre)
+        {
+            using var conn = _db.GetConnection();
+            await using var transaction = await conn.BeginTransactionAsync();
+
+            try
+            {
+                string sql = @"UPDATE genres 
+                               SET genreName = @genreName, 
+                                   genreDescription = @genreDescription 
+                               WHERE genreId = @genreId";
+
+                using var cmd = new NpgsqlCommand(sql, conn, transaction);
+                cmd.Parameters.AddWithValue("genreId", genre.Id);
+                cmd.Parameters.AddWithValue("genreName", genre.Name);
+                cmd.Parameters.AddWithValue("genreDescription", (object?)genre.Description ?? DBNull.Value);
+
+                await cmd.ExecuteNonQueryAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task DeleteById(string id)
+        {
+            using var conn = _db.GetConnection();
+            string sql = @"DELETE FROM genres WHERE genreId = @id";
+
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("id", id);
+            await cmd.ExecuteNonQueryAsync();
+        }
+
         public async Task<List<Genre>> GetEditorsGenres(string editorId)
         {
             using var conn = _db.GetConnection();

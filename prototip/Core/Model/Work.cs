@@ -72,5 +72,11 @@ namespace Core.Model
             get => genreId;
             set => genreId = value;
         }
+
+        public List<Author> Authors
+            {
+            get => authors;
+            set => authors = value;
+        }
     }
 }
