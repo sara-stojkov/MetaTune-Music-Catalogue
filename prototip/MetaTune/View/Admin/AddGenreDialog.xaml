@@ -6,9 +6,6 @@
         mc:Ignorable="d"
         Title="Dodavanje žanra"
         Height="450" Width="600"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize">
 
