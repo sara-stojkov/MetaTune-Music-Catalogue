@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MetaTune.View;
 using MetaTune.View.Auth;
 
 namespace MetaTune
@@ -20,7 +21,7 @@ namespace MetaTune
         public MainWindow()
         {
             InitializeComponent();
-            Navigate(new LoginPage());
+            Navigate(new HomePage());
         }
 
         public void Navigate(Page page)
