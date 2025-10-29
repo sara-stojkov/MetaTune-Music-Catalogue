@@ -65,8 +65,7 @@ namespace MetaTune.ViewModel.Admin
             foreach (var e in editors)
             {
                var g =  await _genreStorage.GetEditorsGenres(e.Id);
-                MessageBox.Show(g.Count.ToString());
-                e.Genres = g;
+               e.Genres = g;
             }
             foreach (var e in editors)
                 Editors.Add(new EditorItem(e));

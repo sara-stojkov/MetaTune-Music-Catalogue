@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -42,11 +43,16 @@ namespace MetaTune.ViewModel.Admin
                 LastName = _existingUser.Surname;
                 Email = _existingUser.Email;
                 Password = "";
-                
 
-
-                foreach (var g in _existingUser.Genres)
-                    SelectedGenres.Add(g);
+                async void LoadSelectedGenres()
+                {
+                    var genres = await _genreStorage.GetEditorsGenres(_existingUser.Id);
+                    foreach (var g in genres)
+                        SelectedGenres.Add(g);
+                    _existingUser.Genres = genres;
+                    MessageBox.Show($"{genres.Count}");
+                }
+                LoadSelectedGenres();
 
                 ButtonText = "Sačuvaj izmene";
             }
