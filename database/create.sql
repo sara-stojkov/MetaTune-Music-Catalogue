@@ -36,7 +36,7 @@ CREATE TABLE genres
   genreId          VARCHAR(50)   NOT NULL PRIMARY KEY, 
   genreName        TEXT          NOT NULL, 
   genreDescription TEXT, 
-  parentGenreId    VARCHAR(50)   NOT NULL 
+  parentGenreId    VARCHAR(50) 
 );
 
 -- Foreign key constraint for self-referencing parentGenreId
