@@ -99,8 +99,7 @@
                         FontSize="22"
                         FontWeight="SemiBold"
                         BorderThickness="0"
-                        Cursor="Hand"
-                        Click="BtnRegister_Click">
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Background" Value="#7B4FB8"/>
