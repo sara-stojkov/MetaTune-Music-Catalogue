@@ -46,11 +46,25 @@ namespace MetaTune.View
                 int albumCount = allWorks.Count(w => w.WorkType == WorkType.Album);
                 System.Diagnostics.Debug.WriteLine($"Loading: {songCount} songs, {albumCount} albums, {allAuthors.Count} authors");
 
-                // Create a combined list with type information
                 var contentList = new List<ContentItemViewModel>();
 
-                // Add works (both songs AND albums)
-                foreach (Work work in allWorks)
+                // Strategy: Show a balanced mix of content
+                // Assume newer IDs = more recently added content (common database pattern)
+
+                // Get the most recent works (by ID, assuming sequential IDs)
+                var recentWorks = allWorks
+                    .OrderByDescending(w => w.WorkId)
+                    .Take(12)
+                    .ToList();
+
+                // Get the most recent authors (by ID)
+                var recentAuthors = allAuthors
+                    .OrderByDescending(a => a.AuthorId)
+                    .Take(6)
+                    .ToList();
+
+                // Add recent works to the list
+                foreach (Work work in recentWorks)
                 {
                     contentList.Add(new ContentItemViewModel
                     {
@@ -62,13 +76,22 @@ namespace MetaTune.View
                         TypeColor = GetWorkTypeColor(work.WorkType),
                         DateAdded = work.PublishDate,
                         ContentType = ContentType.Work,
-                        WorkType = work.WorkType
+                        WorkType = work.WorkType,
+                        SortOrder = GetSortOrder(work.WorkId, true) // true = is work
                     });
                 }
 
-                // Add authors
-                foreach (Author author in allAuthors)
+                // Add recent authors to the list
+                foreach (Author author in recentAuthors)
                 {
+                    // Find the most recent work by this author for the subtitle
+                    var authorWorks = allWorks.Where(w =>
+                        w.Authors != null && w.Authors.Any(a => a.AuthorId == author.AuthorId)).ToList();
+
+                    DateTime mostRecentDate = authorWorks.Any()
+                        ? authorWorks.Max(w => w.PublishDate)
+                        : DateTime.Now;
+
                     contentList.Add(new ContentItemViewModel
                     {
                         Id = author.AuthorId,
@@ -77,21 +100,23 @@ namespace MetaTune.View
                         TypeLabel = "AUTOR",
                         TypeIcon = "👤",
                         TypeColor = "#FF2196F3",
-                        DateAdded = DateTime.Now, // Authors don't have DateAdded in your model
-                        ContentType = ContentType.Author
+                        DateAdded = mostRecentDate,
+                        ContentType = ContentType.Author,
+                        SortOrder = GetSortOrder(author.AuthorId, false) // false = is author
                     });
                 }
 
-                // Sort by date added (most recent first) and take top 10
+                // Sort by our custom sort order (which prioritizes recent IDs)
+                // This creates a nice mix of works and authors
                 var sortedContent = contentList
-                    .OrderByDescending(c => c.DateAdded)
-                    .Take(20)
+                    .OrderByDescending(c => c.SortOrder)
+                    .Take(18)
                     .ToList();
 
                 // Debug: Show what's being displayed
                 foreach (var item in sortedContent)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Displaying: {item.TypeLabel} - {item.Title} ({item.DateAdded:yyyy-MM-dd})");
+                    System.Diagnostics.Debug.WriteLine($"Displaying: {item.TypeLabel} - {item.Title} (Order: {item.SortOrder})");
                 }
 
                 foreach (var item in sortedContent)
@@ -119,6 +144,26 @@ namespace MetaTune.View
                 MessageBox.Show($"Greška pri učitavanju sadržaja: {ex.Message}",
                     "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        // Create a sort order based on ID (assuming higher ID = more recent)
+        // This creates an interleaved display of works and authors
+        private int GetSortOrder(string id, bool isWork)
+        {
+            // Try to extract numeric part from ID
+            // For IDs like "work_123" or "author_456", extract the number
+            string numericPart = new string(id.Where(char.IsDigit).ToArray());
+
+            if (int.TryParse(numericPart, out int numericId))
+            {
+                // Multiply by 10 to leave room for mixing
+                // Works get even numbers, authors get odd numbers
+                // This creates a nice interleaved display
+                return isWork ? numericId * 10 : (numericId * 10) + 1;
+            }
+
+            // Fallback: use hash code
+            return id.GetHashCode();
         }
 
         private void AddClickHandlersToItems()
@@ -333,6 +378,7 @@ namespace MetaTune.View
         public DateTime DateAdded { get; set; }
         public ContentType ContentType { get; set; }
         public WorkType WorkType { get; set; }
+        public int SortOrder { get; set; }
     }
 
     public enum ContentType
