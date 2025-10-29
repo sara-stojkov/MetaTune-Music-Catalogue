@@ -58,7 +58,7 @@ namespace Core.Controller
             var random = new Random();
             for(int i = 0; i < 6; i++) 
             {
-                var digit = random.Next() % 10;
+                var digit = random.Next(0, 10);
                 builder.Append(digit);
             }
             user.VerificationCode = builder.ToString();
