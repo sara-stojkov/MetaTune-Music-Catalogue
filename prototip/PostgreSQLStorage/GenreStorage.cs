@@ -179,6 +179,9 @@ namespace PostgreSQLStorage
                 {
                     // Add the subgenre to its parent's SubGenres list
                     allGenres[parentGenreId].SubGenres.Add(allGenres[subGenreId]);
+                } else
+                {
+                    genreParents.Remove(subGenreId);
                 }
             }
 
