@@ -36,6 +36,8 @@ namespace MetaTune
             //// Add storage implementations
             _implementations[typeof(IUserStorage)] = new UserStorage(db);
             _implementations[typeof(IGenreStorage)] = new GenreStorage(db);
+            _implementations[typeof(IAuthorStorage)] = new AuthorStorage(db);
+            _implementations[typeof(IContributorStorage)] = new ContributorStorage(db);
         }
 
         private static Injector GetInstance()
