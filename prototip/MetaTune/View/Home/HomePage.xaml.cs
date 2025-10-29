@@ -1,5 +1,4 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -42,10 +41,15 @@ namespace MetaTune.View
                 List<Work> allWorks = await _workStorage.GetAll();
                 List<Author> allAuthors = await _authorStorage.GetAll(authorFilter);
 
+                // Debug: Show what we're loading
+                int songCount = allWorks.Count(w => w.WorkType == WorkType.Song);
+                int albumCount = allWorks.Count(w => w.WorkType == WorkType.Album);
+                System.Diagnostics.Debug.WriteLine($"Loading: {songCount} songs, {albumCount} albums, {allAuthors.Count} authors");
+
                 // Create a combined list with type information
                 var contentList = new List<ContentItemViewModel>();
 
-                // Add works
+                // Add works (both songs AND albums)
                 foreach (Work work in allWorks)
                 {
                     contentList.Add(new ContentItemViewModel
@@ -84,12 +88,25 @@ namespace MetaTune.View
                     .Take(10)
                     .ToList();
 
+                // Debug: Show what's being displayed
+                foreach (var item in sortedContent)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Displaying: {item.TypeLabel} - {item.Title} ({item.DateAdded:yyyy-MM-dd})");
+                }
+
                 foreach (var item in sortedContent)
                 {
                     _newContentItems.Add(item);
                 }
 
                 NewContentItemsControl.ItemsSource = _newContentItems;
+
+                // Show info message if no songs found
+                if (songCount == 0 && albumCount > 0)
+                {
+                    MessageBox.Show($"Pronađeno: {albumCount} albuma, {allAuthors.Count} autora\n\nNapomena: Nema pojedinačnih pesama u bazi podataka.",
+                        "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
 
                 // Add click event handlers to each item
                 NewContentItemsControl.Loaded += (s, e) =>
@@ -189,7 +206,7 @@ namespace MetaTune.View
 
             try
             {
-                var searchPage = new SearchHomePage(searchQuery); 
+                var searchPage = new SearchHomePage(searchQuery);
                 NavigationService?.Navigate(searchPage);
             }
             catch (Exception ex)
@@ -204,15 +221,7 @@ namespace MetaTune.View
             try
             {
                 var loginDialog = new Auth.LoginPage();
-                NavigationService?.Navigate(loginDialog);
-
-
-                //if (result == true)
-                //{
-                //    // User successfully logged in, refresh or navigate to main page
-                //    var mainPage = new MainPage();
-                //    NavigationService?.Navigate(mainPage);
-                //}
+                var result = NavigationService?.Navigate(loginDialog);
             }
             catch (Exception ex)
             {
@@ -274,8 +283,8 @@ namespace MetaTune.View
         {
             return type switch
             {
-                WorkType.Song => "#FFFF4081",
-                WorkType.Album => "#FF7B1FA2",
+                WorkType.Song => "#FFFF4081",  // Pink for songs
+                WorkType.Album => "#FF7B1FA2", // Purple for albums
                 _ => "#FF9E9E9E"
             };
         }

@@ -433,6 +433,27 @@ namespace MetaTune.View
             }
             return null;
         }
+
+        private void GenreComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (NavigationService?.CanGoBack == true)
+                {
+                    NavigationService.GoBack();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri vraćanju nazad: {ex.Message}",
+                    "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 
     // ViewModel for search results

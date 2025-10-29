@@ -14,13 +14,17 @@
 
             <!-- Header Section -->
             <Grid Height="100" VerticalAlignment="Top">
-                <!-- App Title -->
+                <!-- App Title with gradient effect -->
                 <TextBlock Text="MetaTune - Vaša muzička enciklopedija" 
                            FontSize="32" 
                            FontWeight="Bold"
                            Foreground="White"
                            VerticalAlignment="Center"
-                           Margin="40,0,0,0"/>
+                           Margin="40,0,0,0">
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#FF7B1FA2" BlurRadius="10" ShadowDepth="0" Opacity="0.6"/>
+                    </TextBlock.Effect>
+                </TextBlock>
 
                 <!-- Login Button -->
                 <Button Content="Uloguj se" 
@@ -33,6 +37,7 @@
                         BorderThickness="0"
                         HorizontalAlignment="Right"
                         Margin="0,25,40,0"
+                        Click="LoginButton_Click"
                         Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
@@ -40,7 +45,10 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="4">
+                                                CornerRadius="8">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                            </Border.Effect>
                                             <ContentPresenter HorizontalAlignment="Center" 
                                                             VerticalAlignment="Center"/>
                                         </Border>
@@ -49,6 +57,78 @@
                             </Setter>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF9C27B0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+            <!-- Search Bar Section - Wider and Better Positioned -->
+            <Grid Height="70" VerticalAlignment="Top" Margin="40,100,40,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search TextBox - Much Wider -->
+                <Border Grid.Column="0"
+                        Background="#FF5A5A5A"
+                        CornerRadius="8"
+                        Margin="0,0,15,0">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                    </Border.Effect>
+                    <TextBox x:Name="SearchTextBox"
+                             Height="50"
+                             FontSize="18"
+                             Padding="20,0"
+                             Background="Transparent"
+                             Foreground="White"
+                             BorderThickness="0"
+                             VerticalContentAlignment="Center">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                </Border>
+
+                <!-- Search Button - Far Right -->
+                <Button Grid.Column="1"
+                        Content="🔍 Pretraži"
+                        Width="150"
+                        Height="50"
+                        Background="#FF7B1FA2"
+                        Foreground="White"
+                        FontSize="18"
+                        FontWeight="Medium"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="SearchButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="2" Opacity="0.3"/>
+                                            </Border.Effect>
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                            VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF9C27B0"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
                                     <Setter Property="Background" Value="#FF6A1B9A"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -57,80 +137,25 @@
                 </Button>
             </Grid>
 
-            <!-- Search Bar Section -->
-            <Grid Height="70" VerticalAlignment="Top" Margin="0,100,0,0">
-                <Grid MaxWidth="800" HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Search TextBox -->
-                    <TextBox Grid.Column="0"
-                             x:Name="SearchTextBox"
-                             Height="50"
-                             Width="300"
-                             Margin="0,0,30,0"
-                             FontSize="18"
-                             Padding="15,0"
-                             Background="#FF5A5A5A"
-                             Foreground="White"
-                             BorderThickness="0"
-                             VerticalContentAlignment="Center">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4,0,0,4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-
-                    <!-- Search Button -->
-                    <Button Grid.Column="1"
-                            Content="🔍 Pretraži"
-                            Width="140"
-                            Height="50"
-                            Background="#FF7B1FA2"
-                            Foreground="White"
-                            FontSize="18"
-                            FontWeight="Medium"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Click="SearchButton_Click">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="{TemplateBinding Background}"
-                                                    CornerRadius="0,4,4,0">
-                                                <ContentPresenter HorizontalAlignment="Center" 
-                                                                VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF6A1B9A"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </Grid>
-            </Grid>
-
-            <!-- Main Content - New Content Grid -->
+            <!-- Main Content - New Content Grid with animations -->
             <Grid Margin="40,190,40,40">
                 <Border Background="#FF3E3E3E"
-                        CornerRadius="8">
+                        CornerRadius="12">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="3" Opacity="0.4"/>
+                    </Border.Effect>
                     <Grid>
-                        <!-- Section Title -->
+                        <!-- Section Title with gradient background -->
                         <Border Height="60" 
-                                Background="#FF2E2E2E" 
-                                CornerRadius="8,8,0,0"
+                                CornerRadius="12,12,0,0"
                                 VerticalAlignment="Top">
-                            <TextBlock Text="Novi dodati sadržaj" 
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#FF2E2E2E" Offset="0"/>
+                                    <GradientStop Color="#FF3E3E3E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="🎵 Pogledajte najnoviji sadržaj: " 
                                       FontSize="28" 
                                       FontWeight="SemiBold"
                                       Foreground="White"
@@ -145,15 +170,44 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Background="#FF4A4A4A"
-                                                CornerRadius="6"
-                                                Margin="0,0,0,15"
+                                                CornerRadius="8"
+                                                Margin="0,0,0,12"
                                                 Padding="20,15"
                                                 Cursor="Hand">
+                                            <Border.Effect>
+                                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.2"/>
+                                            </Border.Effect>
                                             <Border.Style>
                                                 <Style TargetType="Border">
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Background" Value="#FF5A5A5A"/>
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                       To="1.02" Duration="0:0:0.15"/>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                       To="1.02" Duration="0:0:0.15"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                       To="1" Duration="0:0:0.15"/>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                       To="1" Duration="0:0:0.15"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.ExitActions>
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -167,15 +221,18 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <!-- Type Icon -->
+                                                <!-- Type Icon with glow effect -->
                                                 <Border Grid.Column="0"
-                                                        Width="50"
-                                                        Height="50"
+                                                        Width="55"
+                                                        Height="55"
                                                         Background="{Binding TypeColor}"
-                                                        CornerRadius="25"
+                                                        CornerRadius="27.5"
                                                         Margin="0,0,20,0">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="{Binding TypeColor}" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                                    </Border.Effect>
                                                     <TextBlock Text="{Binding TypeIcon}"
-                                                              FontSize="24"
+                                                              FontSize="26"
                                                               Foreground="White"
                                                               HorizontalAlignment="Center"
                                                               VerticalAlignment="Center"/>
@@ -190,19 +247,22 @@
                                                               Margin="0,0,0,5"/>
                                                     <TextBlock Text="{Binding Subtitle}"
                                                               FontSize="16"
-                                                              Foreground="#FFAAAAAA"/>
+                                                              Foreground="#FFCCCCCC"/>
                                                 </StackPanel>
 
-                                                <!-- Type Badge -->
+                                                <!-- Type Badge with glow -->
                                                 <Border Grid.Column="2"
                                                         Background="{Binding TypeColor}"
-                                                        CornerRadius="4"
-                                                        Padding="12,6"
-                                                        Margin="0,0,15,0"
+                                                        CornerRadius="6"
+                                                        Padding="14,8"
+                                                        Margin="0,0,20,0"
                                                         VerticalAlignment="Center">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.3"/>
+                                                    </Border.Effect>
                                                     <TextBlock Text="{Binding TypeLabel}"
-                                                              FontSize="14"
-                                                              FontWeight="SemiBold"
+                                                              FontSize="13"
+                                                              FontWeight="Bold"
                                                               Foreground="White"/>
                                                 </Border>
 
@@ -211,7 +271,8 @@
                                                           Text="{Binding DateAdded, StringFormat='dd.MM.yyyy'}"
                                                           FontSize="16"
                                                           Foreground="#FFAAAAAA"
-                                                          VerticalAlignment="Center"/>
+                                                          VerticalAlignment="Center"
+                                                          FontWeight="Medium"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
