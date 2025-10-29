@@ -28,9 +28,9 @@ namespace PostgreSQLStorage
                 var genreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = await reader.IsDBNullAsync(3) ? null : reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
-                return new Genre(genreId, genreName, genreDescription);
+                return new Genre(genreId, genreName, genreDescription, parentGenreId);
             }
 
             return null;
@@ -53,9 +53,9 @@ namespace PostgreSQLStorage
                 var genreId = reader.GetString(0);
                 var genreName = reader.GetString(1);
                 var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
-                var parentGenreId = await reader.IsDBNullAsync(3) ? null : reader.GetString(3);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
 
-                genres.Add(new Genre(genreId, genreName, genreDescription));
+                genres.Add(new Genre(genreId, genreName, genreDescription, parentGenreId));
             }
 
             return genres;
@@ -74,10 +74,8 @@ namespace PostgreSQLStorage
                 using var cmd = new NpgsqlCommand(sql, conn, transaction);
                 cmd.Parameters.AddWithValue("genreId", genre.Id);
                 cmd.Parameters.AddWithValue("genreName", genre.Name);
-                cmd.Parameters.AddWithValue("genreDescription", (object?)genre.Description ?? DBNull.Value);
-                // Note: parentGenreId mora biti prosleđen kao parametar ili mora postojati logika za određivanje parent-a
-                // Za sada stavljam NULL kao default - možeš prilagoditi logici
-                cmd.Parameters.AddWithValue("parentGenreId", DBNull.Value);
+                cmd.Parameters.AddWithValue("genreDescription", string.IsNullOrEmpty(genre.Description) ? DBNull.Value : genre.Description);
+                cmd.Parameters.AddWithValue("parentGenreId", string.IsNullOrEmpty(genre.ParentGenreId) ? DBNull.Value : genre.ParentGenreId);
 
                 await cmd.ExecuteNonQueryAsync();
                 await transaction.CommitAsync();
@@ -98,13 +96,15 @@ namespace PostgreSQLStorage
             {
                 string sql = @"UPDATE genres 
                                SET genreName = @genreName, 
-                                   genreDescription = @genreDescription 
+                                   genreDescription = @genreDescription,
+                                   parentGenreId = @parentGenreId 
                                WHERE genreId = @genreId";
 
                 using var cmd = new NpgsqlCommand(sql, conn, transaction);
                 cmd.Parameters.AddWithValue("genreId", genre.Id);
                 cmd.Parameters.AddWithValue("genreName", genre.Name);
-                cmd.Parameters.AddWithValue("genreDescription", (object?)genre.Description ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("genreDescription", string.IsNullOrEmpty(genre.Description) ? DBNull.Value : genre.Description);
+                cmd.Parameters.AddWithValue("parentGenreId", string.IsNullOrEmpty(genre.ParentGenreId) ? DBNull.Value : genre.ParentGenreId);
 
                 await cmd.ExecuteNonQueryAsync();
                 await transaction.CommitAsync();
@@ -196,6 +196,33 @@ namespace PostgreSQLStorage
             }
 
             return topLevelGenres;
+        }
+
+        public async Task<List<Genre>> GetAllSubGenres(string genreId)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT genreId, genreName, genreDescription, parentGenreId 
+                  FROM genres 
+                  WHERE parentGenreId = @genreId
+                  ORDER BY genreName", conn);
+
+            cmd.Parameters.AddWithValue("genreId", genreId);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+            var subGenres = new List<Genre>();
+
+            while (await reader.ReadAsync())
+            {
+                var subGenreId = reader.GetString(0);
+                var genreName = reader.GetString(1);
+                var genreDescription = await reader.IsDBNullAsync(2) ? string.Empty : reader.GetString(2);
+                var parentGenreId = await reader.IsDBNullAsync(3) ? string.Empty : reader.GetString(3);
+
+                subGenres.Add(new Genre(subGenreId, genreName, genreDescription, parentGenreId));
+            }
+
+            return subGenres;
         }
     }
 }
