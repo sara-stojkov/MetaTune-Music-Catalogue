@@ -190,7 +190,7 @@
                              Height="45"
                              FontSize="16"
                              Background="White"
-                             Foreground="White"
+                             Foreground="Black"
                              ItemsSource="{Binding Editors}"
                              SelectedItem="{Binding SelectedEditor, Mode=TwoWay}"
                              BorderThickness="0"
