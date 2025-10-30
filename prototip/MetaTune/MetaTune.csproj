@@ -10,16 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="View\Home\AlbumPage.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="assets\icon.ico" />
     <None Remove="icon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="View\Home\AlbumPage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
