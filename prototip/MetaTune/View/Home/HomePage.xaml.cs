@@ -84,13 +84,11 @@ namespace MetaTune.View
                 // Get the most recent works (by ID, assuming sequential IDs)
                 var recentWorks = allWorks
                     .OrderByDescending(w => w.WorkId)
-                    .Take(12)
                     .ToList();
 
                 // Get the most recent authors (by ID)
                 var recentAuthors = allAuthors
                     .OrderByDescending(a => a.AuthorId)
-                    .Take(6)
                     .ToList();
 
                 // Add recent works to the list
@@ -140,7 +138,6 @@ namespace MetaTune.View
                 // This creates a nice mix of works and authors
                 var sortedContent = contentList
                     .OrderByDescending(c => c.SortOrder)
-                    .Take(18)
                     .ToList();
 
                 // Debug: Show what's being displayed

@@ -27,6 +27,7 @@ namespace MetaTune
         private MainWindow()
         {
             InitializeComponent();
+            Loaded += (_, _) => ChangeTitleBarColor();
             Navigate(new HomePage());
         }
         public void Navigate(Page page)
