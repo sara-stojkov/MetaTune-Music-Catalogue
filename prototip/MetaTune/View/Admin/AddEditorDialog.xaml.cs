@@ -20,20 +20,35 @@ namespace MetaTune.View.Admin
             DataContext = new AddEditorDialogViewModel(isEdit, existingUser);
         }
 
+        private void GenreListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is AddEditorDialogViewModel vm && !vm.firstLoad)
+            {
+                vm.SelectedGenres.Clear();
+                foreach (Genre g in ((ListBox)sender).SelectedItems)
+                    vm.SelectedGenres.Add(g);
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Izmena podataka urednika", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (DataContext is AddEditorDialogViewModel vm && vm.SelectedGenres.Any())
+            {
+                foreach (var genre in vm.SelectedGenres)
+                {
+                    var match = vm.Genres.FirstOrDefault(g => g.Id == genre.Id);
+                    if (match != null)
+                        GenreListBox.SelectedItems.Add(match);
+                }
+                vm.firstLoad = false;
+            }
+        }
+
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is AddEditorDialogViewModel vm)
                 vm.Password = ((PasswordBox)sender).Password;
-        }
-
-        private void GenreListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (DataContext is AddEditorDialogViewModel vm)
-            {
-                vm.SelectedGenres.Clear();
-                foreach (Genre g in ((ListBox)sender).SelectedItems.Cast<Genre>())
-                    vm.SelectedGenres.Add(g);
-            }
         }
     }
 }

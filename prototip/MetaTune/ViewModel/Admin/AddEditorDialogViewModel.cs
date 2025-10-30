@@ -20,6 +20,7 @@ namespace MetaTune.ViewModel.Admin
 
         private readonly bool _isEdit;
         private readonly User _existingUser;
+        public bool firstLoad = true;
 
         public AddEditorDialogViewModel(bool isEdit = false, User user = null)
         {
@@ -50,7 +51,6 @@ namespace MetaTune.ViewModel.Admin
                     foreach (var g in genres)
                         SelectedGenres.Add(g);
                     _existingUser.Genres = genres;
-                    MessageBox.Show($"{genres.Count}");
                 }
                 LoadSelectedGenres();
 
@@ -209,9 +209,14 @@ namespace MetaTune.ViewModel.Admin
                     SelectedGenres.Clear();
                 }
 
-                Application.Current.Windows
+                var dialogWindow = Application.Current.Windows
                     .OfType<Window>()
-                    .FirstOrDefault(w => w.DataContext == this)?.Close();
+                    .FirstOrDefault(w => w.DataContext == this);
+
+                if (dialogWindow != null)
+                {
+                    dialogWindow.DialogResult = true;
+                }
             }
             catch (Exception ex)
             {
