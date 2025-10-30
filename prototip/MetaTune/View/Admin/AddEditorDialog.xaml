@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:MetaTune.ViewModel.Admin"
         mc:Ignorable="d"
         Title="Admin - dodavanje urednika"
-        Height="800" Width="515"
+        Height="900" Width="515"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterOwner">
 

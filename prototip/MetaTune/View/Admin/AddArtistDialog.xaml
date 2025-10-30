@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d" 
-      d:DesignHeight="900" d:DesignWidth="1200"
+      d:DesignHeight="1100" d:DesignWidth="1200"
       Title="Dodavanje izvođača"
       Background="#FF4A4A4A">
 
@@ -34,15 +34,17 @@
                             </Grid.ColumnDefinitions>
 
                             <RadioButton x:Name="IndividualArtistCheckBox"
+                                     IsChecked="{Binding IsIndividualArtist, Mode=TwoWay}"
                                      Grid.Column="0"
                                      Content="Pojedinačni izvođač"
                                      Foreground="White"
                                      FontSize="18"
                                      Margin="0,0,40,0"
                                      VerticalAlignment="Center"
-                                     IsChecked="True"/>
+                                     />
 
                             <RadioButton x:Name="MusicGroupCheckBox"
+                                     IsChecked="{Binding IsMusicGroup, Mode=TwoWay}"
                                      Grid.Column="1"
                                      Content="Muzička grupa"
                                      Foreground="White"
@@ -111,7 +113,7 @@
                                      Height="45"
                                      FontSize="16"
                                      Background="#FF5A5A5A"
-                                     Foreground="White"
+                                     Foreground="Black"
                                      ItemsSource="{Binding Groups}"
                                      SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
                                      BorderThickness="0"
@@ -131,6 +133,7 @@
                                           Foreground="White"
                                           Margin="0,0,0,8"/>
                         <DatePicker x:Name="JoinDatePicker"
+                                           SelectedDate="{Binding JoinDate, Mode=TwoWay}"
                                            Height="45"
                                            FontSize="16"
                                            Background="White"
@@ -166,9 +169,12 @@
                              Height="45"
                              FontSize="16"
                              Background="#FF5A5A5A"
-                             Foreground="White"
-                             BorderThickness="0">
-                            <ComboBoxItem Content="-- Izaberi editora --" IsSelected="True"/>
+                             Foreground="Black"
+                             ItemsSource="{Binding Editors}"
+                             SelectedItem="{Binding SelectedEditor, Mode=TwoWay}"
+                             BorderThickness="0"
+                             DisplayMemberPath="Name"     
+                             >
                             <!-- Dinamički se popunjava izvođačima iz baze -->
                         </ComboBox>
                     </StackPanel>

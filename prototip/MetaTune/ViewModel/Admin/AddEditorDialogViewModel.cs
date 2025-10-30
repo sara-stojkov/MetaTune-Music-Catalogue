@@ -134,10 +134,6 @@ namespace MetaTune.ViewModel.Admin
         {
             try
             {
-                if (_isEdit)
-                {
-                    Password = _existingUser.Password;
-                }
                 if (string.IsNullOrWhiteSpace(FirstName))
                 {
                     MessageBox.Show("Unesite ime urednika.", "Greška",
@@ -159,7 +155,7 @@ namespace MetaTune.ViewModel.Admin
                     return;
                 }
 
-                if (!Core.Utils.Validator.IsValidPassword(Password))
+                if (!Core.Utils.Validator.IsValidPassword(Password) && (!_isEdit && string.IsNullOrWhiteSpace(Password)))
                 {
                     MessageBox.Show("Lozinka nije validna.", "Greška",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -184,8 +180,12 @@ namespace MetaTune.ViewModel.Admin
                         _existingUser.Password = Password.Trim();
                         _existingUser.HashPassword();
                     }
+                    else
+                    {
+                        Password = _existingUser.Password;
+                    }
 
-                    _existingUser.Genres = SelectedGenres.ToList();
+                        _existingUser.Genres = SelectedGenres.ToList();
 
                     await _userStorage.UpdateOne(_existingUser);
                     MessageBox.Show("Urednik je uspešno ažuriran!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);

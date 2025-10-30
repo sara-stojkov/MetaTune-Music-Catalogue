@@ -219,7 +219,7 @@
                                         <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}"
                                                     CornerRadius="4">
-                                                <TextBlock Text="Unesi novo delo"
+                                                <TextBlock Text="Unesi novu pesmu"
                                                           FontSize="20"
                                                           FontWeight="Medium"
                                                           Foreground="White"
