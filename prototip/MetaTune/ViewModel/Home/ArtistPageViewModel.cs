@@ -83,11 +83,11 @@ namespace MetaTune.ViewModel.Home
                 }
 
                 // Load all reviews
-                var allReviews = await _reviewStorage.GetAllByAuthorId(authorId);
+                var allReviews = await _reviewStorage.GetAllApprovedByAuthorId(authorId);
 
                 // Get THE editor review
-                var reviewsOfWorks = await _reviewStorage.GetAllByAuthorId(authorId);
-                var editorReview = reviewsOfWorks.FirstOrDefault();
+                var reviewsOfWorks = await _reviewStorage.GetEditorReviewByAuthorId(authorId);
+                var editorReview = reviewsOfWorks;
                 if (editorReview != null)
                 {
                     var editorRating = ratings.FirstOrDefault(r => r.UserId == editorReview.UserId);
@@ -99,12 +99,12 @@ namespace MetaTune.ViewModel.Home
                 }
 
                 // Get user reviews (not editor)
-                var userReviewsList = allReviews.Where(r => !r.IsEditable).ToList();
+                var userReviewsList = allReviews;
                 UserReviews = new ObservableCollection<Review>(userReviewsList);
 
                 // Get user ratings (not editor)
                 var editorUserId = editorReview?.UserId;
-                var userRatingsList = ratings.Where(r => r.UserId != editorUserId).ToList();
+                var userRatingsList = ratings;
                 UserRatings = new ObservableCollection<Rating>(userRatingsList);
 
                 // Load bands/groups information

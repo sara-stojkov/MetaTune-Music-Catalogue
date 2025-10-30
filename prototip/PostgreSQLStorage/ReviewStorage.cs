@@ -135,6 +135,32 @@ namespace PostgreSQLStorage
             return reviews;
         }
 
+        public async Task<List<Review>> GetAllApprovedByWorkId(string workId)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
+                  FROM reviews 
+                  WHERE workid = @workId AND editorid IS NOT NULL
+                  ORDER BY reviewdate DESC", conn);
+            cmd.Parameters.AddWithValue("workId", workId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            var reviews = new List<Review>();
+            while (await reader.ReadAsync())
+            {
+                var reviewId = reader.GetString(0);
+                var content = reader.GetString(1);
+                var reviewDate = reader.GetDateTime(2);
+                var isEditable = reader.GetBoolean(3);
+                var editorId = await reader.IsDBNullAsync(4) ? null : reader.GetString(4);
+                var userId = reader.GetString(5);
+                var workIdResult = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
+                var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorId));
+            }
+            return reviews;
+        }
+
         public async Task<List<Review>> GetAllByAuthorId(string authorId)
         {
             using var conn = _db.GetConnection();
@@ -203,7 +229,7 @@ namespace PostgreSQLStorage
             using var cmd = new NpgsqlCommand(
                 @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE workid = @workId AND editorid IS NOT NULL 
+                  WHERE workid = @workId AND editorid = ""userId""
                   ORDER BY reviewdate DESC 
                   LIMIT 1", conn);
 
@@ -225,6 +251,58 @@ namespace PostgreSQLStorage
                 return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorId);
             }
 
+            return null;
+        }
+
+        public async Task<List<Review>> GetAllApprovedByAuthorId(string authorId)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
+                  FROM reviews 
+                  WHERE authorid = @authorId AND editorid IS NOT NULL
+                  ORDER BY reviewdate DESC", conn);
+            cmd.Parameters.AddWithValue("authorId", authorId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            var reviews = new List<Review>();
+            while (await reader.ReadAsync())
+            {
+                var reviewId = reader.GetString(0);
+                var content = reader.GetString(1);
+                var reviewDate = reader.GetDateTime(2);
+                var isEditable = reader.GetBoolean(3);
+                var editorId = await reader.IsDBNullAsync(4) ? null : reader.GetString(4);
+                var userId = reader.GetString(5);
+                var workIdResult = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
+                var authorIdResult = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorIdResult));
+            }
+            return reviews;
+        }
+
+        public async Task<Review?> GetEditorReviewByAuthorId(string authorId)
+        {
+            using var conn = _db.GetConnection();
+            using var cmd = new NpgsqlCommand(
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
+                  FROM reviews 
+                  WHERE authorid = @authorId AND editorid = ""userId""
+                  ORDER BY reviewdate DESC 
+                  LIMIT 1", conn);
+            cmd.Parameters.AddWithValue("authorId", authorId);
+            using var reader = await cmd.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
+            {
+                var reviewId = reader.GetString(0);
+                var content = reader.GetString(1);
+                var reviewDate = reader.GetDateTime(2);
+                var isEditable = reader.GetBoolean(3);
+                var editorId = await reader.IsDBNullAsync(4) ? null : reader.GetString(4);
+                var userId = reader.GetString(5);
+                var workIdResult = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
+                var authorIdResult = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorIdResult);
+            }
             return null;
         }
 

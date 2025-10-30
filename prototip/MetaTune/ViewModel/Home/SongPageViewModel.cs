@@ -123,7 +123,7 @@ namespace MetaTune.ViewModel.Home
                 }
 
                 // Load all reviews
-                var allReviews = await _reviewStorage.GetAllByWorkId(songId);
+                var allReviews = await _reviewStorage.GetAllApprovedByWorkId(songId);
 
                 // Get THE editor review using dedicated method
                 var editorReview = await _reviewStorage.GetEditorReviewByWorkId(songId);
@@ -139,7 +139,7 @@ namespace MetaTune.ViewModel.Home
 
                 // Get user reviews (not editor)
                 UserReviews = new ObservableCollection<Review>(
-                    allReviews.Where(r => !r.IsEditable).OrderByDescending(r => r.ReviewDate)
+                    allReviews.OrderByDescending(r => r.ReviewDate)
                 );
             }
             catch (Exception ex)
