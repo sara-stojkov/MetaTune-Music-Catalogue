@@ -209,6 +209,7 @@
                       Foreground="White"
                       Margin="0,0,0,8"/>
                         <TextBox x:Name="ReviewTextBox"
+                            Text="{Binding Review, UpdateSourceTrigger=PropertyChanged}"
                             Height="120"
                             FontSize="16"
                             Padding="15,10"

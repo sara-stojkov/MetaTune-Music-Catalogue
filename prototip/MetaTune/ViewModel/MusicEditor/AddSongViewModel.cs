@@ -295,6 +295,7 @@ namespace MetaTune.ViewModel.MusicEditor
 
             if (!string.IsNullOrWhiteSpace(Review))
             {
+                MessageBox.Show(Review);
                 var review = new Review
                 (
                     Guid.NewGuid().ToString(),
@@ -303,8 +304,9 @@ namespace MetaTune.ViewModel.MusicEditor
                     false,
                     null,
                     MainWindow.LoggedInUser.Id,
+                    song.WorkId,
                     null,
-                    song.WorkId
+                    null
                 );
                 await _reviewStorage.CreateOne(review);
             }

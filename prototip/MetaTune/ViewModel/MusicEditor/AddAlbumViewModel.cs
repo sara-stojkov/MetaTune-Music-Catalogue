@@ -304,8 +304,9 @@ namespace MetaTune.ViewModel.MusicEditor
                     false,
                     null,
                     MainWindow.LoggedInUser.Id,
+                    album.WorkId,
                     null,
-                    album.WorkId
+                    MainWindow.LoggedInUser.Name + " " + MainWindow.LoggedInUser.Surname
                 );
                 await _reviewStorage.CreateOne(review);
             }
