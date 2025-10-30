@@ -253,7 +253,8 @@ namespace MetaTune.ViewModel.Home
                     isEditable: false,
                     editor: null,
                     userId: _currentUser.Id,
-                    workId: _song.WorkId
+                    workId: _song.WorkId,
+                    displayName: null
                 );
 
                 await _reviewStorage.CreateOne(review);
