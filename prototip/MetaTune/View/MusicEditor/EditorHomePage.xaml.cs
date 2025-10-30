@@ -73,6 +73,12 @@ namespace MetaTune.View.MusicEditor
             }
         }
 
+
+        public void ViewTasks_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new TasksDialog());
+        }
+
         private async void ApproveButton_Click(object sender, RoutedEventArgs e)
         {
             try

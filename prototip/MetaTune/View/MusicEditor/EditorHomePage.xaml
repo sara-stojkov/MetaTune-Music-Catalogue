@@ -143,6 +143,7 @@
                             Background="#546AA8"
                             BorderThickness="0"
                             Cursor="Hand"
+                            Margin="0,0,0,20"
                             Click="AddGenreButton_Click">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -152,6 +153,38 @@
                                             <Border Background="{TemplateBinding Background}"
                                                     CornerRadius="4">
                                                 <TextBlock Text="Unesi novi žanr"
+                                                          FontSize="20"
+                                                          FontWeight="Medium"
+                                                          Foreground="White"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF1565C0"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Add New Genre Button -->
+                    <Button Height="65" 
+                            Background="#FF9E9D24"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="ViewTasks_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="4">
+                                                <TextBlock Text="Pogledaj svoje zadatke"
                                                           FontSize="20"
                                                           FontWeight="Medium"
                                                           Foreground="White"
