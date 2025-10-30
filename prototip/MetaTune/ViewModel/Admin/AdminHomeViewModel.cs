@@ -87,8 +87,15 @@ namespace MetaTune.ViewModel.Admin
                     return;
             }
 
-            await _userStorage.DeleteById(SelectedEditor.User.Id);
-            Editors.Remove(SelectedEditor);
+            try
+            {
+                await _userStorage.DeleteById(SelectedEditor.User.Id);
+                Editors.Remove(SelectedEditor);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Editor ima ne zavrsene zadatke!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async Task AddEditor()
