@@ -22,6 +22,8 @@ namespace MetaTune.ViewModel.Admin
         private readonly User _existingUser;
         public bool firstLoad = true;
 
+        public Func<int> CheckFromDB { get; set; }
+
         public AddEditorDialogViewModel(bool isEdit = false, User user = null)
         {
             _userStorage = Injector.CreateInstance<IUserStorage>();
@@ -35,8 +37,13 @@ namespace MetaTune.ViewModel.Admin
 
             Genres = new ObservableCollection<Genre>();
             SelectedGenres = new ObservableCollection<Genre>();
+            
+            SetupLayout();
+        }
 
-            _ = LoadGenresAsync();
+        private async void SetupLayout()
+        {
+            await LoadGenresAsync();
 
             if (_isEdit && _existingUser != null)
             {
@@ -48,9 +55,11 @@ namespace MetaTune.ViewModel.Admin
                 async void LoadSelectedGenres()
                 {
                     var genres = await _genreStorage.GetEditorsGenres(_existingUser.Id);
-                    foreach (var g in genres)
+                    foreach (var g in genres.SelectMany(x => x.Flat))
                         SelectedGenres.Add(g);
                     _existingUser.Genres = genres;
+                    OnPropertyChanged(nameof(SelectedGenres));
+                    CheckFromDB();
                 }
                 LoadSelectedGenres();
 

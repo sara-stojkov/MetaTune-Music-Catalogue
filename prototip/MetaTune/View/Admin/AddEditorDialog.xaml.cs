@@ -17,7 +17,19 @@ namespace MetaTune.View.Admin
             InitializeComponent();
 
 
-            DataContext = new AddEditorDialogViewModel(isEdit, existingUser);
+            var DC = new AddEditorDialogViewModel(isEdit, existingUser);
+            DC.CheckFromDB += () =>
+            {
+                foreach (var genre in DC.SelectedGenres)
+                {
+                    var match = DC.Genres.FirstOrDefault(g => g.Id == genre.Id);
+                    if (match != null)
+                        GenreListBox.SelectedItems.Add(match);
+                }
+                DC.firstLoad = false;
+                return 0;
+            };
+            DataContext = DC;
         }
 
         private void GenreListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -33,16 +45,16 @@ namespace MetaTune.View.Admin
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("Izmena podataka urednika", "Informacija", MessageBoxButton.OK, MessageBoxImage.Information);
-            if (DataContext is AddEditorDialogViewModel vm && vm.SelectedGenres.Any())
-            {
-                foreach (var genre in vm.SelectedGenres)
-                {
-                    var match = vm.Genres.FirstOrDefault(g => g.Id == genre.Id);
-                    if (match != null)
-                        GenreListBox.SelectedItems.Add(match);
-                }
-                vm.firstLoad = false;
-            }
+            //if (DataContext is AddEditorDialogViewModel vm && vm.SelectedGenres.Any())
+            //{
+            //    foreach (var genre in vm.SelectedGenres)
+            //    {
+            //        var match = vm.Genres.FirstOrDefault(g => g.Id == genre.Id);
+            //        if (match != null)
+            //            GenreListBox.SelectedItems.Add(match);
+            //    }
+            //    vm.firstLoad = false;
+            //}
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
