@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="QUALIFICATION" directorySegmentName="seg_0" id="2070BE39-A837-3F7E-CABC-31EB0129AD48">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:07:27 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>7B0497BC-71AD-3F67-FBB6-8364FA397C50</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>187E032F-A38D-318D-D3C2-B12BBEADB906</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
