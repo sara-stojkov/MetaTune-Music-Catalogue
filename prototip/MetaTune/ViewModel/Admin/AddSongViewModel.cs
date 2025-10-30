@@ -1,115 +1,80 @@
 ﻿using Core.Model;
 using Core.Storage;
-using PostgreSQLStorage;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace MetaTune.ViewModel.Admin
 {
-    public class AddArtistViewModel : INotifyPropertyChanged
+    internal class AddSongViewModel : INotifyPropertyChanged
     {
         private readonly IAuthorStorage _authorStorage;
         private readonly IGenreStorage _genreStorage;
         private readonly IUserStorage _userStorage;
-        private readonly IMemberStorage _memberStorage;
+        private readonly IWorkStorage _workStorage;
         private readonly ITaskStorage _taskStorage;
 
-        private string? _artistName;
-        private string? _artistSurname;
-        private string? _biography;
-        private DateTime? _joinDate;
+        private string? _songName;
+        private string? _description;
+        private DateTime? _publishDate;
+        private Work? _selectedAlbum;
         private Genre? _selectedGenre;
-        private Author? _selectedGroup;
+        //private Author? _selectedAuthor;
         private User? _selectedEditor;
-        private bool _isIndividualArtist = true;
-        private bool _isMusicGroup;
+
         private ObservableCollection<Genre> _genres = new();
-        private ObservableCollection<Author> _groups = new();
+        private ObservableCollection<Author> _authors = new();
         private ObservableCollection<User> _editors = new();
+        private ObservableCollection<Work> _albums = new();
+
+        public ObservableCollection<Author> SelectedAuthors { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public AddArtistViewModel()
+        public AddSongViewModel()
         {
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             _genreStorage = Injector.CreateInstance<IGenreStorage>();
             _userStorage = Injector.CreateInstance<IUserStorage>();
-            _memberStorage = Injector.CreateInstance<IMemberStorage>();
+            _workStorage = Injector.CreateInstance<IWorkStorage>();
             _taskStorage = Injector.CreateInstance<ITaskStorage>();
+
+            SelectedAuthors = new ObservableCollection<Author>();
 
             SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => CanSave);
 
             _ = LoadGenresAsync();
-            _ = LoadGroupsAsync();
+            _ = LoadAuthorsAsync();
             _ = LoadEditorsAsync();
+            _ = LoadAlbumsAsync();
         }
 
-        public string? ArtistName
+        public string? SongName
         {
-            get => _artistName;
+            get => _songName;
             set
             {
-                _artistName = value;
-                OnPropertyChanged(nameof(ArtistName));
+                _songName = value;
+                OnPropertyChanged(nameof(SongName));
             }
         }
 
-        public string? ArtistSurname
+        public string? Description
         {
-            get => _artistSurname;
+            get => _description;
             set
             {
-                _artistSurname = value;
-                OnPropertyChanged(nameof(ArtistSurname));
+                _description = value;
+                OnPropertyChanged(nameof(Description));
             }
         }
 
-        public string? Biography
-        {
-            get => _biography;
-            set
-            {
-                _biography = value;
-                OnPropertyChanged(nameof(Biography));
-            }
-        }
-
-        public DateTime? JoinDate
-        {
-            get => _joinDate;
-            set
-            {
-                _joinDate = value;
-                OnPropertyChanged(nameof(JoinDate));
-            }
-        }
-
-        public bool IsIndividualArtist
-        {
-            get => _isIndividualArtist;
-            set
-            {
-                _isIndividualArtist = value;
-                if (value) IsMusicGroup = false;
-                OnPropertyChanged(nameof(IsIndividualArtist));
-            }
-        }
-
-        public bool IsMusicGroup
-        {
-            get => _isMusicGroup;
-            set
-            {
-                _isMusicGroup = value;
-                if (value) IsIndividualArtist = false;
-                OnPropertyChanged(nameof(IsMusicGroup));
-            }
-        }
 
         public ObservableCollection<Genre> Genres
         {
@@ -131,23 +96,23 @@ namespace MetaTune.ViewModel.Admin
             }
         }
 
-        public ObservableCollection<Author> Groups
+        public ObservableCollection<Author> Authors
         {
-            get => _groups;
+            get => _authors;
             set
             {
-                _groups = value;
-                OnPropertyChanged(nameof(Groups));
+                _authors = value;
+                OnPropertyChanged(nameof(Authors));
             }
         }
 
-        public Author? SelectedGroup
+        public DateTime? PublishDate
         {
-            get => _selectedGroup;
+            get => _publishDate;
             set
             {
-                _selectedGroup = value;
-                OnPropertyChanged(nameof(SelectedGroup));
+                _publishDate = value;
+                OnPropertyChanged(nameof(PublishDate));
             }
         }
 
@@ -171,23 +136,62 @@ namespace MetaTune.ViewModel.Admin
             }
         }
 
+        public ObservableCollection<Work> Albums
+        {
+            get => _albums;
+            set
+            {
+                _albums = value;
+                OnPropertyChanged(nameof(Albums));
+            }
+        }
+
+        public Work? SelectedAlbum
+        {
+            get => _selectedAlbum;
+            set
+            {
+                _selectedAlbum = value;
+                OnPropertyChanged(nameof(SelectedAlbum));
+            }
+        }
+
         public ICommand SaveCommand { get; }
 
-        private async System.Threading.Tasks.Task LoadGroupsAsync()
+        private async System.Threading.Tasks.Task LoadAlbumsAsync()
         {
             try
             {
-                var allGroups = await _authorStorage.GetAll(AuthorFilter.Group);
+                var allAlbums = await _workStorage.GetAll();
+                allAlbums = allAlbums.Where(w => w.WorkType == WorkType.Album).ToList();
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Groups.Clear();
-                    foreach (var group in allGroups)
-                        Groups.Add(group);
+                    Albums.Clear();
+                    foreach (var album in allAlbums)
+                        Albums.Add(album);
                 });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Greška pri učitavanju grupa: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Greška pri učitavanju autora: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private async System.Threading.Tasks.Task LoadAuthorsAsync()
+        {
+            try
+            {
+                var allAuthors = await _authorStorage.GetAll(AuthorFilter.All);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Authors.Clear();
+                    foreach (var author in allAuthors)
+                        Authors.Add(author);
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri učitavanju autora: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -210,7 +214,7 @@ namespace MetaTune.ViewModel.Admin
             }
         }
 
-        // Učitavanje žanrova iz baze
+        // Učitavanje editora iz baze
         private async System.Threading.Tasks.Task LoadEditorsAsync()
         {
             try
@@ -232,52 +236,25 @@ namespace MetaTune.ViewModel.Admin
         // Validacija i čuvanje izvođača
         public async System.Threading.Tasks.Task SaveAsync()
         {
-            if (string.IsNullOrWhiteSpace(ArtistName))
+            if (string.IsNullOrWhiteSpace(SongName))
             {
-                MessageBox.Show("Ime izvođača je obavezno.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Ime pesme je obavezno.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            Person person = null;
-            Member member = new Member(DateTime.Now, null, "", "") { };
-
-            String authorId = Guid.NewGuid().ToString();
-
-            if (IsIndividualArtist)
-            {
-                person = new Person(
-                    Guid.NewGuid().ToString(),
-                    ArtistName.Trim(),
-                    ArtistSurname?.Trim()
-                );
-            }
-
-            var author = new Author(
-                authorId,
-                $"{ArtistName} {ArtistSurname}".Trim(),
-                Biography,
-                person == null ? null : person.PersonId
+            var song = new Work(
+                Guid.NewGuid().ToString(),
+                SongName!.Trim(),
+                (DateTime)PublishDate,
+                WorkType.Song,
+                SelectedGenre.Id,
+                SelectedAuthors.ToList(),
+                Description?.Trim(),
+                null,
+                SelectedAlbum?.WorkId
             );
 
-            if (IsMusicGroup) {
-                await _authorStorage.CreateOne(author, null);
-            }
-            else
-            {
-                await _authorStorage.CreateOne(author, person);
-            }
-
-            if (IsIndividualArtist && SelectedGroup != null)
-            {
-                member = new Member(
-                    (DateTime)JoinDate,
-                    null,
-                    SelectedGroup.AuthorId,
-                    authorId
-                );
-                await _memberStorage.CreateOne(member);
-            }
-                
+            await _workStorage.CreateOne(song);
 
             if (SelectedEditor != null)
             {
@@ -286,17 +263,17 @@ namespace MetaTune.ViewModel.Admin
                     DateTime.Now,
                     false,
                     SelectedEditor.Id,
-                    null,
-                    author.AuthorId
+                    song.WorkId,
+                    null
                 );
                 await _taskStorage.CreateOne(task);
             }
 
-            MessageBox.Show("Izvođač uspešno dodat!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Pesma uspešno dodata!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private bool CanSave =>
-            !string.IsNullOrWhiteSpace(ArtistName);
+            !string.IsNullOrWhiteSpace(SongName);
 
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

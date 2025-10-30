@@ -1,20 +1,22 @@
 ﻿using Core.Model;
 using Core.Storage;
+using MetaTune.View.Admin;
+using PostgreSQLStorage;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using System.Linq;
-using Task = System.Threading.Tasks.Task;
-using MetaTune.View.Admin;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using Task = System.Threading.Tasks.Task;
 
 namespace MetaTune.ViewModel.Admin
 {
     public class AdminHomeViewModel : INotifyPropertyChanged
     {
         private readonly IUserStorage _userStorage;
+        private readonly IGenreStorage _genreStorage;
 
         public ObservableCollection<EditorItem> Editors { get; set; } = new();
 
@@ -32,13 +34,26 @@ namespace MetaTune.ViewModel.Admin
 
         public ICommand DeleteCommand { get; }
         public ICommand EditCommand { get; }
+        public ICommand AddEditorCommand { get; }
+        public ICommand AddArtistCommand { get; }
+        public ICommand AddSongCommand { get; }
+        public ICommand AddGenreCommand { get; }
+        public ICommand AddAlbumCommand { get; }
+
 
         public AdminHomeViewModel(IUserStorage userStorage)
         {
             _userStorage = userStorage;
+            _genreStorage = Injector.CreateInstance<IGenreStorage>();
 
             DeleteCommand = new RelayCommand(async _ => await DeleteEditor(), _ => SelectedEditor != null);
             EditCommand = new RelayCommand(async _ => await EditEditor(), _ => SelectedEditor != null);
+            AddEditorCommand = new RelayCommand(async _ => await AddEditor());
+            AddArtistCommand = new RelayCommand(async _ => await AddArtist());
+            AddSongCommand = new RelayCommand(async _ => await AddSong());
+            AddGenreCommand = new RelayCommand(async _ => await AddGenre());
+            AddAlbumCommand = new RelayCommand(async _ => await AddAlbum());
+
 
             _ = LoadEditors();
         }
@@ -47,6 +62,11 @@ namespace MetaTune.ViewModel.Admin
         {
             var editors = await _userStorage.GetAllByRole("EDITOR");
             Editors.Clear();
+            foreach (var e in editors)
+            {
+               var g =  await _genreStorage.GetEditorsGenres(e.Id);
+               e.Genres = g;
+            }
             foreach (var e in editors)
                 Editors.Add(new EditorItem(e));
         }
@@ -67,9 +87,53 @@ namespace MetaTune.ViewModel.Admin
                     return;
             }
 
-            await _userStorage.DeleteById(SelectedEditor.User.Id);
-            Editors.Remove(SelectedEditor);
+            try
+            {
+                await _userStorage.DeleteById(SelectedEditor.User.Id);
+                Editors.Remove(SelectedEditor);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Editor ima ne zavrsene zadatke!", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+        private async Task AddEditor()
+        {
+            var addEditor = new AddEditorDialog();
+            addEditor.Owner = Application.Current.MainWindow;
+            if (addEditor.ShowDialog() == true)
+                await LoadEditors();
+        }
+
+        private async Task AddArtist()
+        {
+            var addArtist = new AddArtistDialog();
+            addArtist.Owner = Application.Current.MainWindow;
+            addArtist.ShowDialog();
+        }
+
+        private async Task AddSong()
+        {
+            var addSong = new AddSongDialog();
+            addSong.Owner = Application.Current.MainWindow;
+            addSong.ShowDialog();
+        }
+
+        private async Task AddGenre()
+        {
+            var addGenre = new AddGenreDialog();
+            addGenre.Owner = Application.Current.MainWindow;
+            addGenre.ShowDialog();
+        }
+
+        private async Task AddAlbum()
+        {
+            var addAlbum = new AddAlbumDialog();
+            addAlbum.Owner = Application.Current.MainWindow;
+            addAlbum.ShowDialog();
+        }
+
 
         private async Task EditEditor()
         {
@@ -103,7 +167,15 @@ namespace MetaTune.ViewModel.Admin
         public string Surname => User.Surname;
         public string Email => User.Email;
 
-        public string DisplayGenres => User.Genres != null ? string.Join(", ", User.Genres.Select(g => g.Name)) : "Nema";
+        public string DisplayGenres
+        {
+            get { 
+                if (User.Genres == null || !User.Genres.Any())
+                    return "Nema";
+                return string.Join(", ", User.Genres.SelectMany(g => g.Flat).Select(g => g.Name));
+
+            }
+        }
 
         private int _contentCount;
         public int ContentCount

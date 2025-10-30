@@ -93,7 +93,7 @@ namespace PostgreSQLStorage
             try
             {
                 // Ako postoji Person, prvo kreiraj Person
-                if (person != null && author.PersonId != null)
+                if (person != null)
                 {
                     string psql = @"INSERT INTO people(personId, personName, personSurname) 
                                VALUES(@personId, @personName, @personSurname)";

@@ -346,7 +346,7 @@ namespace PostgreSQLStorage
                 workCmd.Parameters.AddWithValue("workId", work.WorkId);
                 workCmd.Parameters.AddWithValue("workName", work.WorkName);
                 workCmd.Parameters.AddWithValue("publishDate", work.PublishDate);
-                workCmd.Parameters.AddWithValue("workType", work.WorkType.ToString());
+                workCmd.Parameters.AddWithValue("workType", work.WorkType == WorkType.Song ? "SONG" : "ALBUM");
                 workCmd.Parameters.AddWithValue("workDescription", (object?)work.WorkDescription ?? DBNull.Value);
                 workCmd.Parameters.AddWithValue("src", (object?)work.Src ?? DBNull.Value);
                 workCmd.Parameters.AddWithValue("albumId", (object?)work.AlbumId ?? DBNull.Value);
@@ -398,7 +398,7 @@ namespace PostgreSQLStorage
                 cmd.Parameters.AddWithValue("workId", work.WorkId);
                 cmd.Parameters.AddWithValue("workName", work.WorkName);
                 cmd.Parameters.AddWithValue("publishDate", work.PublishDate);
-                cmd.Parameters.AddWithValue("workType", work.WorkType.ToString());
+                cmd.Parameters.AddWithValue("workType", work.WorkType == WorkType.Song ? "SONG" : "ALBUM");
                 cmd.Parameters.AddWithValue("workDescription", (object?)work.WorkDescription ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("src", (object?)work.Src ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("albumId", (object?)work.AlbumId ?? DBNull.Value);

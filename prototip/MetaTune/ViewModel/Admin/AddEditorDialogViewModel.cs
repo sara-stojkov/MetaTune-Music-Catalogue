@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,10 +17,12 @@ namespace MetaTune.ViewModel.Admin
     {
         private readonly IUserStorage _userStorage;
         private readonly IGenreStorage _genreStorage;
-        private readonly UserController _userController;
 
         private readonly bool _isEdit;
         private readonly User _existingUser;
+        public bool firstLoad = true;
+
+        public Func<int> CheckFromDB { get; set; }
 
         public AddEditorDialogViewModel(bool isEdit = false, User user = null)
         {
@@ -34,8 +37,13 @@ namespace MetaTune.ViewModel.Admin
 
             Genres = new ObservableCollection<Genre>();
             SelectedGenres = new ObservableCollection<Genre>();
+            
+            SetupLayout();
+        }
 
-            _ = LoadGenresAsync();
+        private async void SetupLayout()
+        {
+            await LoadGenresAsync();
 
             if (_isEdit && _existingUser != null)
             {
@@ -43,14 +51,24 @@ namespace MetaTune.ViewModel.Admin
                 LastName = _existingUser.Surname;
                 Email = _existingUser.Email;
                 Password = "";
-                //foreach (var g in _existingUser.Genres)
-                //    SelectedGenres.Add(g);
+
+                async void LoadSelectedGenres()
+                {
+                    var genres = await _genreStorage.GetEditorsGenres(_existingUser.Id);
+                    foreach (var g in genres.SelectMany(x => x.Flat))
+                        SelectedGenres.Add(g);
+                    _existingUser.Genres = genres;
+                    OnPropertyChanged(nameof(SelectedGenres));
+                    CheckFromDB();
+                }
+                LoadSelectedGenres();
 
                 ButtonText = "Sačuvaj izmene";
             }
             else
             {
                 ButtonText = "Registruj urednika";
+                firstLoad = false;
             }
         }
 
@@ -138,12 +156,12 @@ namespace MetaTune.ViewModel.Admin
                     return;
                 }
 
-                //if (!Core.Utils.Validator.IsValidPassword(Password))
-                //{
-                //    MessageBox.Show("Lozinka nije validna.", "Greška",
-                //        MessageBoxButton.OK, MessageBoxImage.Warning);
-                //    return;
-                //}
+                if (!Core.Utils.Validator.IsValidPassword(Password) && (!_isEdit && string.IsNullOrWhiteSpace(Password)))
+                {
+                    MessageBox.Show("Lozinka nije validna.", "Greška",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
                 if (SelectedGenres == null || SelectedGenres.Count == 0)
                 {
@@ -163,8 +181,12 @@ namespace MetaTune.ViewModel.Admin
                         _existingUser.Password = Password.Trim();
                         _existingUser.HashPassword();
                     }
+                    else
+                    {
+                        Password = _existingUser.Password;
+                    }
 
-                    _existingUser.Genres = SelectedGenres.ToList();
+                        _existingUser.Genres = SelectedGenres.ToList();
 
                     await _userStorage.UpdateOne(_existingUser);
                     MessageBox.Show("Urednik je uspešno ažuriran!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -197,9 +219,14 @@ namespace MetaTune.ViewModel.Admin
                     SelectedGenres.Clear();
                 }
 
-                Application.Current.Windows
+                var dialogWindow = Application.Current.Windows
                     .OfType<Window>()
-                    .FirstOrDefault(w => w.DataContext == this)?.Close();
+                    .FirstOrDefault(w => w.DataContext == this);
+
+                if (dialogWindow != null)
+                {
+                    dialogWindow.DialogResult = true;
+                }
             }
             catch (Exception ex)
             {

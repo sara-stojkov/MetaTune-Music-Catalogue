@@ -55,6 +55,7 @@
                                   Foreground="White"
                                   Margin="0,0,0,8"/>
                         <TextBox x:Name="SongNameTextBox"
+                                Text="{Binding SongName, UpdateSourceTrigger=PropertyChanged}"
                                 Height="45"
                                 FontSize="16"
                                 Padding="15,0"
@@ -73,75 +74,75 @@
                         <ComboBox x:Name="AlbumComboBox"
                                  Height="45"
                                  FontSize="16"
-                                 Background="#FF5A5A5A"
-                                 Foreground="White"
-                                 BorderThickness="0">
-                            <ComboBoxItem Content="-- Izaberi album --" IsSelected="True"/>
+                                 Background="White"
+                                 Foreground="Black"
+                                 ItemsSource="{Binding Albums}"
+                                 SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
+                                 BorderThickness="0"
+                                 DisplayMemberPath="WorkName">   
                             <!-- Dinamički se popunjava albumima iz baze -->
                         </ComboBox>
                     </StackPanel>
 
-                    <!-- Artist Selection -->
-                    <StackPanel Margin="0,0,0,20">
-                        <TextBlock Text="Izaberi izvođača:*" 
-                                  FontSize="16" 
-                                  Foreground="White"
-                                  Margin="0,0,0,8"/>
-                        <ComboBox x:Name="ArtistComboBox"
-                                 Height="45"
-                                 FontSize="16"
-                                 Background="#FF5A5A5A"
+                    <!-- Authors -->
+                    <TextBlock Text="Odaberi sve autore pesme:"
+                      FontSize="16" Foreground="White" Margin="0,0,0,10"/>
+
+                                <Border Background="#FF5A5A5A" CornerRadius="4" Margin="0,0,0,25">
+                                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+                            <ListBox x:Name="GenreListBox"
+                                 ItemsSource="{Binding Authors}"
+                                 SelectionMode="Multiple"
+                                 DisplayMemberPath="AuthorName"
+                                 Background="Transparent"
+                                 BorderThickness="0"
                                  Foreground="White"
-                                 BorderThickness="0">
-                            <ComboBoxItem Content="-- Izaberi izvođača --" IsSelected="True"/>
-                            <!-- Dinamički se popunjava izvođačima iz baze -->
-                        </ComboBox>
-                    </StackPanel>
+                                 SelectionChanged="AuthorListBox_SelectionChanged">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="10,8"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <CheckBox Grid.Column="0"
+                                                  IsChecked="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                            <ContentPresenter Grid.Column="1" VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Border>
 
-                    <!-- Two columns: Work Type and Publish Date -->
-                    <Grid Margin="0,0,0,20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Work Type -->
-                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                            <TextBlock Text="Tip dela:" 
-                                      FontSize="16" 
-                                      Foreground="White"
-                                      Margin="0,0,0,8"/>
-                            <ComboBox x:Name="WorkTypeComboBox"
-                                     Height="45"
-                                     FontSize="16"
-                                     Background="#FF5A5A5A"
-                                     Foreground="White"
-                                     BorderThickness="0">
-                                <ComboBoxItem Content="Single" IsSelected="True"/>
-                                <ComboBoxItem Content="Album Track"/>
-                                <ComboBoxItem Content="Live Recording"/>
-                                <ComboBoxItem Content="Demo"/>
-                                <ComboBoxItem Content="Cover"/>
-                            </ComboBox>
-                        </StackPanel>
-
-                        <!-- Publish Date -->
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                    <!-- Publish Date -->
+                        <StackPanel Grid.Column="1" Margin="0,0,0,0">
                             <TextBlock Text="Datum objavljivanja:" 
                                       FontSize="16" 
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
                             <DatePicker x:Name="PublishDatePicker"
+                                       SelectedDate="{Binding PublishDate, Mode=TwoWay}"
                                        Height="45"
                                        FontSize="16"
                                        Background="#FF5A5A5A"
                                        Foreground="White"
                                        BorderThickness="0"/>
                         </StackPanel>
-                    </Grid>
 
-                    <!-- Genre Selection -->
-                    <StackPanel Margin="0,0,0,20">
+                        <!-- Genre Selection -->
+                    <StackPanel Margin="0,20,0,20">
                         <TextBlock Text="Žanr:" 
                                   FontSize="16" 
                                   Foreground="White"
@@ -149,19 +150,12 @@
                         <ComboBox x:Name="GenreComboBox"
                                  Height="45"
                                  FontSize="16"
-                                 Background="#FF5A5A5A"
-                                 Foreground="White"
-                                 BorderThickness="0">
-                            <ComboBoxItem Content="Rock"/>
-                            <ComboBoxItem Content="Pop" IsSelected="True"/>
-                            <ComboBoxItem Content="Jazz"/>
-                            <ComboBoxItem Content="Classical"/>
-                            <ComboBoxItem Content="Hip Hop"/>
-                            <ComboBoxItem Content="Electronic"/>
-                            <ComboBoxItem Content="Folk"/>
-                            <ComboBoxItem Content="Metal"/>
-                            <ComboBoxItem Content="Blues"/>
-                            <ComboBoxItem Content="Country"/>
+                                 Background="White"
+                                 Foreground="Black"
+                                 ItemsSource="{Binding Genres}"
+                                 SelectedItem="{Binding SelectedGenre, Mode=TwoWay}"
+                                 BorderThickness="0"
+                                 DisplayMemberPath="Name">
                         </ComboBox>
                     </StackPanel>
                   
@@ -173,6 +167,7 @@
                                   Foreground="White"
                                   Margin="0,0,0,8"/>
                         <TextBox x:Name="DescriptionTextBox"
+                                Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
                                 Height="100"
                                 FontSize="16"
                                 Padding="15,10"
@@ -191,13 +186,15 @@
                               FontSize="16" 
                               Foreground="White"
                               Margin="0,0,0,8"/>
-                         <ComboBox x:Name="EditorComboBox"
+                        <ComboBox x:Name="EditorComboBox"
                              Height="45"
                              FontSize="16"
-                             Background="#FF5A5A5A"
-                             Foreground="White"
-                             BorderThickness="0">       
-                            <ComboBoxItem Content="-- Izaberi editora --" IsSelected="True"/>
+                             Background="White"
+                             Foreground="Black"
+                             ItemsSource="{Binding Editors}"
+                             SelectedItem="{Binding SelectedEditor, Mode=TwoWay}"
+                             BorderThickness="0"
+                             DisplayMemberPath="Name">   
                             <!-- Dinamički se popunjava izvođačima iz baze -->
                         </ComboBox>
                     </StackPanel>       
@@ -212,39 +209,6 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center">
 
-                    <!-- Cancel Button -->
-                    <Button Content="Otkaži"
-                           Width="150"
-                           Height="50"
-                           Background="#FF5A5A5A"
-                           Foreground="White"
-                           FontSize="18"
-                           FontWeight="Medium"
-                           BorderThickness="0"
-                           Margin="0,0,20,0"
-                           Cursor="Hand">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="{TemplateBinding Background}"
-                                                    CornerRadius="4">
-                                                <ContentPresenter HorizontalAlignment="Center" 
-                                                                VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF6A6A6A"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-
                     <!-- Save Button -->
                     <Button Content="Sačuvaj"
                            Width="150"
@@ -254,7 +218,8 @@
                            FontSize="18"
                            FontWeight="Bold"
                            BorderThickness="0"
-                           Cursor="Hand">
+                           Cursor="Hand"
+                           Command="{Binding SaveCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Template">

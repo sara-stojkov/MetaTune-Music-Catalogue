@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Model
 {
-    internal class ContributionType
+    public class ContributionType
     {
         public const string ARRANGER = "ARRANGER";
         public const string PRODUCER = "PRODUCER";
