@@ -1,0 +1,26 @@
+name: PR Build Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x' # match your .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore prototip/MetaTune/MetaTune.csproj
+
+      - name: Build MetaTune project
+        run: dotnet build prototip/MetaTune/MetaTune.csproj --configuration Release --no-restore
