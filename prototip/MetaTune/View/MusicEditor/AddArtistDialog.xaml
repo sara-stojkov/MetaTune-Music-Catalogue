@@ -4,61 +4,113 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d" 
-      d:DesignHeight="800" d:DesignWidth="1200"
+      d:DesignHeight="1100" d:DesignWidth="1200"
       Title="Dodavanje izvođača"
       Background="#FF4A4A4A">
 
-    <Grid>
-        <!-- Main Container -->
-        <Grid Width="1200" Height="800">
+    <Window.Resources>
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#FF5A5A5A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-            <!-- Header Section -->
-            <Grid Height="100" VerticalAlignment="Top">
-                <!-- App Title -->
-                <TextBlock Text="MetaTune - Dodavanje izvođača" 
-                           FontSize="32" 
-                           FontWeight="Bold"
-                           Foreground="White"
-                           VerticalAlignment="Center"
-                           Margin="40,0,0,0"/>
-
-                <!-- Back/Cancel Button -->
-                <Button Content="← Nazad" 
-                        Width="120" 
-                        Height="45"
-                        Background="IndianRed"
-                        Foreground="White"
-                        FontSize="18"
-                        FontWeight="Medium"
-                        BorderThickness="0"
-                        HorizontalAlignment="Right"
-                        Margin="0,25,40,0"
-                        Cursor="Hand">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
+        <!-- ComboBox Style -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#FF5A5A5A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton"
+                                Grid.Column="2"
+                                Focusable="false"
+                                IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
                                         <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="4">
-                                            <ContentPresenter HorizontalAlignment="Center" 
-                                                            VerticalAlignment="Center"/>
+                                        CornerRadius="4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ContentPresenter Grid.Column="0"
+                                                        Content="{TemplateBinding Content}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10,0,0,0"/>
+
+                                                <Path Grid.Column="1"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="White"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,15,0"/>
+                                            </Grid>
                                         </Border>
                                     </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF6A6A6A"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Grid>
+                                </ToggleButton.Template>
+                            </ToggleButton>
 
-            <!-- Title Bar -->
-            <Grid Height="60" VerticalAlignment="Top" Margin="40,110,40,0">
+                            <ContentPresenter Name="ContentSite"
+                                    IsHitTestVisible="False"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    Margin="10,0,30,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+
+                            <Popup Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Border Name="DropDownBorder"
+                                Background="#FF5A5A5A"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="200">
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!-- DatePickerTextBox Style -->
+        <Style TargetType="DatePickerTextBox">
+            <Setter Property="Background" Value="#FF5A5A5A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="15,0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Title Bar -->
+            <Grid Height="60" VerticalAlignment="Top" Margin="0,0,0,0">
                 <Border Background="#FF2E2E2E" CornerRadius="8,8,0,0">
                     <TextBlock Text="Unesite podatke o izvođacu" 
                               FontSize="24" 
@@ -70,7 +122,7 @@
             </Grid>
 
             <!-- Main Form Content -->
-            <ScrollViewer Margin="40,170,40,80" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Margin="0,60,0,0" VerticalScrollBarVisibility="Auto">
                 <Border Background="#FF3E3E3E" CornerRadius="0,0,8,8" Padding="40,30">
                     <StackPanel>
 
@@ -81,16 +133,18 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox x:Name="IndividualArtistCheckBox"
+                            <RadioButton x:Name="IndividualArtistCheckBox"
+                                     IsChecked="{Binding IsIndividualArtist, Mode=TwoWay}"
                                      Grid.Column="0"
                                      Content="Pojedinačni izvođač"
                                      Foreground="White"
                                      FontSize="18"
                                      Margin="0,0,40,0"
                                      VerticalAlignment="Center"
-                                     IsChecked="True"/>
+                                     />
 
-                            <CheckBox x:Name="MusicGroupCheckBox"
+                            <RadioButton x:Name="MusicGroupCheckBox"
+                                     IsChecked="{Binding IsMusicGroup, Mode=TwoWay}"
                                      Grid.Column="1"
                                      Content="Muzička grupa"
                                      Foreground="White"
@@ -105,6 +159,7 @@
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
                             <TextBox x:Name="ArtistNameTextBox"
+                                    Text="{Binding ArtistName, UpdateSourceTrigger=PropertyChanged}"
                                     Height="45"
                                     FontSize="16"
                                     Padding="15,0"
@@ -121,6 +176,7 @@
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
                             <TextBox x:Name="ArtistSurnameTextBox"
+                                    Text="{Binding ArtistSurname, UpdateSourceTrigger=PropertyChanged}"
                                     Height="45"
                                     FontSize="16"
                                     Padding="15,0"
@@ -130,30 +186,22 @@
                                     VerticalContentAlignment="Center"/>
                         </StackPanel>
 
-                        <!-- Genre Selection (ako je muzička grupa) -->
+                        <!-- Genre Selection -->
                         <StackPanel Margin="0,0,0,20" x:Name="GroupSpecificFields">
                             <TextBlock Text="Odaberi žanr izvođača:" 
                                       FontSize="16" 
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
-                            <ComboBox x:Name="GenreComboBox"
-                                     Height="45"
-                                     FontSize="16"
-                                     Background="#FF5A5A5A"
-                                     Foreground="White"
-                                     BorderThickness="0">
-                                <ComboBoxItem Content="Rock"/>
-                                <ComboBoxItem Content="Pop"/>
-                                <ComboBoxItem Content="Jazz"/>
-                                <ComboBoxItem Content="Classical"/>
-                                <ComboBoxItem Content="Hip Hop"/>
-                                <ComboBoxItem Content="Electronic"/>
-                                <ComboBoxItem Content="Folk"/>
-                                <ComboBoxItem Content="Metal"/>
-                                <ComboBoxItem Content="Blues"/>
-                                <ComboBoxItem Content="Country"/>
-                            </ComboBox>
-                        </StackPanel>
+                        <ComboBox x:Name="GenreComboBox"
+                              Height="45"
+                              FontSize="16"
+                              Background="#FF5A5A5A"
+                              Foreground="white"
+                              BorderThickness="0"
+                              ItemsSource="{Binding Genres}"
+                              SelectedItem="{Binding SelectedGenre, Mode=TwoWay}"
+                              DisplayMemberPath="Name"/>
+                    </StackPanel>
 
                         <!-- Group Membership (ako je muzička grupa) -->
                         <StackPanel Margin="0,0,0,20">
@@ -161,65 +209,46 @@
                                       FontSize="16" 
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
-                            <ComboBox x:Name="GroupMembershipComboBox"
+                        <ComboBox x:Name="GroupMembershipComboBox"
                                      Height="45"
                                      FontSize="16"
                                      Background="#FF5A5A5A"
-                                     Foreground="White"
-                                     BorderThickness="0">
-                                <ComboBoxItem Content="-- Nije član grupe --" IsSelected="True"/>
-                                <!-- Dinamički se popunjava sa muzičkim grupama iz baze -->
+                                     Foreground="white"
+                                     ItemsSource="{Binding Groups}"
+                                     SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"
+                                     BorderThickness="0"
+                                     DisplayMemberPath="AuthorName">
+                            <!-- Dinamički se popunjava sa muzičkim grupama iz baze -->
                             </ComboBox>
                         </StackPanel>
 
-                        <!-- Rating (1-5) -->
-                        <Grid Margin="0,0,0,20">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                                <TextBlock Text="Dodaj svoju ocenu (1-5):" 
-                                          FontSize="16" 
-                                          Foreground="White"
-                                          Margin="0,0,0,8"/>
-                                <ComboBox x:Name="RatingComboBox"
-                                         Height="45"
-                                         FontSize="16"
-                                         Background="#FF5A5A5A"
-                                         Foreground="White"
-                                         BorderThickness="0">
-                                    <ComboBoxItem Content="1 - Loše"/>
-                                    <ComboBoxItem Content="2 - Ispod proseka"/>
-                                    <ComboBoxItem Content="3 - Prosečno" IsSelected="True"/>
-                                    <ComboBoxItem Content="4 - Dobro"/>
-                                    <ComboBoxItem Content="5 - Odlično"/>
-                                </ComboBox>
-                            </StackPanel>
+
+                            
 
                             <!-- Join Date / Leave Date for MEMBER -->
-                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                <TextBlock Text="Datum pristupanja grupi:" 
+                    <StackPanel Grid.Column="1" Margin="0,0,0,0">
+                        <TextBlock Text="Datum pristupanja grupi:" 
                                           FontSize="16" 
                                           Foreground="White"
                                           Margin="0,0,0,8"/>
-                                <DatePicker x:Name="JoinDatePicker"
+                        <DatePicker x:Name="JoinDatePicker"
+                                           SelectedDate="{Binding JoinDate, Mode=TwoWay}"
                                            Height="45"
                                            FontSize="16"
                                            Background="#FF5A5A5A"
-                                           Foreground="White"
+                                           Foreground="white"
                                            BorderThickness="0"/>
-                            </StackPanel>
-                        </Grid>
+                    </StackPanel>
 
-                        <!-- Biography -->
+                    <!-- Biography -->
                         <StackPanel Margin="0,0,0,20">
                             <TextBlock Text="Unesi biografiju izvođača:" 
                                       FontSize="16" 
                                       Foreground="White"
                                       Margin="0,0,0,8"/>
                             <TextBox x:Name="BiographyTextBox"
+                                    Text="{Binding Biography, UpdateSourceTrigger=PropertyChanged}"
                                     Height="120"
                                     FontSize="16"
                                     Padding="15,10"
@@ -231,23 +260,51 @@
                                     VerticalScrollBarVisibility="Auto"/>
                         </StackPanel>
 
-                        <!-- Review / Additional Notes -->
+
+
+                    <!-- Rating (1-5) -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Dodaj svoju ocenu (1-5):" 
+       FontSize="16" 
+       Foreground="White"
+       Margin="0,0,0,8"/>
+
+                        <ComboBox x:Name="RatingComboBox"
+        Height="45"
+        FontSize="16"
+        Background="#FF5A5A5A"
+        Foreground="White"
+        BorderThickness="0"
+        SelectedValue="{Binding SelectedRating, Mode=TwoWay}"
+        SelectedValuePath="Tag">
+                            <ComboBoxItem Content="1 - Loše" Tag="1"/>
+                            <ComboBoxItem Content="2 - Ispod proseka" Tag="2"/>
+                            <ComboBoxItem Content="3 - Prosečno" Tag="3" IsSelected="True"/>
+                            <ComboBoxItem Content="4 - Dobro" Tag="4"/>
+                            <ComboBoxItem Content="5 - Odlično" Tag="5"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Review / Additional Notes -->
                         <StackPanel Margin="0,0,0,30">
-                            <TextBlock Text="Dodaj svoju recenziju:" 
-                                      FontSize="16" 
-                                      Foreground="White"
-                                      Margin="0,0,0,8"/>
+                            <TextBlock Text="Dodaj svoju recenziju:"
+                          FontSize="16" 
+                          Foreground="White"
+                          Margin="0,0,0,8"/>
                             <TextBox x:Name="ReviewTextBox"
-                                    Height="100"
-                                    FontSize="16"
-                                    Padding="15,10"
-                                    Background="#FF5A5A5A"
-                                    Foreground="White"
-                                    BorderThickness="0"
-                                    TextWrapping="Wrap"
-                                    AcceptsReturn="True"
-                                    VerticalScrollBarVisibility="Auto"/>
+                            Text="{Binding Review, UpdateSourceTrigger=PropertyChanged}"
+                            Height="100"
+                            FontSize="16"
+                            Padding="15,10"
+                            Background="#FF5A5A5A"
+                            Foreground="White"
+                            BorderThickness="0"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Auto"/>
                         </StackPanel>
+
+
 
                         <!-- Save Button -->
                         <Button Content="Sačuvaj"
@@ -259,7 +316,9 @@
                                FontWeight="Bold"
                                BorderThickness="0"
                                HorizontalAlignment="Center"
-                               Cursor="Hand">
+                               Cursor="Hand"
+                               Command="{Binding SaveCommand}"
+                                >
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Template">
@@ -286,6 +345,5 @@
                 </Border>
             </ScrollViewer>
 
-        </Grid>
     </Grid>
 </Window>

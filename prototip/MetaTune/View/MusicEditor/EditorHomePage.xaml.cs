@@ -170,13 +170,32 @@ namespace MetaTune.View.MusicEditor
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            // Implement logout logic
             MainWindow.LoggedInUser = null;
             NavigationService?.Navigate(new HomePage());
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddAlbumDialog();
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddSongDialog();
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddArtistDialog();
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
     }
 
-    // ViewModel class for displaying reviews
     public class ReviewViewModel
     {
         public string ReviewId { get; set; }

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using MetaTune.ViewModel.MusicEditor;
+using PostgreSQLStorage;
+using System.Windows;
 
 namespace MetaTune.View.MusicEditor
 {
@@ -7,6 +9,8 @@ namespace MetaTune.View.MusicEditor
         public AddArtistDialog()
         {
             InitializeComponent();
+            DataContext = new AddArtistViewModel();
         }
+
     }
 }
