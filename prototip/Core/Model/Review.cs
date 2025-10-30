@@ -11,7 +11,8 @@ namespace Core.Model
         string? editor,
         string userId,
         string? workId = null,
-        string? authorId = null)
+        string? authorId = null,
+        string? displayName=null)
     {
         private readonly string reviewId = reviewId;
         private string content = content;
@@ -21,6 +22,7 @@ namespace Core.Model
         private string userId = userId;
         private string? workId = workId;
         private string? authorId = authorId;
+        private string displayName = displayName;
 
         public string ReviewId => reviewId;
 
@@ -41,5 +43,6 @@ namespace Core.Model
         public string UserId2 { get => userId; set => userId = value; }
         public string? WorkId { get => workId; set => workId = value; }
         public string? AuthorId { get => authorId; set => authorId = value; }
+        public string DisplayName { get => displayName; set => displayName = value; }
     }
 }
