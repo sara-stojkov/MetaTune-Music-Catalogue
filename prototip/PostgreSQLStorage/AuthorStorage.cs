@@ -9,6 +9,7 @@ namespace PostgreSQLStorage
     {
         private readonly Database _db;
 
+
         public AuthorStorage(Database db)
         {
             _db = db;
@@ -84,13 +85,27 @@ namespace PostgreSQLStorage
             return authors;
         }
 
-        public async Task CreateOne(Author author)
+        public async Task CreateOne(Author author, Person? person = null)
         {
             using var conn = _db.GetConnection();
             await using var transaction = await conn.BeginTransactionAsync();
 
             try
             {
+                // Ako postoji Person, prvo kreiraj Person
+                if (person != null && author.PersonId != null)
+                {
+                    string psql = @"INSERT INTO people(personId, personName, personSurname) 
+                               VALUES(@personId, @personName, @personSurname)";
+
+                    using var pcmd = new NpgsqlCommand(psql, conn, transaction);
+                    pcmd.Parameters.AddWithValue("personId", person.PersonId);
+                    pcmd.Parameters.AddWithValue("personName", person.PersonName);
+                    pcmd.Parameters.AddWithValue("personSurname", person.PersonSurname);
+
+                    await pcmd.ExecuteNonQueryAsync();
+                }
+
                 string sql = @"INSERT INTO authors(authorId, authorName, biography, personId) 
                                VALUES(@authorId, @authorName, @biography, @personId)";
 
