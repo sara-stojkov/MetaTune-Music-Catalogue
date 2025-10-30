@@ -1,8 +1,7 @@
 ﻿using Core.Model;
 using Core.Storage;
 using Npgsql;
-using Task = System.Threading.Tasks.Task;
-
+using Task = System.Threading.Tasks.Task;   
 namespace PostgreSQLStorage
 {
     public class ReviewStorage : IReviewStorage
@@ -18,9 +17,9 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE reviewId = @id", conn);
+                  WHERE reviewid = @id", conn);
 
             cmd.Parameters.AddWithValue("id", id);
 
@@ -47,9 +46,9 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  ORDER BY reviewDate DESC", conn);
+                  ORDER BY reviewdate DESC", conn);
 
             using var reader = await cmd.ExecuteReaderAsync();
 
@@ -76,10 +75,10 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE userId = @userId
-                  ORDER BY reviewDate DESC", conn);
+                  WHERE ""userId"" = @userId
+                  ORDER BY reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("userId", userId);
 
@@ -108,10 +107,10 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE workId = @workId
-                  ORDER BY reviewDate DESC", conn);
+                  WHERE workid = @workId
+                  ORDER BY reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("workId", workId);
 
@@ -140,10 +139,10 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE authorId = @authorId
-                  ORDER BY reviewDate DESC", conn);
+                  WHERE authorid = @authorId
+                  ORDER BY reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("authorId", authorId);
 
@@ -172,10 +171,10 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE editorId IS NULL
-                  ORDER BY reviewDate DESC", conn);
+                  WHERE editorid IS NULL
+                  ORDER BY reviewdate DESC", conn);
 
             using var reader = await cmd.ExecuteReaderAsync();
 
@@ -202,10 +201,10 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId 
+                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
                   FROM reviews 
-                  WHERE workId = @workId AND editorId IS NOT NULL 
-                  ORDER BY reviewDate DESC 
+                  WHERE workid = @workId AND editorid IS NOT NULL 
+                  ORDER BY reviewdate DESC 
                   LIMIT 1", conn);
 
             cmd.Parameters.AddWithValue("workId", workId);
@@ -236,7 +235,7 @@ namespace PostgreSQLStorage
 
             try
             {
-                string sql = @"INSERT INTO reviews(reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId) 
+                string sql = @"INSERT INTO reviews(reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid) 
                                VALUES(@reviewId, @content, @reviewDate, @isEditable, @editorId, @userId, @workId, @authorId)";
 
                 using var cmd = new NpgsqlCommand(sql, conn, transaction);
@@ -268,13 +267,13 @@ namespace PostgreSQLStorage
             {
                 string sql = @"UPDATE reviews 
                                SET content = @content, 
-                                   reviewDate = @reviewDate, 
-                                   isEditable = @isEditable, 
-                                   editorId = @editorId, 
-                                   userId = @userId, 
-                                   workId = @workId, 
-                                   authorId = @authorId 
-                               WHERE reviewId = @reviewId";
+                                   reviewdate = @reviewDate, 
+                                   iseditable = @isEditable, 
+                                   editorid = @editorId, 
+                                   ""userId"" = @userId, 
+                                   workid = @workId, 
+                                   authorid = @authorId 
+                               WHERE reviewid = @reviewId";
 
                 using var cmd = new NpgsqlCommand(sql, conn, transaction);
                 cmd.Parameters.AddWithValue("reviewId", review.ReviewId);
@@ -299,7 +298,7 @@ namespace PostgreSQLStorage
         public async Task DeleteById(string id)
         {
             using var conn = _db.GetConnection();
-            using var cmd = new NpgsqlCommand(@"DELETE FROM reviews WHERE reviewId = @id", conn);
+            using var cmd = new NpgsqlCommand(@"DELETE FROM reviews WHERE reviewid = @id", conn);
             cmd.Parameters.AddWithValue("id", id);
             await cmd.ExecuteNonQueryAsync();
         }
