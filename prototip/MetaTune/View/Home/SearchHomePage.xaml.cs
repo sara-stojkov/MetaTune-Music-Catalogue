@@ -494,6 +494,15 @@ namespace MetaTune.View
             YearFromTextBox.Text = "1900";
             YearToTextBox.Text = "2025";
         }
+
+        private void NavigateToContent_Click(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border?.DataContext is SearchResultViewModel item)
+            {
+                NavigateToContent(item);
+            }
+        }
     }
 
     // ViewModel for search results
