@@ -173,6 +173,12 @@ namespace MetaTune.ViewModel.Home
                     return;
                 }
 
+                if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
+                {
+                    MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 var rating = new Rating(
                     ratingId: Guid.NewGuid().ToString(),
                     value: _newRatingValue,
@@ -211,6 +217,12 @@ namespace MetaTune.ViewModel.Home
                 return;
             }
 
+            if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
+            {
+                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (_album == null || string.IsNullOrWhiteSpace(_newReviewContent))
                 return;
 
@@ -221,7 +233,7 @@ namespace MetaTune.ViewModel.Home
                     content: _newReviewContent,
                     reviewDate: DateTime.Now,
                     isEditable: false,
-                    editor: null,
+                    editor: _currentUser.Role == UserRole.EDITOR ? _currentUser.Id : null,
                     userId: _currentUser.Id,
                     workId: _album.WorkId
                 );

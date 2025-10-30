@@ -187,6 +187,12 @@ namespace MetaTune.ViewModel.Home
                 return;
             }
 
+            if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
+            {
+                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (_song == null || _newRatingValue < 1 || _newRatingValue > 5)
                 return;
 
@@ -241,6 +247,12 @@ namespace MetaTune.ViewModel.Home
                 return;
             }
 
+            if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
+            {
+                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (_song == null || string.IsNullOrWhiteSpace(_newReviewContent))
                 return;
 
@@ -251,7 +263,7 @@ namespace MetaTune.ViewModel.Home
                     content: _newReviewContent,
                     reviewDate: DateTime.Now,
                     isEditable: false,
-                    editor: null,
+                    editor: _currentUser.Role == UserRole.EDITOR ? _currentUser.Id : null,
                     userId: _currentUser.Id,
                     workId: _song.WorkId
                 );
