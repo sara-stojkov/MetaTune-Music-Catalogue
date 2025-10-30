@@ -1,14 +1,10 @@
 ﻿using Core.Model;
 using Core.Storage;
-using PostgreSQLStorage;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -29,30 +25,17 @@ namespace MetaTune.ViewModel.Home
         private string _artistBiography = string.Empty;
         private string _genreName = string.Empty;
         private decimal? _averageRating;
-
-        // Editor review with rating (highlighted)
         private ReviewWithRating? _editorReviewWithRating;
-
-        // User ratings (not editor)
         private ObservableCollection<Rating> _userRatings = new();
-
-        // User reviews (not editor)
         private ObservableCollection<Review> _userReviews = new();
-
-        // Songs
         private ObservableCollection<Work> _songs = new();
-
-        // Bands/Groups information
         private ObservableCollection<BandMembership> _bandMemberships = new();
         private ObservableCollection<BandMember> _bandMembers = new();
         private bool _isGroup = false;
-
         private decimal _newRatingValue = 0;
         private string _newReviewContent = string.Empty;
 
-        public ArtistPageViewModel(
-            string authorId,
-            User currentUser)
+        public ArtistPageViewModel(string authorId, User currentUser)
         {
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             _ratingStorage = Injector.CreateInstance<IRatingStorage>();
@@ -85,7 +68,7 @@ namespace MetaTune.ViewModel.Home
                 var songs = works.Where(w => w.WorkType == WorkType.Song).ToList();
                 Songs = new ObservableCollection<Work>(songs);
 
-                // Get genre from first song (assuming all songs have same genre)
+                // Get genre from first song
                 if (songs.Any())
                 {
                     var genre = await _genreStorage.GetById(songs.First().GenreId);
@@ -102,8 +85,9 @@ namespace MetaTune.ViewModel.Home
                 // Load all reviews
                 var allReviews = await _reviewStorage.GetAllByAuthorId(authorId);
 
-                // Get THE editor review (should be only one primary editor review)
-                var editorReview = allReviews.FirstOrDefault(r => r.IsEditable);
+                // Get THE editor review
+                var reviewsOfWorks = await _reviewStorage.GetAllByAuthorId(authorId);
+                var editorReview = reviewsOfWorks.FirstOrDefault();
                 if (editorReview != null)
                 {
                     var editorRating = ratings.FirstOrDefault(r => r.UserId == editorReview.UserId);
@@ -118,7 +102,7 @@ namespace MetaTune.ViewModel.Home
                 var userReviewsList = allReviews.Where(r => !r.IsEditable).ToList();
                 UserReviews = new ObservableCollection<Review>(userReviewsList);
 
-                // Get user ratings (not editor, excluding the editor's rating)
+                // Get user ratings (not editor)
                 var editorUserId = editorReview?.UserId;
                 var userRatingsList = ratings.Where(r => r.UserId != editorUserId).ToList();
                 UserRatings = new ObservableCollection<Rating>(userRatingsList);
@@ -165,7 +149,6 @@ namespace MetaTune.ViewModel.Home
                 }
 
                 // Check if this artist is a band (has members)
-                var members = await _memberStorage.GetAllMembersPresentByAuthorId(authorId);
                 var allMembers = await _memberStorage.GetAllMembersAllTimeByAuthorId(authorId);
 
                 if (allMembers != null && allMembers.Any())
@@ -208,9 +191,6 @@ namespace MetaTune.ViewModel.Home
                 {
                     var songViewModel = new SongPageViewModel(song.WorkId, _currentUser);
                     await songViewModel.LoadSong(song.WorkId);
-
-                    // Navigation will be handled in the View (code-behind)
-                    // This just prepares the data
                     SongNavigationRequested?.Invoke(this, songViewModel);
                 }
                 catch (Exception ex)
@@ -228,8 +208,6 @@ namespace MetaTune.ViewModel.Home
                 {
                     var artistViewModel = new ArtistPageViewModel(bandMember.MemberId, _currentUser);
                     await artistViewModel.LoadArtist(bandMember.MemberId);
-                    // Navigation will be handled in the View (code-behind)
-                    // This just prepares the data
                     ArtistNavigationRequested?.Invoke(this, artistViewModel);
                 }
                 catch (Exception ex)
@@ -243,8 +221,6 @@ namespace MetaTune.ViewModel.Home
                 {
                     var artistViewModel = new ArtistPageViewModel(bandMembership.BandId, _currentUser);
                     await artistViewModel.LoadArtist(bandMembership.BandId);
-                    // Navigation will be handled in the View (code-behind)
-                    // This just prepares the data
                     ArtistNavigationRequested?.Invoke(this, artistViewModel);
                 }
                 catch (Exception ex)
@@ -258,13 +234,13 @@ namespace MetaTune.ViewModel.Home
         {
             if (_currentUser == null)
             {
-                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
             {
-                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Korisnici sa role {_currentUser.Role} ne mogu ostavljati ocene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -283,19 +259,21 @@ namespace MetaTune.ViewModel.Home
 
                 await _ratingStorage.CreateOne(rating);
 
-                // Reload ratings to update average and list
+                // Reload ratings
                 var ratings = await _ratingStorage.GetAllByAuthorId(_author.AuthorId);
                 if (ratings.Any())
                 {
                     AverageRating = ratings.Average(r => r.Value);
                 }
 
-                // Update user ratings list (excluding editor's rating)
+                // Update user ratings list
                 var editorUserId = EditorReviewWithRating?.Review?.UserId;
                 var userRatingsList = ratings.Where(r => r.UserId != editorUserId).ToList();
                 UserRatings = new ObservableCollection<Rating>(userRatingsList);
 
                 NewRatingValue = 0;
+
+                await LoadArtist(_author.AuthorId);
             }
             catch (Exception ex)
             {
@@ -307,13 +285,13 @@ namespace MetaTune.ViewModel.Home
         {
             if (_currentUser == null)
             {
-                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Morate biti prijavljeni da biste ostavili recenziju.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
             {
-                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Korisnici sa role {_currentUser.Role} ne mogu ostavljati recenzije.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -335,8 +313,7 @@ namespace MetaTune.ViewModel.Home
 
                 await _reviewStorage.CreateOne(review);
 
-                // Add to collection
-                UserReviews.Add(review);
+                await LoadArtist(_author.AuthorId);
 
                 NewReviewContent = string.Empty;
             }
@@ -487,7 +464,6 @@ namespace MetaTune.ViewModel.Home
         public ICommand NavigateToArtistCommand { get; }
 
         public event EventHandler<SongPageViewModel>? SongNavigationRequested;
-
         public event EventHandler<ArtistPageViewModel>? ArtistNavigationRequested;
 
         public event PropertyChangedEventHandler? PropertyChanged;
