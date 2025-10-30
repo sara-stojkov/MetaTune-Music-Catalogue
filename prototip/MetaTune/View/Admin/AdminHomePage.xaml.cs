@@ -38,5 +38,10 @@ namespace MetaTune.View.Admin
             MainWindow.LoggedInUser = null;
             NavigationService?.Navigate(new HomePage());
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new HomePage());
+        }
     }
 }
