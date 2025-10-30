@@ -79,7 +79,7 @@
                             Background="#FF43A047"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Margin="0,0,0,20">
+                            Margin="0,0,0,20" Click="Button_Click_2">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Template">
