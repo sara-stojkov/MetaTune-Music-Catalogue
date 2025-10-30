@@ -1,6 +1,5 @@
 ﻿using Core.Model;
 using Core.Storage;
-using PostgreSQLStorage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,16 +12,17 @@ using System.Windows.Input;
 
 namespace MetaTune.ViewModel.MusicEditor
 {
-    internal class AddAlbumViewModel : INotifyPropertyChanged
+    internal class AddSongViewModel : INotifyPropertyChanged
     {
         private readonly IAuthorStorage _authorStorage;
         private readonly IGenreStorage _genreStorage;
         private readonly IUserStorage _userStorage;
         private readonly IWorkStorage _workStorage;
+        private readonly ITaskStorage _taskStorage;
         private readonly IRatingStorage _ratingStorage;
         private readonly IReviewStorage _reviewStorage;
 
-        private string? _albumName;
+        private string? _songName;
         private string? _description;
         private DateTime? _publishDate;
         private Work? _selectedAlbum;
@@ -40,12 +40,13 @@ namespace MetaTune.ViewModel.MusicEditor
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public AddAlbumViewModel()
+        public AddSongViewModel()
         {
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             _genreStorage = Injector.CreateInstance<IGenreStorage>();
             _userStorage = Injector.CreateInstance<IUserStorage>();
             _workStorage = Injector.CreateInstance<IWorkStorage>();
+            _taskStorage = Injector.CreateInstance<ITaskStorage>();
             _ratingStorage = Injector.CreateInstance<IRatingStorage>();
             _reviewStorage = Injector.CreateInstance<IReviewStorage>();
 
@@ -59,13 +60,13 @@ namespace MetaTune.ViewModel.MusicEditor
             _ = LoadAlbumsAsync();
         }
 
-        public string? AlbumName
+        public string? SongName
         {
-            get => _albumName;
+            get => _songName;
             set
             {
-                _albumName = value;
-                OnPropertyChanged(nameof(AlbumName));
+                _songName = value;
+                OnPropertyChanged(nameof(SongName));
             }
         }
 
@@ -98,8 +99,6 @@ namespace MetaTune.ViewModel.MusicEditor
                 OnPropertyChanged(nameof(SelectedRating));
             }
         }
-
-
         public ObservableCollection<Genre> Genres
         {
             get => _genres;
@@ -260,25 +259,25 @@ namespace MetaTune.ViewModel.MusicEditor
         // Validacija i čuvanje izvođača
         public async System.Threading.Tasks.Task SaveAsync()
         {
-            if (string.IsNullOrWhiteSpace(AlbumName))
+            if (string.IsNullOrWhiteSpace(SongName))
             {
-                MessageBox.Show("Ime albuma je obavezno.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Ime pesme je obavezno.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var album = new Work(
+            var song = new Work(
                 Guid.NewGuid().ToString(),
-                AlbumName!.Trim(),
+                SongName!.Trim(),
                 (DateTime)PublishDate,
-                WorkType.Album,
+                WorkType.Song,
                 SelectedGenre.Id,
                 SelectedAuthors.ToList(),
                 Description?.Trim(),
                 null,
-                null
+                SelectedAlbum?.WorkId
             );
 
-            await _workStorage.CreateOne(album);
+            await _workStorage.CreateOne(song);
 
             if (SelectedRating != null)
             {
@@ -288,7 +287,7 @@ namespace MetaTune.ViewModel.MusicEditor
                     (int)SelectedRating,
                     DateTime.Now,
                     MainWindow.LoggedInUser.Id,
-                    album.WorkId,
+                    song.WorkId,
                     null
                 );
                 await _ratingStorage.CreateOne(rating);
@@ -305,16 +304,16 @@ namespace MetaTune.ViewModel.MusicEditor
                     null,
                     MainWindow.LoggedInUser.Id,
                     null,
-                    album.WorkId
+                    song.WorkId
                 );
                 await _reviewStorage.CreateOne(review);
             }
 
-            MessageBox.Show("Album je uspešno dodat!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Pesma uspešno dodata!", "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private bool CanSave =>
-            !string.IsNullOrWhiteSpace(AlbumName);
+            !string.IsNullOrWhiteSpace(SongName);
 
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

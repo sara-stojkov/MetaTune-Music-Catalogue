@@ -180,6 +180,13 @@ namespace MetaTune.View.MusicEditor
             dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var dialog = new AddSongDialog();
+            dialog.Owner = Application.Current.MainWindow;
+            dialog.ShowDialog();
+        }
     }
 
     public class ReviewViewModel

@@ -1,6 +1,6 @@
 ﻿
 using Core.Model;
-using MetaTune.ViewModel.Admin;
+using MetaTune.ViewModel.MusicEditor;
 using System.Windows;
 using System.Windows.Controls;
 
