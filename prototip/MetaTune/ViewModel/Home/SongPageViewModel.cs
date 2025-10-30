@@ -1,12 +1,15 @@
-﻿using Core.Model;
-using Core.Storage;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Core.Model;
+using Core.Storage;
 
 namespace MetaTune.ViewModel.Home
 {
@@ -26,7 +29,7 @@ namespace MetaTune.ViewModel.Home
         private string _albumName = string.Empty;
         private DateTime _publishDate;
         private string _songDescription = string.Empty;
-        private string _lyrics = string.Empty;
+        private string _audioFilePath = string.Empty;
         private decimal? _averageRating;
         private ReviewWithRating? _editorReviewWithRating;
         private ObservableCollection<Review> _userReviews = new();
@@ -36,8 +39,12 @@ namespace MetaTune.ViewModel.Home
         private string _newReviewContent = string.Empty;
         private bool _isPlaying = false;
         private double _currentPosition = 0;
-        private double _totalDuration = 180;
+        private double _totalDuration = 0;
         private decimal? _userRating;
+        private bool _hasAudioFile = false;
+
+        private MediaPlayer _player = new MediaPlayer();
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         public SongPageViewModel(string songId, User currentUser)
         {
@@ -52,6 +59,47 @@ namespace MetaTune.ViewModel.Home
             LeaveReviewCommand = new AsyncRelayCommand(LeaveReview);
             PlayPauseCommand = new RelayCommand(_ => TogglePlayPause());
             StopCommand = new RelayCommand(_ => Stop());
+
+            // Setup timer for position updates
+            _timer.Interval = TimeSpan.FromMilliseconds(100);
+            _timer.Tick += Timer_Tick;
+
+            // Setup media player events
+            _player.MediaOpened += Player_MediaOpened;
+            _player.MediaEnded += Player_MediaEnded;
+            _player.MediaFailed += Player_MediaFailed;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_player.NaturalDuration.HasTimeSpan && _isPlaying)
+            {
+                CurrentPosition = _player.Position.TotalSeconds;
+            }
+        }
+
+        private void Player_MediaOpened(object sender, EventArgs e)
+        {
+            if (_player.NaturalDuration.HasTimeSpan)
+            {
+                TotalDuration = _player.NaturalDuration.TimeSpan.TotalSeconds;
+                System.Diagnostics.Debug.WriteLine($"Media opened. Duration: {TotalDuration} seconds");
+            }
+        }
+
+        private void Player_MediaEnded(object sender, EventArgs e)
+        {
+            IsPlaying = false;
+            CurrentPosition = 0;
+            _player.Position = TimeSpan.Zero;
+        }
+
+        private void Player_MediaFailed(object sender, ExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"Media playback failed: {e.ErrorException.Message}");
+            MessageBox.Show($"Greška pri reprodukciji audio fajla: {e.ErrorException.Message}",
+                "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            IsPlaying = false;
         }
 
         public async System.Threading.Tasks.Task LoadSong(string songId)
@@ -66,7 +114,39 @@ namespace MetaTune.ViewModel.Home
                 SongName = _song.WorkName;
                 PublishDate = _song.PublishDate;
                 SongDescription = _song.WorkDescription ?? string.Empty;
-                Lyrics = _song.Src ?? string.Empty;
+
+                // Load audio file path from Src field
+                if (!string.IsNullOrWhiteSpace(_song.Src))
+                {
+                    AudioFilePath = _song.Src;
+
+                    // Check if file exists
+                    if (File.Exists(AudioFilePath))
+                    {
+                        HasAudioFile = true;
+                        LoadAudioFile(AudioFilePath);
+                    }
+                    else
+                    {
+                        // Try as relative path
+                        string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AudioFilePath);
+                        if (File.Exists(relativePath))
+                        {
+                            HasAudioFile = true;
+                            AudioFilePath = relativePath;
+                            LoadAudioFile(relativePath);
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Audio file not found: {AudioFilePath}");
+                            HasAudioFile = false;
+                        }
+                    }
+                }
+                else
+                {
+                    HasAudioFile = false;
+                }
 
                 // Load artists
                 if (_song.Authors != null && _song.Authors.Any())
@@ -148,6 +228,35 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
+        private void LoadAudioFile(string filePath)
+        {
+            try
+            {
+                // Convert relative path to absolute path if needed
+                string absolutePath = filePath;
+                if (!Path.IsPathRooted(filePath))
+                {
+                    absolutePath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath));
+                }
+
+                if (!File.Exists(absolutePath))
+                {
+                    System.Diagnostics.Debug.WriteLine($"Audio file not found: {absolutePath}");
+                    HasAudioFile = false;
+                    return;
+                }
+
+                var uri = new Uri(absolutePath, UriKind.Absolute);
+                _player.Open(uri);
+                System.Diagnostics.Debug.WriteLine($"Loaded audio file: {absolutePath}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading audio file: {ex.Message}");
+                HasAudioFile = false;
+            }
+        }
+
         private string GetContributionTypeDisplayName(string contributionType)
         {
             return contributionType switch
@@ -162,13 +271,41 @@ namespace MetaTune.ViewModel.Home
 
         private void TogglePlayPause()
         {
-            IsPlaying = !IsPlaying;
+            if (!HasAudioFile)
+            {
+                MessageBox.Show("Audio fajl nije dostupan za ovu pesmu.", "Info",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (IsPlaying)
+            {
+                _player.Pause();
+                _timer.Stop();
+                IsPlaying = false;
+            }
+            else
+            {
+                _player.Play();
+                _timer.Start();
+                IsPlaying = true;
+            }
         }
 
         private void Stop()
         {
+            _player.Stop();
+            _timer.Stop();
             IsPlaying = false;
             CurrentPosition = 0;
+            _player.Position = TimeSpan.Zero;
+        }
+
+        public void Cleanup()
+        {
+            _timer.Stop();
+            _player.Stop();
+            _player.Close();
         }
 
         private async System.Threading.Tasks.Task LeaveRating()
@@ -331,19 +468,27 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
-        public string Lyrics
+        public string AudioFilePath
         {
-            get => _lyrics;
+            get => _audioFilePath;
             set
             {
-                _lyrics = value;
+                _audioFilePath = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(HasLyrics));
+            }
+        }
+
+        public bool HasAudioFile
+        {
+            get => _hasAudioFile;
+            set
+            {
+                _hasAudioFile = value;
+                OnPropertyChanged();
             }
         }
 
         public bool HasDescription => !string.IsNullOrWhiteSpace(SongDescription);
-        public bool HasLyrics => !string.IsNullOrWhiteSpace(Lyrics);
 
         public decimal? AverageRating
         {
