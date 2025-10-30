@@ -298,6 +298,10 @@
                         </StackPanel>
 
                         <!-- Editor Review Content -->
+                        <TextBlock Text="{Binding EditorReviewWithRating.Review.DisplayName}"
+                                   FontSize="20" TextWrapping="Wrap" Foreground="Beige"
+                                   LineHeight="24" Margin="0,0,0,15"
+                                   />
                         <TextBlock Text="{Binding EditorReviewWithRating.Review.Content}" 
                                   FontSize="16" TextWrapping="Wrap" Foreground="#FFE0E0E0"
                                   LineHeight="24" Margin="0,0,0,15"/>
@@ -370,13 +374,18 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <TextBlock Grid.Row="0"
+                                            <TextBlock Grid.Row="0" 
+                                                       Text="{Binding DisplayName}" FontSize="16" FontWeight="Bold"
+                                                       Foreground="White" Margin="0,0,0,5"/>
+
+                                            <TextBlock Grid.Row="1"
                                                       Text="{Binding ReviewDate, StringFormat=dd.MM.yyyy}"
                                                       FontSize="13" Foreground="#FFB0B0B0" Margin="0,0,0,10"/>
 
-                                            <TextBlock Grid.Row="1" Text="{Binding Content}"
+                                            <TextBlock Grid.Row="2" Text="{Binding Content}"
                                                       FontSize="15" Foreground="#FFE0E0E0"
                                                       TextWrapping="Wrap" LineHeight="22"/>
                                         </Grid>

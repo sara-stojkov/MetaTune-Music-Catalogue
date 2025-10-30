@@ -1,7 +1,52 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\MIHAJLO_MILOJEVIC\\PROJEKTI\\MetaTune-Music-Catalogue\\prototip\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\view\\home\\albumpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\view\\home\\albumpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07BE5C1E-0C81-4CC8-A9C3-D782CE2B3CE2}|PostgreSQLStorage\\PostgreSQLStorage.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\postgresqlstorage\\reviewstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07BE5C1E-0C81-4CC8-A9C3-D782CE2B3CE2}|PostgreSQLStorage\\PostgreSQLStorage.csproj|solutionrelative:postgresqlstorage\\reviewstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\view\\home\\songpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\view\\home\\songpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\view\\home\\artistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\view\\home\\artistpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\viewmodel\\home\\artistpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\viewmodel\\home\\artistpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\viewmodel\\home\\songpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\viewmodel\\home\\songpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\viewmodel\\home\\albumpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\viewmodel\\home\\albumpageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85042BCE-45BF-4599-A32F-83DA44F1BFA7}|Core\\Core.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\core\\storage\\ireviewstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85042BCE-45BF-4599-A32F-83DA44F1BFA7}|Core\\Core.csproj|solutionrelative:core\\storage\\ireviewstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\view\\home\\artistpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\view\\home\\artistpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85042BCE-45BF-4599-A32F-83DA44F1BFA7}|Core\\Core.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\core\\model\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85042BCE-45BF-4599-A32F-83DA44F1BFA7}|Core\\Core.csproj|solutionrelative:core\\model\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|c:\\users\\archi\\documents\\sims\\metatune-music-catalogue\\prototip\\metatune\\view\\home\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30CE9D8C-A8EC-4614-8FAF-A903CFEB2AC7}|MetaTune\\MetaTune.csproj|solutionrelative:metatune\\view\\home\\homepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,15 +54,147 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{b015bca8-f686-4aaf-a093-5d028dbdb089}"
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Review.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\Core\\Model\\Review.cs",
+              "RelativeDocumentMoniker": "Core\\Model\\Review.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\Core\\Model\\Review.cs",
+              "RelativeToolTip": "Core\\Model\\Review.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAtwC0AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T03:49:18.881Z",
+              "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IReviewStorage.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\Core\\Storage\\IReviewStorage.cs",
+              "RelativeDocumentMoniker": "Core\\Storage\\IReviewStorage.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\Core\\Storage\\IReviewStorage.cs",
+              "RelativeToolTip": "Core\\Storage\\IReviewStorage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T01:43:50.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ArtistPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\ArtistPage.xaml.cs",
+              "RelativeDocumentMoniker": "MetaTune\\View\\Home\\ArtistPage.xaml.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\ArtistPage.xaml.cs",
+              "RelativeToolTip": "MetaTune\\View\\Home\\ArtistPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T02:31:59.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ArtistPage.xaml",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\ArtistPage.xaml",
+              "RelativeDocumentMoniker": "MetaTune\\View\\Home\\ArtistPage.xaml",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\ArtistPage.xaml",
+              "RelativeToolTip": "MetaTune\\View\\Home\\ArtistPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-30T01:55:36.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ArtistPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\ArtistPageViewModel.cs",
+              "RelativeDocumentMoniker": "MetaTune\\ViewModel\\Home\\ArtistPageViewModel.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\ArtistPageViewModel.cs",
+              "RelativeToolTip": "MetaTune\\ViewModel\\Home\\ArtistPageViewModel.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAtwDYBAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T00:41:02.139Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AlbumPage.xaml",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\AlbumPage.xaml",
+              "RelativeDocumentMoniker": "MetaTune\\View\\Home\\AlbumPage.xaml",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\AlbumPage.xaml",
+              "RelativeToolTip": "MetaTune\\View\\Home\\AlbumPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-30T01:55:30.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SongPage.xaml",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\SongPage.xaml",
+              "RelativeDocumentMoniker": "MetaTune\\View\\Home\\SongPage.xaml",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\SongPage.xaml",
+              "RelativeToolTip": "MetaTune\\View\\Home\\SongPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-30T01:09:47.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ReviewStorage.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\PostgreSQLStorage\\ReviewStorage.cs",
+              "RelativeDocumentMoniker": "PostgreSQLStorage\\ReviewStorage.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\PostgreSQLStorage\\ReviewStorage.cs",
+              "RelativeToolTip": "PostgreSQLStorage\\ReviewStorage.cs",
+              "ViewState": "AgIAAKcBAAAAAAAAAAAowMMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T00:47:27.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HomePage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\HomePage.xaml.cs",
+              "RelativeDocumentMoniker": "MetaTune\\View\\Home\\HomePage.xaml.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\View\\Home\\HomePage.xaml.cs",
+              "RelativeToolTip": "MetaTune\\View\\Home\\HomePage.xaml.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAvwCEAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T00:41:23.618Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SongPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\SongPageViewModel.cs",
+              "RelativeDocumentMoniker": "MetaTune\\ViewModel\\Home\\SongPageViewModel.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\SongPageViewModel.cs",
+              "RelativeToolTip": "MetaTune\\ViewModel\\Home\\SongPageViewModel.cs",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAtwIMAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T00:41:01.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AlbumPageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\AlbumPageViewModel.cs",
+              "RelativeDocumentMoniker": "MetaTune\\ViewModel\\Home\\AlbumPageViewModel.cs",
+              "ToolTip": "C:\\Users\\archi\\Documents\\SIMS\\MetaTune-Music-Catalogue\\prototip\\MetaTune\\ViewModel\\Home\\AlbumPageViewModel.cs",
+              "RelativeToolTip": "MetaTune\\ViewModel\\Home\\AlbumPageViewModel.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAtwGQAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T23:35:41.366Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -311,6 +311,12 @@
                         </StackPanel>
 
                         <!-- Editor Review Content -->
+
+                        <TextBlock Text="{Binding EditorReviewWithRating.Review.DisplayName}"
+                                  FontSize="20"
+                                  Foreground="#FFFFFF"
+                                  Margin="0,0,0,15"/>
+                        
                         <TextBlock Text="{Binding EditorReviewWithRating.Review.Content}" 
                                   FontSize="16" 
                                   TextWrapping="Wrap"
@@ -422,17 +428,26 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
+
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       Grid.Row="0"
+                                                       FontSize="16" 
+                                                       FontWeight="SemiBold"
+                                                       Foreground="White"
+                                                       Margin="0,0,0,8"/> 
+
                                             <!-- Review Date -->
-                                            <TextBlock Grid.Row="0"
+                                            <TextBlock Grid.Row="1"
                                                       Text="{Binding ReviewDate, StringFormat=dd.MM.yyyy}"
                                                       FontSize="13"
                                                       Foreground="#FFB0B0B0"
                                                       Margin="0,0,0,10"/>
 
                                             <!-- Review Content -->
-                                            <TextBlock Grid.Row="1"
+                                            <TextBlock Grid.Row="2"
                                                       Text="{Binding Content}"
                                                       FontSize="15"
                                                       Foreground="#FFE0E0E0"
