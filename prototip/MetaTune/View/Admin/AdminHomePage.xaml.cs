@@ -31,5 +31,12 @@ namespace MetaTune.View.Admin
             _userStorage = Injector.CreateInstance<IUserStorage>();
             DataContext = new AdminHomeViewModel(_userStorage);
         }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Implement logout logic
+            MainWindow.LoggedInUser = null;
+            NavigationService?.Navigate(new HomePage());
+        }
     }
 }

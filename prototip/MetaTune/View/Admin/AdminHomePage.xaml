@@ -40,7 +40,9 @@
                         BorderThickness="0"
                         HorizontalAlignment="Right"
                         Margin="0,15,30,0"
-                        Cursor="Hand">
+                        Cursor="Hand"
+                        Click="LogoutButton_Click"
+                        >
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">
