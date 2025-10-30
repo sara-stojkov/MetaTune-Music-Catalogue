@@ -15,5 +15,8 @@ namespace Core.Storage
         public Task CreateOne(Review review);
         public Task UpdateOne(Review review);
         public Task DeleteById(string id);
+        public Task<List<Review>> GetAllApprovedByWorkId(string workId);
+        public Task<List<Review>> GetAllApprovedByAuthorId(string authorId);
+        public Task<Review?> GetEditorReviewByAuthorId(string authorId);
     }
 }

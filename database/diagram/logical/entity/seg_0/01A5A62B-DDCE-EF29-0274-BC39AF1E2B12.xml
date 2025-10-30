@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="01A5A62B-DDCE-EF29-0274-BC39AF1E2B12" name="NORMAL USER">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 18:01:15 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="false"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<hierarchicalParent>498118FE-A176-1522-EAFE-D1B1EF55766A</hierarchicalParent>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="contactVisible" id="DB1A75E9-9A29-5447-EA85-132863A649B8">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 18:01:37 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="reviewsVisible" id="F63F5EDE-D38C-C692-1988-B7E461BB2122">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 18:02:18 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="verificationCode" id="DAC5C5DD-FD89-6459-CB8B-C97F428D7D65">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:00:45 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

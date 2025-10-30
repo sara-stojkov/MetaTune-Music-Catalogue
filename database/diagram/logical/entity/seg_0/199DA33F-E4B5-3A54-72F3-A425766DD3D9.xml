@@ -1,0 +1,139 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="199DA33F-E4B5-3A54-72F3-A425766DD3D9" name="WORK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:18:16 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="workId" id="3D9AC09E-9067-1A50-5A7D-218EB48773F3">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:18:22 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="workName" id="ECA8E976-C104-EC11-FBAE-F16F11040963">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:18:41 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="publishDate" id="6DB37B83-7838-4E0A-22D4-BBEC6B72CF3D">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:19:13 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="workType" id="9635186C-A4E8-1DBC-AB7B-51A5F8371927">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:19:46 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<domain>A731FD33-C3E4-8EDB-7815-F5EB0BDB23F9</domain>
+<defaultValue>SONG</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="workDescription" id="E190C188-890A-98B4-7455-F4E3158B33FE">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:19:31 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="src" id="48BEF5EC-2E39-A5B4-0082-F99E77CFCAF0">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:53:06 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="albumId" id="3BA23E85-D368-6023-495E-3E23F7A6BF74">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:21:07 UTC</createdTime>
+<generatorID>1704A8F1-27A7-509B-8FB5-60C40DCD963D</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<referedAttribute>3D9AC09E-9067-1A50-5A7D-218EB48773F3</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="genreId" id="D664287B-F604-31D8-E660-25B6A813B60F">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:26:14 UTC</createdTime>
+<generatorID>9628D772-682A-ED1D-5EEF-C17FFD6B11F4</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<referedAttribute>BFBCED7C-E90F-7535-D499-9F4BA036911E</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="2BF6F2B8-97DE-E1C6-0F63-2A75A8EF7ACF" name="WORK PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 19:18:31 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<engineerTo>
+<item key="2C1DB0D2-F597-19E6-6AC6-E7E65322F998" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>3D9AC09E-9067-1A50-5A7D-218EB48773F3</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,14 +1,10 @@
 ﻿using Core.Model;
 using Core.Storage;
-using PostgreSQLStorage;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,7 +28,7 @@ namespace MetaTune.ViewModel.Home
         private string _songDescription = string.Empty;
         private string _lyrics = string.Empty;
         private decimal? _averageRating;
-        private Review? _editorReview;
+        private ReviewWithRating? _editorReviewWithRating;
         private ObservableCollection<Review> _userReviews = new();
         private ObservableCollection<Author> _artists = new();
         private ObservableCollection<ContributorViewModel> _contributors = new();
@@ -40,13 +36,10 @@ namespace MetaTune.ViewModel.Home
         private string _newReviewContent = string.Empty;
         private bool _isPlaying = false;
         private double _currentPosition = 0;
-        private double _totalDuration = 180; // Mock duration in seconds
+        private double _totalDuration = 180;
         private decimal? _userRating;
 
-        public SongPageViewModel(
-            string songId,
-            User currentUser
-        )
+        public SongPageViewModel(string songId, User currentUser)
         {
             _workStorage = Injector.CreateInstance<IWorkStorage>();
             _ratingStorage = Injector.CreateInstance<IRatingStorage>();
@@ -122,22 +115,31 @@ namespace MetaTune.ViewModel.Home
                 }
 
                 // Check if user already rated
-                var existingUserRating = ratings.FirstOrDefault(r => r.UserId == _currentUser.Id);
+                var existingUserRating = ratings.FirstOrDefault(r => r.UserId == _currentUser?.Id);
                 if (existingUserRating != null)
                 {
                     UserRating = existingUserRating.Value;
                     NewRatingValue = existingUserRating.Value;
                 }
 
-                // Load reviews
-                var allReviews = await _reviewStorage.GetAllByWorkId(songId);
+                // Load all reviews
+                var allReviews = await _reviewStorage.GetAllApprovedByWorkId(songId);
 
-                // Get editor review
-                EditorReview = allReviews.FirstOrDefault(r => r.IsEditable);
+                // Get THE editor review using dedicated method
+                var editorReview = await _reviewStorage.GetEditorReviewByWorkId(songId);
+                if (editorReview != null)
+                {
+                    var editorRating = ratings.FirstOrDefault(r => r.UserId == editorReview.UserId);
+                    EditorReviewWithRating = new ReviewWithRating
+                    {
+                        Review = editorReview,
+                        Rating = editorRating?.Value
+                    };
+                }
 
-                // Get user reviews
+                // Get user reviews (not editor)
                 UserReviews = new ObservableCollection<Review>(
-                    allReviews.Where(r => !r.IsEditable).OrderByDescending(r => r.ReviewDate)
+                    allReviews.OrderByDescending(r => r.ReviewDate)
                 );
             }
             catch (Exception ex)
@@ -161,35 +163,25 @@ namespace MetaTune.ViewModel.Home
         private void TogglePlayPause()
         {
             IsPlaying = !IsPlaying;
-            // Mock player functionality
-            if (IsPlaying)
-            {
-                System.Diagnostics.Debug.WriteLine("Playing...");
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Paused");
-            }
         }
 
         private void Stop()
         {
             IsPlaying = false;
             CurrentPosition = 0;
-            System.Diagnostics.Debug.WriteLine("Stopped");
         }
 
         private async System.Threading.Tasks.Task LeaveRating()
         {
             if (_currentUser == null)
             {
-                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
             {
-                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Korisnici sa role {_currentUser.Role} ne mogu ostavljati ocene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -223,12 +215,7 @@ namespace MetaTune.ViewModel.Home
                     await _ratingStorage.CreateOne(rating);
                 }
 
-                // Reload ratings to update average
-                var allRatings = await _ratingStorage.GetAllByWorkId(_song.WorkId);
-                if (allRatings.Any())
-                {
-                    AverageRating = allRatings.Average(r => r.Value);
-                }
+                await LoadSong(_song.WorkId);
 
                 UserRating = _newRatingValue;
             }
@@ -240,16 +227,15 @@ namespace MetaTune.ViewModel.Home
 
         private async System.Threading.Tasks.Task LeaveReview()
         {
-
             if (_currentUser == null)
             {
-                MessageBox.Show("Morate biti prijavljeni da biste ostavili ocjenu.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Morate biti prijavljeni da biste ostavili recenziju.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (!(_currentUser.Role == UserRole.BASIC || _currentUser.Role == UserRole.EDITOR))
             {
-                MessageBox.Show($"Korisniki sa role {_currentUser.Role} ne mogu ostavljati ocjene.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Korisnici sa role {_currentUser.Role} ne mogu ostavljati recenzije.", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -265,13 +251,15 @@ namespace MetaTune.ViewModel.Home
                     isEditable: false,
                     editor: _currentUser.Role == UserRole.EDITOR ? _currentUser.Id : null,
                     userId: _currentUser.Id,
-                    workId: _song.WorkId
+                    workId: _song.WorkId,
+                    displayName: null
                 );
 
                 await _reviewStorage.CreateOne(review);
 
-                // Add to collection
-                UserReviews.Insert(0, review);
+                MessageBox.Show("Hvala što ste ostavili recenziju!", "Recenzija poslata", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                await LoadSong(_song.WorkId);
 
                 NewReviewContent = string.Empty;
             }
@@ -377,18 +365,15 @@ namespace MetaTune.ViewModel.Home
             }
         }
 
-        public Review? EditorReview
+        public ReviewWithRating? EditorReviewWithRating
         {
-            get => _editorReview;
+            get => _editorReviewWithRating;
             set
             {
-                _editorReview = value;
+                _editorReviewWithRating = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(HasEditorReview));
             }
         }
-
-        public bool HasEditorReview => EditorReview != null;
 
         public ObservableCollection<Review> UserReviews
         {
