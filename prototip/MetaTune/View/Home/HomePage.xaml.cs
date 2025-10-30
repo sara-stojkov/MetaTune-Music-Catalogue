@@ -1,4 +1,4 @@
-﻿using Core.Model;
+using Core.Model;
 using Core.Storage;
 using MetaTune.View.Home;
 using MetaTune.ViewModel.Home;
@@ -220,7 +220,7 @@ namespace MetaTune.View
             }
         }
 
-        private void NavigateToContent(ContentItemViewModel item)
+        private async Task NavigateToContent(ContentItemViewModel item)
         {
             try
             {
@@ -228,20 +228,25 @@ namespace MetaTune.View
                 {
                     if (item.WorkType == WorkType.Album)
                     {
-                        var albumPage = new AlbumPage();
+                        var albumModel = new AlbumPageViewModel(item.Id, MainWindow.LoggedInUser);
+                        await albumModel.LoadAlbum(item.Id);
+                        var albumPage = new AlbumPage(albumModel);
                         NavigationService?.Navigate(albumPage);
                     }
                     else if (item.WorkType == WorkType.Song)
                     {
                         var songModel = new SongPageViewModel(item.Id, MainWindow.LoggedInUser);
+                        await songModel.LoadSong(item.Id);
                         var songPage = new SongPage(songModel);
                         NavigationService?.Navigate(songPage);
                     }
                 }
                 else if (item.ContentType == ContentType.Author)
                 {
-                    var authorDetailsPage = new ArtistPage();
-                    NavigationService?.Navigate(authorDetailsPage);
+                    var authorModel = new ArtistPageViewModel(item.Id, MainWindow.LoggedInUser);
+                    await authorModel.LoadArtist(item.Id);
+                    var authorPage = new ArtistPage(authorModel);
+                    NavigationService?.Navigate(authorPage);
                 }
             }
             catch (Exception ex)
