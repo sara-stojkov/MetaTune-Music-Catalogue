@@ -12,17 +12,103 @@
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <SolidColorBrush x:Key="ComboBgBrush" Color="#FF5A5A5A"/>
-        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FF5A5A5A"/>
+        
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="#FF5A5A5A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF7B1FA2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ComboBox Style -->
         <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="{StaticResource ComboBgBrush}"/>
+            <Setter Property="Background" Value="#FF5A5A5A"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton"
+                                Grid.Column="2"
+                                Focusable="false"
+                                IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ClickMode="Press"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ContentPresenter Grid.Column="0"
+                                                        Content="{TemplateBinding Content}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10,0,0,0"/>
+
+                                                <Path Grid.Column="1"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Fill="White"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,15,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <ContentPresenter Name="ContentSite"
+                                    IsHitTestVisible="False"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                    Margin="10,0,30,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"/>
+
+                            <Popup Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Border Name="DropDownBorder"
+                                Background="#FF5A5A5A"
+                                BorderThickness="0"
+                                CornerRadius="4"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="200">
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <Style TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="{StaticResource ComboBgBrush}"/>
+
+
+        <!-- DatePickerTextBox Style -->
+        <Style TargetType="DatePickerTextBox">
+            <Setter Property="Background" Value="#FF5A5A5A"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="15,0"/>
         </Style>
     </Window.Resources>
 
@@ -74,8 +160,8 @@
                         <ComboBox x:Name="AlbumComboBox"
                                  Height="45"
                                  FontSize="16"
-                                 Background="White"
-                                 Foreground="Black"
+                                 Background="#FF5A5A5A"
+                                 Foreground="white"
                                  ItemsSource="{Binding Albums}"
                                  SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
                                  BorderThickness="0"
@@ -150,8 +236,8 @@
                         <ComboBox x:Name="GenreComboBox"
                                  Height="45"
                                  FontSize="16"
-                                 Background="White"
-                                 Foreground="Black"
+                                 Background="#FF5A5A5A"
+                                 Foreground="white"
                                  ItemsSource="{Binding Genres}"
                                  SelectedItem="{Binding SelectedGenre, Mode=TwoWay}"
                                  BorderThickness="0"
@@ -189,8 +275,8 @@
                         <ComboBox x:Name="EditorComboBox"
                              Height="45"
                              FontSize="16"
-                             Background="White"
-                             Foreground="Black"
+                             Background="#FF5A5A5A"
+                             Foreground="white"
                              ItemsSource="{Binding Editors}"
                              SelectedItem="{Binding SelectedEditor, Mode=TwoWay}"
                              BorderThickness="0"
