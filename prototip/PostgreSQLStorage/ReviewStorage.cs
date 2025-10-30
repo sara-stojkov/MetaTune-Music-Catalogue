@@ -1,7 +1,8 @@
 ﻿using Core.Model;
 using Core.Storage;
 using Npgsql;
-using Task = System.Threading.Tasks.Task;   
+using Task = System.Threading.Tasks.Task;
+
 namespace PostgreSQLStorage
 {
     public class ReviewStorage : IReviewStorage
@@ -17,9 +18,15 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE reviewid = @id", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.reviewid = @id AND u.reviewsvisible = true", conn);
 
             cmd.Parameters.AddWithValue("id", id);
 
@@ -35,8 +42,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workId = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId);
+                return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workId, authorId);
             }
 
             return null;
@@ -46,9 +54,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  ORDER BY reviewdate DESC", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC", conn);
 
             using var reader = await cmd.ExecuteReaderAsync();
 
@@ -64,8 +79,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workId = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId));
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workId, authorId));
             }
 
             return reviews;
@@ -75,10 +91,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE ""userId"" = @userId
-                  ORDER BY reviewdate DESC", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.""userId"" = @userId AND u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("userId", userId);
 
@@ -96,8 +118,9 @@ namespace PostgreSQLStorage
                 var userIdResult = reader.GetString(5);
                 var workId = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userIdResult, workId, authorId));
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userIdResult, displayName, workId, authorId));
             }
 
             return reviews;
@@ -107,10 +130,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE workid = @workId
-                  ORDER BY reviewdate DESC", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.workid = @workId AND u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("workId", workId);
 
@@ -128,8 +157,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workIdResult = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorId));
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workIdResult, authorId));
             }
 
             return reviews;
@@ -165,10 +195,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE authorid = @authorId
-                  ORDER BY reviewdate DESC", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.authorid = @authorId AND u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC", conn);
 
             cmd.Parameters.AddWithValue("authorId", authorId);
 
@@ -186,8 +222,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workId = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorIdResult = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorIdResult));
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workId, authorIdResult));
             }
 
             return reviews;
@@ -197,10 +234,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE editorid IS NULL
-                  ORDER BY reviewdate DESC", conn);
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.editorid IS NULL AND u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC", conn);
 
             using var reader = await cmd.ExecuteReaderAsync();
 
@@ -216,8 +259,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workId = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workId, authorId));
+                reviews.Add(new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workId, authorId));
             }
 
             return reviews;
@@ -227,10 +271,16 @@ namespace PostgreSQLStorage
         {
             using var conn = _db.GetConnection();
             using var cmd = new NpgsqlCommand(
-                @"SELECT reviewid, content, reviewdate, iseditable, editorid, ""userId"", workid, authorid 
-                  FROM reviews 
-                  WHERE workid = @workId AND editorid = ""userId""
-                  ORDER BY reviewdate DESC 
+                @"SELECT r.reviewid, r.content, r.reviewdate, r.iseditable, r.editorid, r.""userId"", r.workid, r.authorid,
+                         CASE 
+                             WHEN u.contactvisible = true THEN CONCAT(p.personname, ' ', p.personsurname)
+                             ELSE 'Onaj ko ne sme biti imenovan'
+                         END as displayname
+                  FROM reviews r
+                  INNER JOIN users u ON r.""userId"" = u.userid
+                  INNER JOIN people p ON u.personid = p.personid
+                  WHERE r.workid = @workId AND r.editorid IS NOT NULL AND u.reviewsvisible = true
+                  ORDER BY r.reviewdate DESC 
                   LIMIT 1", conn);
 
             cmd.Parameters.AddWithValue("workId", workId);
@@ -247,8 +297,9 @@ namespace PostgreSQLStorage
                 var userId = reader.GetString(5);
                 var workIdResult = await reader.IsDBNullAsync(6) ? null : reader.GetString(6);
                 var authorId = await reader.IsDBNullAsync(7) ? null : reader.GetString(7);
+                var displayName = reader.GetString(8);
 
-                return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, workIdResult, authorId);
+                return new Review(reviewId, content, reviewDate, isEditable, editorId, userId, displayName, workIdResult, authorId);
             }
 
             return null;
@@ -347,10 +398,7 @@ namespace PostgreSQLStorage
                                SET content = @content, 
                                    reviewdate = @reviewDate, 
                                    iseditable = @isEditable, 
-                                   editorid = @editorId, 
-                                   ""userId"" = @userId, 
-                                   workid = @workId, 
-                                   authorid = @authorId 
+                                   editorid = @editorId
                                WHERE reviewid = @reviewId";
 
                 using var cmd = new NpgsqlCommand(sql, conn, transaction);
@@ -359,9 +407,6 @@ namespace PostgreSQLStorage
                 cmd.Parameters.AddWithValue("reviewDate", review.ReviewDate);
                 cmd.Parameters.AddWithValue("isEditable", review.IsEditable);
                 cmd.Parameters.AddWithValue("editorId", (object?)review.UserId ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("userId", review.UserId2);
-                cmd.Parameters.AddWithValue("workId", (object?)review.WorkId ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("authorId", (object?)review.AuthorId ?? DBNull.Value);
 
                 await cmd.ExecuteNonQueryAsync();
                 await transaction.CommitAsync();

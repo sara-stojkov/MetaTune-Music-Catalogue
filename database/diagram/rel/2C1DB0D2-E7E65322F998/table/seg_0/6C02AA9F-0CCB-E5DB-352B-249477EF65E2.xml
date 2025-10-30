@@ -1,0 +1,143 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6C02AA9F-0CCB-E5DB-352B-249477EF65E2" name="RATING">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>CE0572F7-E876-BC45-86C9-08897C61F6D8</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ratingId" id="FC292DAC-FE7D-B878-2182-2675B5E05813">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>BAC30341-3A5E-B6EC-68F4-43BBBADBB6F5</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="value" id="B72BBF8E-8100-6EF0-8A24-5EE4A8CAAE23">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>E0A706A3-63B0-0901-714F-275A9892CC99</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ratingDate" id="156443C5-57F1-99CD-4464-41F3FD53117F">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>6BDBCD6B-9ABF-C794-8713-9A54B4767737</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="userId" id="BE045F5D-35CE-620F-0AE7-62EB493BF760">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>AC57D64C-E066-41FC-4230-AF87D1EC890E</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8F150123-C05A-4251-101E-03AEA8EDEBB9" referredColumn="8FE59D7C-A7D1-5F45-9496-7B46FA188711"/>
+</associations>
+</Column>
+<Column name="workId" id="CC9ED738-C45F-6BB1-FAA5-422B4C155DA5">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>EF39411B-A79B-0A27-4235-6C78AF5D3655</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="58C10748-DBD3-B6E5-C3E3-6BE00E39D039" referredColumn="3A8F803E-69C9-C8C4-6393-AB3C89027B19"/>
+</associations>
+</Column>
+<Column name="authorId" id="13A42FAF-0228-2E63-E689-22628301F458">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>A68D6021-9FDB-620D-CF19-71274F77C24D</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="62C67E3B-BFB8-42DE-073C-70C32842CF65" referredColumn="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="74F5F723-A445-2A95-A686-51C4220C80CF" name="RATING_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>94EDEF2F-993D-470B-4F9A-95F8F20D7FB9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FC292DAC-FE7D-B878-2182-2675B5E05813"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="95A2A36E-7F95-4792-4A4D-6701025BEFD6" name="RATING_AUTHOR_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>DDA27256-0DA7-5BB4-FFCF-FFC052B4C409</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="13A42FAF-0228-2E63-E689-22628301F458"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CEB418CD-1175-F74E-1CA0-9C836D93DD38" name="RATING_USER_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>C8CF1F44-6C2D-C23C-3ED8-B4C10965F935</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BE045F5D-35CE-620F-0AE7-62EB493BF760"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8537386C-3111-5ED3-032F-049395D26872" name="RATING_WORK_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>C4D3CFB2-EBB1-8876-5DC7-0874C0531B12</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CC9ED738-C45F-6BB1-FAA5-422B4C155DA5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="49C7A620-5111-2A40-7554-2CC784F65DBE" name="GENRE">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>187E032F-A38D-318D-D3C2-B12BBEADB906</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="genreId" id="4B3055B0-0123-6740-EE82-22386558A8D5">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>BFBCED7C-E90F-7535-D499-9F4BA036911E</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="genreName" id="8A5A1A0B-AF52-697A-89A6-6637F460F835">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>78BA6CA7-3F22-00F9-4206-54C4506B0246</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="genreDescription" id="70043BF8-77D7-03BF-124B-AC6A1A51BAE7">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>809B1DE0-0AED-429B-4A10-02556311E943</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="parentGenreId" id="4C0F84E8-DDA9-DB5A-4D11-5F43EB160310">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>EC7E8BE6-1457-F81D-BA79-70B76215C6EA</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="65268454-1B88-571F-C6E2-59E9FB55DAA6" referredColumn="4B3055B0-0123-6740-EE82-22386558A8D5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="89CF1011-1F80-94C7-8E2D-DD9D465A1745" name="GENRE_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>373C0B75-3E40-C7F8-6EB9-FB19DFF81F37</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4B3055B0-0123-6740-EE82-22386558A8D5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="271DB00F-E152-B104-FC26-C04C0F3EF98D" name="GENRE_GENRE_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0068DF85-D5D4-55A9-3985-818A7DFDB849</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4C0F84E8-DDA9-DB5A-4D11-5F43EB160310"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

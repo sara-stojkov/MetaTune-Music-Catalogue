@@ -307,7 +307,8 @@ namespace MetaTune.ViewModel.Home
                     isEditable: false,
                     editor: _currentUser.Role == UserRole.EDITOR ? _currentUser.Id : null,
                     userId: _currentUser.Id,
-                    authorId: _author.AuthorId
+                    authorId: _author.AuthorId,
+                    displayName: null
                 );
 
                 await _reviewStorage.CreateOne(review);
