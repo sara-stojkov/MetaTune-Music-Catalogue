@@ -68,6 +68,7 @@ namespace MetaTune.ViewModel.Admin
             else
             {
                 ButtonText = "Registruj urednika";
+                firstLoad = false;
             }
         }
 
