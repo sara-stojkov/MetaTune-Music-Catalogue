@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="D61A9EB0-C473-9736-2930-E68B69C41EE0" name="QUALIFICATION">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="userId" id="38449FE4-ED24-B5C1-E54F-6781DEF18A50">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BF5FEE91-284A-1C9F-A5F8-06FCFA533728" referredColumn="8FE59D7C-A7D1-5F45-9496-7B46FA188711"/>
+</associations>
+</Column>
+<Column name="genreId" id="BAD148C7-0961-6483-88DA-6E417EF9380D">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="54B1337C-B681-BF04-0C9E-6851B3A34773" referredColumn="4B3055B0-0123-6740-EE82-22386558A8D5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="95318542-84A6-DCB6-8212-6EEFBDE947AF" name="QUALIFICATION_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="38449FE4-ED24-B5C1-E54F-6781DEF18A50"/>
+<colUsage columnID="BAD148C7-0961-6483-88DA-6E417EF9380D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="253BCA2B-C394-EC7E-F16E-73064270C714" name="QUALIFICATION_USER_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>2070BE39-A837-3F7E-CABC-31EB0129AD48</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="38449FE4-ED24-B5C1-E54F-6781DEF18A50"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="CCEDF7EA-65AD-462C-3BAD-498ED1D38940" name="QUALIFICATION_GENRE_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>2070BE39-A837-3F7E-CABC-31EB0129AD48</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BAD148C7-0961-6483-88DA-6E417EF9380D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3F84E217-9AAC-9EB1-BC1A-3EB459073288" name="PERFORMS">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="authorId" id="5E194822-5DDB-D3A3-267F-21342AC26B52">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9D5BE3EF-B91A-7CC2-4816-894F17933577" referredColumn="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</associations>
+</Column>
+<Column name="workId" id="45E7A15A-B2CE-8235-88D5-84D3BBB08D52">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AA42FB90-E38B-DCDF-AE6A-46963F6B49E4" referredColumn="3A8F803E-69C9-C8C4-6393-AB3C89027B19"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="DD20F72B-1F1F-DFD5-5A44-FAA8EF676B36" name="PERFORMS_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5E194822-5DDB-D3A3-267F-21342AC26B52"/>
+<colUsage columnID="45E7A15A-B2CE-8235-88D5-84D3BBB08D52"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9EB2A28C-90AA-CF43-7349-827F50AE36CE" name="PERFORMS_AUTHOR_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>4DA5D175-66A0-8D1E-FF75-C4F052EA6236</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5E194822-5DDB-D3A3-267F-21342AC26B52"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="06B782EC-D5FD-8973-780F-DE78A45AB5BF" name="PERFORMS_WORK_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>4DA5D175-66A0-8D1E-FF75-C4F052EA6236</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="45E7A15A-B2CE-8235-88D5-84D3BBB08D52"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,144 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="541F6B4E-A4AB-6EE4-FEF6-EF3F0EFC2233" name="TASK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>65210C0C-2923-4BC7-CAA9-085782CC3AA9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="taskId" id="63854654-41DB-6194-389B-553B91A031B1">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>74EBC679-B576-54DE-3443-D28FEC88D399</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="assignmentDate" id="48662E95-6BEC-75D4-3F79-E0CB44913276">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>A63BD5C2-9AC7-3EEB-48B7-8DF3F7C6136D</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="done" id="DCF79BD1-5709-2060-6B2A-68EB1F0CF690">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>712BBE50-377F-5A39-70CA-2B56254E6608</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="userId" id="52C7CEAF-1949-3BD0-AD19-8E2BE257E0E2">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>8E048646-7394-4C0B-45F1-BF2A17502CE7</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="6CA7AE58-D461-5A05-6889-9395563B07A8" referredColumn="8FE59D7C-A7D1-5F45-9496-7B46FA188711"/>
+</associations>
+</Column>
+<Column name="workId" id="B96878D8-CAAD-8DF8-67E1-772C81FA785A">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0836496E-6893-E7E5-EDD1-D550CF36ADC9</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="74827BC6-01F6-6528-DA0E-2A3621CE9FD2" referredColumn="3A8F803E-69C9-C8C4-6393-AB3C89027B19"/>
+</associations>
+</Column>
+<Column name="authorId" id="05C753A1-463E-8828-00AB-9EFBFEA163DC">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>0B4F1C39-9F15-8EAA-6F6F-31E185F442D7</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="08699B78-BFFD-615C-E6DF-64FCE919FE70" referredColumn="7EED82B2-1569-D629-A7EE-8601C4D5E0E3"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C9FFC0D5-44C8-3046-A41B-E81188D49848" name="TASK_PK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>71FE6B2E-B16D-AFBB-4A10-FDC56DB17B9F</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="63854654-41DB-6194-389B-553B91A031B1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F9B2B4A5-C204-F615-8A6F-EA7E006A8669" name="TASK_AUTHOR_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>FACC688F-60D1-9FE6-590A-BFBC76324E38</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="05C753A1-463E-8828-00AB-9EFBFEA163DC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3AC7A17F-05C6-6EF4-B471-BBC175AE62F4" name="TASK_WORK_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>AF5AC603-3C13-C5E9-C290-34210A2E2673</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B96878D8-CAAD-8DF8-67E1-772C81FA785A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5BE7BC29-B70E-77DD-2312-2FEB806DEFA5" name="TASK_USER_FK">
+<createdBy>Mihajlo</createdBy>
+<createdTime>2025-10-28 20:12:35 UTC</createdTime>
+<generatorID>162607B7-ECAA-8295-B47B-16ED9B7DB367</generatorID>
+<ownerDesignName>diagram</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52C7CEAF-1949-3BD0-AD19-8E2BE257E0E2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
