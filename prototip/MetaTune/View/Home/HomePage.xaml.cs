@@ -24,6 +24,11 @@ namespace MetaTune.View
             _authorStorage = Injector.CreateInstance<IAuthorStorage>();
             SetupEventHandlers();
             _ = LoadRecentContentAsync();
+            UpdateUIForUser();
+        }
+
+        private void UpdateUIForUser()
+        {
             if (MainWindow.LoggedInUser != null)
             {
                 USER_BTN.Content = "👤 Odjavi se";
@@ -42,6 +47,10 @@ namespace MetaTune.View
                         break;
                 }
                 Something.Content = text;
+            }
+            else
+            {
+                Something.Visibility = Visibility.Hidden;
             }
         }
 
@@ -307,6 +316,7 @@ namespace MetaTune.View
                     MainWindow.LoggedInUser = null;
                     USER_BTN.Content = "👤 Uloguj se";
                 }
+                UpdateUIForUser();
             }
             catch (Exception ex)
             {
